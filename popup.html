@@ -3,27 +3,248 @@
 <head>
   <title>Timezone Converter</title>
   <style>
-    body { font-family: sans-serif; width: 250px; padding: 10px; }
-    .row { margin-bottom: 10px; }
-    label { display: block; margin-bottom: 5px; }
-    select { width: 100%; padding: 5px; }
-    button { width: 100%; padding: 8px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 4px; }
-    button:hover { background-color: #0056b3; }
-    button:disabled { background-color: #aaa; cursor: not-allowed; }
-    #status { margin-top: 10px; font-size: 12px; text-align: center; min-height: 14px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      width: 320px;
+      padding: 20px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: #333;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+    }
+    .header h3 {
+      color: #2c3e50;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .header .subtitle {
+      font-size: 12px;
+      color: #7f8c8d;
+      font-weight: 400;
+    }
+    .row { 
+      margin-bottom: 16px;
+      background: rgba(255,255,255,0.7);
+      padding: 12px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+    label { 
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #2c3e50;
+      font-size: 13px;
+    }
+    select { 
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid rgba(52, 152, 219, 0.2);
+      border-radius: 6px;
+      background: white;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    select:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    button { 
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    .btn-secondary {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      color: #8B4513;
+    }
+    .btn-secondary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(252, 182, 159, 0.4);
+    }
+    button:disabled { 
+      background: #bdc3c7;
+      color: #7f8c8d;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    #status { 
+      margin-top: 15px;
+      padding: 10px;
+      font-size: 12px;
+      text-align: center;
+      min-height: 20px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px);
+      color: #2c3e50;
+    }
+    .icon {
+      display: inline-block;
+      margin-right: 8px;
+      width: 16px;
+      height: 16px;
+      vertical-align: middle;
+    }
+    .btn-active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      color: white !important;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4) !important;
+    }
+    .btn-inactive {
+      background: #e9ecef !important;
+      color: #6c757d !important;
+      box-shadow: none !important;
+    }
+    .btn-link {
+      background: none !important;
+      border: none !important;
+      color: #667eea !important;
+      text-decoration: underline !important;
+      cursor: pointer !important;
+      font-size: 12px !important;
+      padding: 5px 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      margin-top: 10px !important;
+    }
+    .btn-link:hover {
+      color: #5a67d8 !important;
+    }
+    .custom-format-section {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255,255,255,0.3);
+    }
+    .hidden {
+      display: none !important;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 10px;
+      border: 2px solid rgba(52, 152, 219, 0.2);
+      border-radius: 4px;
+      font-size: 13px;
+      transition: border-color 0.2s ease;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+    }
+    small {
+      display: block;
+      margin-top: 4px;
+      font-size: 10px;
+      color: #7f8c8d;
+    }
   </style>
 </head>
 <body>
-  <h3>Timezone Converter</h3>
+  <div class="header">
+    <h3>
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      Timezone Converter
+    </h3>
+    <div class="subtitle">Convert dates across timezones instantly</div>
+  </div>
+  
   <div class="row">
-    <label for="from-timezone">Convert from:</label>
+    <label for="from-timezone">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      Convert from:
+    </label>
     <select id="from-timezone"></select>
   </div>
+  
   <div class="row">
-    <label for="to-timezone">Convert to:</label>
+    <label for="to-timezone">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+      </svg>
+      Convert to:
+    </label>
     <select id="to-timezone"></select>
   </div>
-  <button id="convert-btn">Convert Timestamps</button>
+  
+  <div class="button-group">
+    <button id="convert-btn" class="btn-primary btn-active">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+      </svg>
+      Convert
+    </button>
+    <button id="revert-btn" class="btn-secondary btn-inactive">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+      </svg>
+      Revert
+    </button>
+  </div>
+  
+  <div class="custom-format-section">
+    <button id="custom-format-toggle" class="btn-link">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+      </svg>
+      Add Custom Format
+    </button>
+    
+    <div id="custom-format-form" class="hidden">
+      <div class="row">
+        <label for="date-format">Date Format Pattern:</label>
+        <input type="text" id="date-format" placeholder="e.g., YYYY-MM-DD HH:mm:ss" />
+        <small>Use YYYY, MM, DD, HH, mm, ss, A for AM/PM</small>
+      </div>
+      <div class="row">
+        <label for="format-description">Description:</label>
+        <input type="text" id="format-description" placeholder="e.g., Server log timestamps" />
+      </div>
+      <div class="button-group">
+        <button id="save-format-btn" class="btn-primary">Save</button>
+        <button id="cancel-format-btn" class="btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
   <div id="status"></div>
   <script src="popup.js"></script>
 </body>

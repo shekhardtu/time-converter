@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(claude --model)"
+      "Bash(claude --model)",
+      "WebFetch(domain:unpkg.com)"
     ],
     "deny": []
   }

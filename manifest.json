@@ -7,7 +7,8 @@
     "activeTab",
     "scripting",
     "storage",
-    "tabs"
+    "tabs",
+    "contextMenus"
   ],
   "host_permissions": [
     "<all_urls>"
@@ -29,10 +30,6 @@
   "background": {
     "service_worker": "background.js"
   },
-  "web_accessible_resources": [{
-    "resources": ["content.js", "style.css"],
-    "matches": ["<all_urls>"]
-  }],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

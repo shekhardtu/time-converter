@@ -1,7 +1,54 @@
+.time-converter-replaced {
+    background: #3b82f6 !important;
+    color: white !important;
+    padding: 1px 4px !important;
+    border-radius: 3px !important;
+    font-weight: 500 !important;
+    cursor: help !important;
+    transition: background-color 0.15s ease !important;
+    position: relative !important;
+    display: inline-block !important;
+    font-size: inherit !important;
+}
+
+.time-converter-replaced:hover {
+    background: #2563eb !important;
+}
+
+/* Simple tooltip */
+.time-converter-replaced:hover::after {
+    content: attr(title) !important;
+    position: absolute !important;
+    bottom: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    color: white !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
+    z-index: 10000 !important;
+    margin-bottom: 3px !important;
+    pointer-events: none !important;
+}
+
+.time-converter-replaced:hover::before {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border: 3px solid transparent !important;
+    border-top-color: rgba(0, 0, 0, 0.8) !important;
+    z-index: 10000 !important;
+    pointer-events: none !important;
+}
+
+/* Legacy highlight class for backward compatibility */
 .time-converter-highlight {
-    background-color: #fff8c5 !important;
-    padding: 1px 2px;
-    border-radius: 3px;
-    font-style: italic;
-    cursor: help;
+    background-color: #fff3cd !important;
+    padding: 1px 3px !important;
+    border-radius: 2px !important;
+    cursor: help !important;
 }
