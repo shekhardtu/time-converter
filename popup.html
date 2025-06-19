@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timezone Converter</title>
+  <style>
+    body { font-family: sans-serif; width: 250px; padding: 10px; }
+    .row { margin-bottom: 10px; }
+    label { display: block; margin-bottom: 5px; }
+    select { width: 100%; padding: 5px; }
+    button { width: 100%; padding: 8px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 4px; }
+    button:hover { background-color: #0056b3; }
+    button:disabled { background-color: #aaa; cursor: not-allowed; }
+    #status { margin-top: 10px; font-size: 12px; text-align: center; min-height: 14px; }
+  </style>
+</head>
+<body>
+  <h3>Timezone Converter</h3>
+  <div class="row">
+    <label for="from-timezone">Convert from:</label>
+    <select id="from-timezone"></select>
+  </div>
+  <div class="row">
+    <label for="to-timezone">Convert to:</label>
+    <select id="to-timezone"></select>
+  </div>
+  <button id="convert-btn">Convert Timestamps</button>
+  <div id="status"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
