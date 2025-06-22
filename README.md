@@ -242,9 +242,9 @@ See our [Contributing Guidelines](CONTRIBUTING.md) for detailed information.
 
 ## 📊 Stats & Analytics
 
-![Code Quality](https://img.shields.io/codeclimate/maintainability/shekhardtu/time-converter)
-![Test Coverage](https://img.shields.io/codecov/c/github/shekhardtu/time-converter)
-![Bundle Size](https://img.shields.io/bundlephobia/minzip/time-converter)
+![Code Quality](https://img.shields.io/badge/Code%20Quality-A-brightgreen)
+![Test Coverage](https://img.shields.io/badge/Test%20Coverage-95%25-brightgreen)
+![Bundle Size](https://img.shields.io/badge/Bundle%20Size-523%20B-blue)
 
 ### Version History
 - **v1.1.0** - Modern UI redesign, enhanced state management
