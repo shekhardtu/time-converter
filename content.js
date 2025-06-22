@@ -533,38 +533,46 @@ function isValidDateText(dateText) {
 function convertDateWithLibrary(dateString, fromIANATz, toIANATz) {
   const { zonedTimeToUtc, utcToZonedTime, format: formatTz } = dateFnsTz;
 
-  let parsedDate;
+  let utcDate;
 
   // Try unified parsing first
   const dateComponents = parseAndValidateDate(dateString);
   if (dateComponents) {
-    parsedDate = new Date(dateComponents.year, dateComponents.month - 1, dateComponents.day, dateComponents.hour, dateComponents.minute);
+    // Create date in UTC first, then interpret as source timezone
+    const tempDate = new Date(Date.UTC(dateComponents.year, dateComponents.month - 1, dateComponents.day, dateComponents.hour, dateComponents.minute));
+    
+    // If source is already UTC, use the date as-is
+    if (fromIANATz === 'UTC' || fromIANATz === 'GMT' || fromIANATz === 'Etc/GMT') {
+      utcDate = tempDate;
+    } else {
+      // Create a local date in the source timezone, then convert to UTC
+      const localDate = new Date(dateComponents.year, dateComponents.month - 1, dateComponents.day, dateComponents.hour, dateComponents.minute);
+      utcDate = zonedTimeToUtc(localDate, fromIANATz);
+    }
   } else {
     // Fallback to direct Date parsing for edge cases
     try {
-      parsedDate = new Date(dateString);
+      const parsedDate = new Date(dateString);
       if (isNaN(parsedDate.getTime())) {
         return dateString; // Cannot parse
+      }
+      
+      // If source is already UTC, use the date as-is
+      if (fromIANATz === 'UTC' || fromIANATz === 'GMT' || fromIANATz === 'Etc/GMT') {
+        utcDate = parsedDate;
+      } else {
+        utcDate = zonedTimeToUtc(parsedDate, fromIANATz);
       }
     } catch (e) {
       return dateString; // Cannot parse
     }
   }
 
-  if (!parsedDate || isNaN(parsedDate.getTime())) {
+  if (!utcDate || isNaN(utcDate.getTime())) {
     return dateString;
   }
 
   try {
-    let utcDate;
-
-    // If source is already UTC, don't convert to UTC
-    if (fromIANATz === 'UTC' || fromIANATz === 'GMT' || fromIANATz === 'Etc/GMT') {
-      utcDate = parsedDate;
-    } else {
-      utcDate = zonedTimeToUtc(parsedDate, fromIANATz);
-    }
-
     // Convert UTC to target timezone
     const targetDate = utcToZonedTime(utcDate, toIANATz);
 

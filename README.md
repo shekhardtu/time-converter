@@ -7,14 +7,14 @@
 ![License MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript)
 
-[![GitHub Stars](https://img.shields.io/github/stars/yourusername/timezone-converter-extension?style=social)](https://github.com/yourusername/timezone-converter-extension)
-[![GitHub Issues](https://img.shields.io/github/issues/yourusername/timezone-converter-extension)](https://github.com/yourusername/timezone-converter-extension/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/yourusername/timezone-converter-extension)](https://github.com/yourusername/timezone-converter-extension/pulls)
-[![Tests](https://img.shields.io/badge/tests-101%20passing-brightgreen)](https://github.com/yourusername/timezone-converter-extension)
+[![GitHub Stars](https://img.shields.io/github/stars/shekhardtu/time-converter?style=social)](https://github.com/shekhardtu/time-converter)
+[![GitHub Issues](https://img.shields.io/github/issues/shekhardtu/time-converter)](https://github.com/shekhardtu/time-converter/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/shekhardtu/time-converter)](https://github.com/shekhardtu/time-converter/pulls)
+[![Tests](https://img.shields.io/badge/tests-101%20passing-brightgreen)](https://github.com/shekhardtu/time-converter)
 
 **Automatically detect and convert dates & times across different timezones on any webpage**
 
-[📥 Install from Chrome Web Store](#) • [🐛 Report Bug](https://github.com/yourusername/timezone-converter-extension/issues) • [✨ Request Feature](https://github.com/yourusername/timezone-converter-extension/issues)
+[📥 Install from Chrome Web Store](#) • [🐛 Report Bug](https://github.com/shekhardtu/time-converter/issues) • [✨ Request Feature](https://github.com/shekhardtu/time-converter/issues)
 
 </div>
 
@@ -75,8 +75,8 @@
 ### Manual Installation (Development)
 1. Download or clone this repository
 ```bash
-git clone https://github.com/yourusername/timezone-converter-extension.git
-cd timezone-converter-extension
+git clone https://github.com/shekhardtu/time-converter
+cd time-converter
 ```
 
 2. Install dependencies and build
@@ -131,8 +131,8 @@ DD.MM.YYYY             → 15.03.2024
 ### Setup Development Environment
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/timezone-converter-extension.git
-cd timezone-converter-extension
+git clone https://github.com/shekhardtu/time-converter
+cd time-converter
 
 # Install dependencies  
 npm install
@@ -164,7 +164,7 @@ npm test -- tests/popup.test.js
 
 ### Project Structure
 ```
-timezone-converter-extension/
+time-converter/
 ├── manifest.json          # Extension configuration
 ├── popup.html             # Extension popup UI
 ├── popup.js              # Popup logic and timezone management
@@ -213,20 +213,20 @@ See our [Contributing Guidelines](CONTRIBUTING.md) for detailed information.
 ## 💬 Feedback & Support
 
 ### 🐛 Found a Bug?
-[Create an issue](https://github.com/yourusername/timezone-converter-extension/issues/new?template=bug_report.md) with:
+[Create an issue](https://github.com/shekhardtu/time-converter/issues/new?template=bug_report.md) with:
 - Steps to reproduce
 - Expected vs actual behavior  
 - Chrome version and OS
 - Screenshots if helpful
 
 ### ✨ Want a Feature?
-[Request a feature](https://github.com/yourusername/timezone-converter-extension/issues/new?template=feature_request.md) by describing:
+[Request a feature](https://github.com/shekhardtu/time-converter/issues/new?template=feature_request.md) by describing:
 - What you'd like to see
 - Why it would be useful
 - How you imagine it working
 
 ### 💡 Questions or Ideas?
-[Start a discussion](https://github.com/yourusername/timezone-converter-extension/discussions) to:
+[Start a discussion](https://github.com/shekhardtu/time-converter/discussions) to:
 - Ask questions about usage
 - Share ideas for improvements
 - Connect with other users
@@ -242,9 +242,9 @@ See our [Contributing Guidelines](CONTRIBUTING.md) for detailed information.
 
 ## 📊 Stats & Analytics
 
-![Code Quality](https://img.shields.io/codeclimate/maintainability/yourusername/timezone-converter-extension)
-![Test Coverage](https://img.shields.io/codecov/c/github/yourusername/timezone-converter-extension)
-![Bundle Size](https://img.shields.io/bundlephobia/minzip/timezone-converter-extension)
+![Code Quality](https://img.shields.io/codeclimate/maintainability/shekhardtu/time-converter)
+![Test Coverage](https://img.shields.io/codecov/c/github/shekhardtu/time-converter)
+![Bundle Size](https://img.shields.io/bundlephobia/minzip/time-converter)
 
 ### Version History
 - **v1.1.0** - Modern UI redesign, enhanced state management

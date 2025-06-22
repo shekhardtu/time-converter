@@ -89,8 +89,8 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
    ```bash
-   git clone https://github.com/yourusername/timezone-converter-extension.git
-   cd timezone-converter-extension
+   git clone https://github.com/shekhardtu/time-converter
+   cd time-converter
    ```
 
 3. **Install dependencies**:

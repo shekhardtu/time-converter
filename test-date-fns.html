@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test New Date-FNS Library</title>
+</head>
+<body>
+    <h1>Date-FNS Library Test</h1>
+    <div id="results"></div>
+
+    <script src="lib/date-fns-tz.umd.min.js"></script>
+    <script>
+        const results = document.getElementById('results');
+        
+        function addResult(title, result) {
+            const div = document.createElement('div');
+            div.innerHTML = `<strong>${title}:</strong> ${result}`;
+            results.appendChild(div);
+        }
+
+        try {
+            // Test basic functionality
+            const now = new Date();
+            addResult('Current time', now.toString());
+
+            // Test formatting in different timezones
+            addResult('formatInTimeZone (UTC)', dateFnsTz.formatInTimeZone(now, 'UTC', 'yyyy-MM-dd HH:mm'));
+            addResult('formatInTimeZone (EST)', dateFnsTz.formatInTimeZone(now, 'America/New_York', 'yyyy-MM-dd HH:mm'));
+            addResult('formatInTimeZone (PST)', dateFnsTz.formatInTimeZone(now, 'America/Los_Angeles', 'yyyy-MM-dd HH:mm'));
+            addResult('formatInTimeZone (IST)', dateFnsTz.formatInTimeZone(now, 'Asia/Kolkata', 'yyyy-MM-dd HH:mm'));
+
+            // Test DST handling (summer vs winter time)
+            const summerDate = new Date('2024-07-15T12:00:00Z'); // Summer time
+            const winterDate = new Date('2024-01-15T12:00:00Z'); // Winter time
+
+            addResult('Summer in EST', dateFnsTz.formatInTimeZone(summerDate, 'America/New_York', 'yyyy-MM-dd HH:mm'));
+            addResult('Winter in EST', dateFnsTz.formatInTimeZone(winterDate, 'America/New_York', 'yyyy-MM-dd HH:mm'));
+
+            // Test conversion functions
+            const testDate = new Date('2024-06-15T15:30:00Z');
+            addResult('UTC to EST conversion', dateFnsTz.utcToZonedTime(testDate, 'America/New_York').toString());
+            addResult('EST to UTC conversion', dateFnsTz.zonedTimeToUtc(testDate, 'America/New_York').toString());
+
+        } catch (error) {
+            addResult('Error', error.message);
+            console.error('Test error:', error);
+        }
+    </script>
+</body>
+</html>

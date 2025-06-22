@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: 💬 General Discussion
-    url: https://github.com/yourusername/timezone-converter-extension/discussions
+    url: https://github.com/shekhardtu/time-converter/discussions
     about: Ask questions, share ideas, or discuss the extension
   - name: 📖 Documentation
-    url: https://github.com/yourusername/timezone-converter-extension/wiki
+    url: https://github.com/shekhardtu/time-converter/wiki
     about: Check the wiki for usage guides and FAQs

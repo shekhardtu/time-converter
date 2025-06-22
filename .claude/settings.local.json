@@ -19,7 +19,9 @@
       "Bash(grep:*)",
       "Bash(cp:*)",
       "Bash(sed:*)",
-      "Bash(yarn prepare-release:*)"
+      "Bash(yarn prepare-release:*)",
+      "Bash(git add:*)",
+      "Bash(npm install:*)"
     ],
     "deny": []
   }

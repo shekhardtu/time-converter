@@ -1,5 +1,5 @@
 {
-  "name": "timezone-converter-extension",
+  "name": "time-converter",
   "version": "1.12.0",
   "description": "Chrome extension for automatic date/time timezone conversion",
   "main": "content.js",
@@ -91,12 +91,16 @@
   "author": "Your Name",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/timezone-converter-extension.git"
+    "url": "https://github.com/shekhardtu/time-converter"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/timezone-converter-extension/issues"
+    "url": "https://github.com/shekhardtu/time-converter/issues"
   },
-  "homepage": "https://github.com/yourusername/timezone-converter-extension#readme",
+  "homepage": "https://github.com/shekhardtu/time-converter#readme",
   "license": "MIT",
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0"
+  }
 }
