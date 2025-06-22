@@ -1,98 +1,360 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <title>Test Timezone Converter</title>
-</head>
-<body>
-    <h1>Test Dates for Timezone Converter</h1>
-    
-    <p>Today is 2025/06/19 4:53pm and the meeting is scheduled for tomorrow.</p>
-    
-    <p>Some other dates to test:</p>
-    <ul>
-        <li>ISO format: 2024-12-19T15:30:00Z</li>
-        <li>US format: 12/19/2024 3:30 PM</li>
-        <li>European format: 19.12.2024 15:30</li>
-        <li>Month name: December 19, 2024</li>
-        <li>Time only: 3:30 PM</li>
-    </ul>
-    
-    <p>Test the context menu removal:</p>
-    <ol>
-        <li>Convert dates above</li>
-        <li>Right-click on any highlighted date</li>
-        <li>Use "TimeConverter: Remove this highlight" to remove just that one</li>
-        <li>Use "TimeConverter: Remove all highlights of this format" to remove all dates of the same format and add to stoplist</li>
-        <li>Refresh page and convert again - removed formats should not highlight</li>
-        <li>Use "TimeConverter: Clear removed formats" to re-enable all formats</li>
-    </ol>
-    
-    <p>Non-date text that shouldn't be highlighted: Version 45.22.95, IP 192.168.1.1, etc.</p>
-    
-    <p>Instructions:</p>
-    <ol>
-        <li>Install the extension and set timezones (e.g., UTC to IST)</li>
-        <li>Click "Convert" to highlight dates</li>
-        <li>Open browser DevTools Console to see debugging messages</li>
-        <li>Right-click on highlighted dates to see context menu options with "TimeConverter:" prefix</li>
-        <li>Test "TimeConverter: Remove this highlight" and "TimeConverter: Remove all highlights of this format"</li>
-        <li>Check console for debugging output showing what happened</li>
-        <li>Refresh page and convert again to verify stoplist prevents future highlighting</li>
-        <li>Use "TimeConverter: Clear removed formats" to re-enable all formats</li>
-    </ol>
-    
-    <p>Fixed Issues:</p>
-    <ul>
-        <li>✅ Button icons now render correctly with proper spacing</li>
-        <li>✅ Arrow character encoding fixed (UTC -> IST instead of UTC â†' IST)</li>
-        <li>✅ Revert button now properly enables after conversion</li>
-        <li>✅ Context menu items now always visible and functional</li>
-        <li>✅ "Already converted" status now enables revert button (was keeping convert enabled)</li>
-        <li>✅ Popup detects existing highlights on page load and sets correct button state</li>
-        <li>✅ Context menu provides helpful feedback when used incorrectly</li>
-        <li>✅ Extension badge shows ✓ or ✗ when context menu actions are performed</li>
-        <li>✅ Fixed ReferenceError: lastRightClickedElement - now uses window scope</li>
-        <li>✅ Context menu now properly removes highlight classes and elements</li>
-        <li>✅ Button states correctly reflect page content after context menu actions</li>
-    </ul>
+    <head>
+        <title>Test Timezone Converter</title>
+    </head>
+    <body>
+        <h1>Test Dates for Timezone Converter</h1>
 
-    <p>Test Scenarios for "Already converted" fix:</p>
-    <ol>
-        <li>Convert dates → Revert button should be enabled</li>
-        <li>Try to convert again → Should show "Already converted UTC -> IST" → Revert button should stay enabled</li>
-        <li>Close popup and reopen → Should detect existing highlights and enable revert button</li>
-        <li>Click revert → Convert button should be enabled</li>
-        <li>Try to revert again → Should show "No converted dates found" → Convert button should stay enabled</li>
-    </ol>
+        <p>
+            Today is 2025/06/19 4:53pm and the meeting is scheduled for
+            tomorrow.
+        </p>
 
-    <p>Context Menu Testing (FIXED):</p>
-    <ol>
-        <li>Right-click anywhere → Should see TimeConverter context menu items</li>
-        <li>Right-click on highlighted date → Context menu items should work (no more errors!)</li>
-        <li>Right-click on non-highlighted text → Context menu shows helpful message</li>
-        <li>Watch extension icon for ✓ (success) or ✗ (error) badge after context menu use</li>
-        <li>Verify highlights are actually removed from the page</li>
-        <li>Check that popup button states update automatically after context menu use</li>
-        <li>Console should show no "ReferenceError: lastRightClickedElement" errors</li>
-    </ol>
+        <h2>✅ Date+Time Formats That SHOULD Convert:</h2>
+        <ul>
+            <li><strong>ISO 8601 formats:</strong>
+                <ul>
+                    <li>2024-12-19T15:30:00Z</li>
+                    <li>2024-12-19T15:30:00+05:30</li>
+                    <li>2024-12-19 15:30:00</li>
+                    <li>2024-12-19T15:30</li>
+                </ul>
+            </li>
+            <li><strong>US MM/DD/YYYY with time (space separated):</strong>
+                <ul>
+                    <li>12/19/2024 3:30 PM</li>
+                    <li>12/19/2024 15:30</li>
+                    <li>12/19/2024 3:30:45 PM</li>
+                    <li>1/5/2024 9:15 AM</li>
+                    <li>12/1/24 11:00 PM</li>
+                    <li>03/01/2024 09:00 PM (clean format)</li>
+                </ul>
+            </li>
+            <li><strong>European DD.MM.YYYY with time:</strong>
+                <ul>
+                    <li>19.12.2024 15:30</li>
+                    <li>19.12.2024 15:30:45</li>
+                    <li>5.1.2024 09:15</li>
+                    <li>1.12.2024 23:00</li>
+                </ul>
+            </li>
+            <li><strong>YYYY/MM/DD with time:</strong>
+                <ul>
+                    <li>2024/12/19 15:30</li>
+                    <li>2024/12/19 3:30 PM</li>
+                    <li>2024/1/5 9:15 AM</li>
+                </ul>
+            </li>
+            <li><strong>Month name formats with time:</strong>
+                <ul>
+                    <li>December 19, 2024 3:30 PM</li>
+                    <li>Dec 19, 2024 15:30</li>
+                    <li>January 5, 2024 9:15 AM</li>
+                    <li>19 December 2024 15:30</li>
+                    <li>5 Jan 2024 09:15</li>
+                </ul>
+            </li>
+            <li><strong>DD-MM-YYYY with time:</strong>
+                <ul>
+                    <li>19-12-2024 15:30</li>
+                    <li>5-1-2024 9:15 AM</li>
+                    <li>1-12-2024 23:00</li>
+                </ul>
+            </li>
+        </ul>
 
-    <p>Button State Testing (FIXED):</p>
-    <ol>
-        <li>Convert dates → Revert button enabled, Convert button disabled</li>
-        <li>Use context menu to remove some highlights → Button states should update automatically</li>
-        <li>Remove all highlights via context menu → Convert button should become enabled</li>
-        <li>Status should show "Already converted UTC -> IST" (not with broken arrow)</li>
-        <li>Open popup after conversion → Should automatically detect highlights and enable revert</li>
-    </ol>
+        <h2>❌ Date-Only Formats That SHOULD NOT Convert:</h2>
+        <ul>
+            <li><strong>Date only (no time component):</strong>
+                <ul>
+                    <li>December 19, 2024</li>
+                    <li>12/19/2024</li>
+                    <li>19.12.2024</li>
+                    <li>2024-12-19</li>
+                    <li>2024/12/19</li>
+                    <li>19-12-2024</li>
+                    <li>Dec 19, 2024</li>
+                    <li>19 December 2024</li>
+                </ul>
+            </li>
+            <li><strong>Non-date numbers that look like dates:</strong>
+                <ul>
+                    <li>Version 45.22.95</li>
+                    <li>IP 192.168.1.1</li>
+                    <li>Build 2024.12.19</li>
+                    <li>Score 12/19</li>
+                    <li>Ratio 3:30</li>
+                    <li>File 19-12-backup</li>
+                    <li>1703001000 (Unix timestamp)</li>
+                    <li>1640995200 (Build number)</li>
+                    <li>1672531200 (ID number)</li>
+                    <li>Version 1.12.2024.15.30</li>
+                    <li>Build 12/19/2024 99:99 (invalid time)</li>
+                    <li>February 30, 2024 3:30 PM (invalid date)</li>
+                    <li>13/45/2024 25:99 PM (invalid values)</li>
+                    <li>03/01/2024, 09:00 PM IST (comma + timezone suffix)</li>
+                    <li>12/19/2024, 15:30 EST (comma format)</li>
+                </ul>
+            </li>
+            <li><strong>Time-only formats (no timezone context):</strong>
+                <ul>
+                    <li>3:30 PM</li>
+                    <li>15:30</li>
+                    <li>9:15 AM</li>
+                    <li>23:45:30</li>
+                    <li>Ratio 3:30</li>
+                </ul>
+            </li>
+            <li><strong>Code/Technical contexts (should be skipped):</strong>
+                <ul>
+                    <li><code>getData("12/19/2024 15:30")</code></li>
+                    <li><code>{"timestamp": "2024-12-19 15:30"}</code></li>
+                    <li><code>WHERE date = '12/19/2024 15:30'</code></li>
+                    <li><code>version="1.12.2024 15:30"</code></li>
+                    <li><code>build_2024-12-19_15:30.zip</code></li>
+                </ul>
+            </li>
+        </ul>
 
-    <p>Debug Tips:</p>
-    <ul>
-        <li>Check console for "Checking existing highlights" messages when popup opens</li>
-        <li>Check console for "Right-clicked element" messages when right-clicking</li>
-        <li>Check console for "Context menu clicked" and "Handling [action]" messages</li>
-        <li>TimeConverter context menu items are now always visible</li>
-        <li>Extension badge provides visual feedback for context menu actions</li>
-        <li>Button states should properly toggle between Convert/Revert modes</li>
-    </ul>
-</body>
+        <h2>🧪 Testing Instructions:</h2>
+        
+        <h3>Expected Behavior After Recent Changes:</h3>
+        <p><strong>✅ SHOULD be highlighted (blue background):</strong> All items in the "Date+Time Formats That SHOULD Convert" section above</p>
+        <p><strong>❌ SHOULD NOT be highlighted:</strong> All items in the "Date-Only Formats That SHOULD NOT Convert" section above</p>
+        
+        <h3>🛡️ New False Positive Prevention:</h3>
+        <ul>
+            <li><strong>❌ Invalid dates:</strong> "February 30, 2024 3:30 PM", "13/45/2024 25:99 PM" - should NOT convert</li>
+            <li><strong>❌ Unrealistic years:</strong> Dates before 1900 or after 2100 - should NOT convert</li>
+            <li><strong>❌ Code contexts:</strong> Dates inside &lt;code&gt; tags, JSON strings, function calls - should be skipped</li>
+            <li><strong>❌ Version patterns:</strong> "Version 1.12.2024 15:30", "Build 12/19/2024" - should NOT convert</li>
+            <li><strong>❌ Unix timestamps:</strong> 10-digit numbers like 1703001000 - removed entirely</li>
+        </ul>
+        
+        <p><strong>Test the context menu removal:</strong></p>
+        <ol>
+            <li>Convert dates above</li>
+            <li>Right-click on any highlighted date</li>
+            <li>Use " Remove this highlight" to remove just that one</li>
+            <li>
+                Use " Remove all highlights of this format" to remove all dates
+                of the same format and add to stoplist
+            </li>
+            <li>
+                Refresh page and convert again - removed formats should not
+                highlight
+            </li>
+            <li>Use " Clear removed formats" to re-enable all formats</li>
+        </ol>
+
+        <p>
+            Non-date text that shouldn't be highlighted: Version 45.22.95, IP
+            192.168.1.1, etc.
+        </p>
+
+        <h3>Step-by-Step Testing Guide:</h3>
+        <ol>
+            <li><strong>Install the extension</strong> and set timezones (e.g., UTC to IST)</li>
+            <li><strong>Click "Convert"</strong> to highlight dates</li>
+            <li><strong>Verify highlighting behavior:</strong>
+                <ul>
+                    <li>✅ All date+time formats above should have blue highlights</li>
+                    <li>❌ All date-only formats should remain normal text (no highlighting)</li>
+                    <li>❌ Version numbers, IPs should remain normal text</li>
+                </ul>
+            </li>
+            <li><strong>Test conversion accuracy:</strong> Hover over highlighted dates to see conversion tooltips</li>
+            <li><strong>Test context menu:</strong> Right-click on highlighted dates to see removal options</li>
+            <li><strong>Test keyboard shortcuts:</strong> Alt+C (convert), Alt+R (revert)</li>
+            <li><strong>Open DevTools Console</strong> to see debugging messages</li>
+        </ol>
+        
+        <h3>New Feature Testing - Date+Time Only Conversion:</h3>
+        <div style="background: #f0f8ff; padding: 15px; border-left: 4px solid #007acc; margin: 10px 0;">
+            <p><strong>Key Change:</strong> The extension now ONLY converts timestamps that include both date AND time components.</p>
+            <p><strong>Why:</strong> Timezone conversion only makes sense with full datetime context:</p>
+            <ul>
+                <li>❌ <strong>Date-only</strong> (like "December 19, 2024"): No time = no timezone relevance</li>
+                <li>❌ <strong>Time-only</strong> (like "3:30 PM"): No date context = ambiguous timezone reference</li>
+                <li>✅ <strong>Date+Time</strong> (like "December 19, 2024 3:30 PM"): Complete timestamp = meaningful conversion</li>
+            </ul>
+            <p><strong>Test:</strong> Verify that ONLY complete date+time combinations are highlighted and converted.</p>
+        </div>
+
+        <h3>🚫 False Positive Prevention Features:</h3>
+        <div style="background: #fff0f0; padding: 15px; border-left: 4px solid #dc3545; margin: 10px 0;">
+            <p><strong>Major Update:</strong> Added comprehensive validation to prevent false positives:</p>
+            <ul>
+                <li>🗓️ <strong>Date validation:</strong> Rejects invalid dates (Feb 30, Month 13, Hour 25, etc.)</li>
+                <li>📅 <strong>Year range checking:</strong> Only accepts years 1900-2100 to avoid unrealistic dates</li>
+                <li>💻 <strong>Context awareness:</strong> Skips dates in &lt;code&gt;, &lt;pre&gt;, JSON, function calls</li>
+                <li>🏷️ <strong>Version detection:</strong> Ignores dates in "version", "build", "release" contexts</li>
+                <li>🚫 <strong>Unix timestamps removed:</strong> Eliminated problematic 10-digit number matching</li>
+                <li>📝 <strong>Leap year validation:</strong> Properly validates February 29 based on leap years</li>
+                <li>🌐 <strong>Timezone suffix blocking:</strong> Rejects patterns like "12/19/2024, 15:30 EST"</li>
+                <li>🔄 <strong>Unified parsing:</strong> Single source of truth for highlight and conversion logic</li>
+            </ul>
+            <p><strong>Test:</strong> Verify that invalid dates, version numbers, and code snippets are NOT converted.</p>
+        </div>
+
+        <h3>⚙️ Code Architecture Improvements:</h3>
+        <div style="background: #f8f9fa; padding: 15px; border-left: 4px solid #6c757d; margin: 10px 0;">
+            <p><strong>Unified Logic:</strong> Eliminated redundant regex patterns and parsing code:</p>
+            <ul>
+                <li>📦 <strong>Single source of truth:</strong> DATE_PARSING_PATTERNS array defines all supported formats</li>
+                <li>🎯 <strong>Consistent highlighting:</strong> Regex patterns generated from same source as validation</li>
+                <li>🔧 <strong>Unified parsing:</strong> parseAndValidateDate() used by both highlight and conversion logic</li>
+                <li>🚫 <strong>No redundancy:</strong> Eliminated duplicate regex patterns across functions</li>
+                <li>✅ <strong>Validation consistency:</strong> Same validation rules apply to highlight detection and conversion</li>
+            </ul>
+            <p><strong>Benefit:</strong> Prevents mismatches between what gets highlighted and what gets converted.</p>
+        </div>
+
+        <h3>🌐 Site Disable Feature:</h3>
+        <div style="background: #f0fff0; padding: 15px; border-left: 4px solid #28a745; margin: 10px 0;">
+            <p><strong>New Feature:</strong> Users can now disable conversion for specific websites.</p>
+            <ul>
+                <li>🔘 <strong>Toggle button:</strong> "Disable for this site" / "Enable for this site" in popup</li>
+                <li>🌍 <strong>Per-domain storage:</strong> Settings saved per hostname using Chrome sync storage</li>
+                <li>🚫 <strong>Complete blocking:</strong> Prevents manual, auto-conversion, and keyboard shortcuts</li>
+                <li>🔄 <strong>Auto-revert:</strong> Reverts existing conversions when disabling a site</li>
+                <li>👁️ <strong>Visual feedback:</strong> Shows site status and disables conversion buttons</li>
+            </ul>
+            <p><strong>Test:</strong> Try disabling/enabling the extension on different websites.</p>
+        </div>
+
+        <p>Fixed Issues:</p>
+        <ul>
+            <li>✅ Button icons now render correctly with proper spacing</li>
+            <li>
+                ✅ Arrow character encoding fixed (UTC -> IST instead of UTC â†'
+                IST)
+            </li>
+            <li>✅ Revert button now properly enables after conversion</li>
+            <li>✅ Context menu items now always visible and functional</li>
+            <li>
+                ✅ "Already converted" status now enables revert button (was
+                keeping convert enabled)
+            </li>
+            <li>
+                ✅ Popup detects existing highlights on page load and sets
+                correct button state
+            </li>
+            <li>
+                ✅ Context menu provides helpful feedback when used incorrectly
+            </li>
+            <li>
+                ✅ Extension badge shows ✓ or ✗ when context menu actions are
+                performed
+            </li>
+            <li>
+                ✅ Fixed ReferenceError: lastRightClickedElement - now uses
+                window scope
+            </li>
+            <li>
+                ✅ Context menu now properly removes highlight classes and
+                elements
+            </li>
+            <li>
+                ✅ Button states correctly reflect page content after context
+                menu actions
+            </li>
+        </ul>
+
+        <p>Test Scenarios for "Already converted" fix:</p>
+        <ol>
+            <li>Convert dates → Revert button should be enabled</li>
+            <li>
+                Try to convert again → Should show "Already converted UTC ->
+                IST" → Revert button should stay enabled
+            </li>
+            <li>
+                Close popup and reopen → Should detect existing highlights and
+                enable revert button
+            </li>
+            <li>Click revert → Convert button should be enabled</li>
+            <li>
+                Try to revert again → Should show "No converted dates found" →
+                Convert button should stay enabled
+            </li>
+        </ol>
+
+        <p>Context Menu Testing (FIXED):</p>
+        <ol>
+            <li>
+                Right-click anywhere → Should see TimeConverter context menu
+                items
+            </li>
+            <li>
+                Right-click on highlighted date → Context menu items should work
+                (no more errors!)
+            </li>
+            <li>
+                Right-click on non-highlighted text → Context menu shows helpful
+                message
+            </li>
+            <li>
+                Watch extension icon for ✓ (success) or ✗ (error) badge after
+                context menu use
+            </li>
+            <li>Verify highlights are actually removed from the page</li>
+            <li>
+                Check that popup button states update automatically after
+                context menu use
+            </li>
+            <li>
+                Console should show no "ReferenceError: lastRightClickedElement"
+                errors
+            </li>
+        </ol>
+
+        <p>Button State Testing (FIXED):</p>
+        <ol>
+            <li>
+                Convert dates → Revert button enabled, Convert button disabled
+            </li>
+            <li>
+                Use context menu to remove some highlights → Button states
+                should update automatically
+            </li>
+            <li>
+                Remove all highlights via context menu → Convert button should
+                become enabled
+            </li>
+            <li>
+                Status should show "Already converted UTC -> IST" (not with
+                broken arrow)
+            </li>
+            <li>
+                Open popup after conversion → Should automatically detect
+                highlights and enable revert
+            </li>
+        </ol>
+
+        <p>Debug Tips:</p>
+        <ul>
+            <li>
+                Check console for "Checking existing highlights" messages when
+                popup opens
+            </li>
+            <li>
+                Check console for "Right-clicked element" messages when
+                right-clicking
+            </li>
+            <li>
+                Check console for "Context menu clicked" and "Handling [action]"
+                messages
+            </li>
+            <li>TimeConverter context menu items are now always visible</li>
+            <li>
+                Extension badge provides visual feedback for context menu
+                actions
+            </li>
+            <li>
+                Button states should properly toggle between Convert/Revert
+                modes
+            </li>
+        </ul>
+    </body>
 </html>

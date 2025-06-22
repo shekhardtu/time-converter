@@ -2,7 +2,24 @@
   "permissions": {
     "allow": [
       "Bash(claude --model)",
-      "WebFetch(domain:unpkg.com)"
+      "WebFetch(domain:unpkg.com)",
+      "Bash(mkdir:*)",
+      "Bash(open test.html)",
+      "Bash(open debug_patterns.html)",
+      "Bash(node:*)",
+      "Bash(open debug_validation.html)",
+      "Bash(rm:*)",
+      "Bash(touch:*)",
+      "Bash(npm install)",
+      "Bash(npm test)",
+      "Bash(npm run lint)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run validate:*)",
+      "Bash(npm run build:*)",
+      "Bash(grep:*)",
+      "Bash(cp:*)",
+      "Bash(sed:*)",
+      "Bash(yarn prepare-release:*)"
     ],
     "deny": []
   }

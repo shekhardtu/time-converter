@@ -1,42 +1,56 @@
 const timezones = [
-  'UTC',
-  'GMT',
-  'PST', // Pacific Standard Time (UTC-8)
-  'PDT', // Pacific Daylight Time (UTC-7)
-  'MST', // Mountain Standard Time (UTC-7)
-  'MDT', // Mountain Daylight Time (UTC-6)
-  'CST', // Central Standard Time (UTC-6)
-  'CDT', // Central Daylight Time (UTC-5)
-  'EST', // Eastern Standard Time (UTC-5)
-  'EDT', // Eastern Daylight Time (UTC-4)
-  'IST', // Indian Standard Time (UTC+5:30)
-  'AEST', // Australian Eastern Standard Time (UTC+10)
-  'JST', // Japan Standard Time (UTC+9)
-  'CET' // Central European Time (UTC+1)
+  { value: 'UTC', label: 'UTC - Coordinated Universal Time' },
+  { value: 'GMT', label: 'GMT - Greenwich Mean Time' },
+  { value: 'PST', label: 'PST - Pacific Standard Time (UTC-8)' },
+  { value: 'PDT', label: 'PDT - Pacific Daylight Time (UTC-7)' },
+  { value: 'MST', label: 'MST - Mountain Standard Time (UTC-7)' },
+  { value: 'MDT', label: 'MDT - Mountain Daylight Time (UTC-6)' },
+  { value: 'CST', label: 'CST - Central Standard Time (UTC-6)' },
+  { value: 'CDT', label: 'CDT - Central Daylight Time (UTC-5)' },
+  { value: 'EST', label: 'EST - Eastern Standard Time (UTC-5)' },
+  { value: 'EDT', label: 'EDT - Eastern Daylight Time (UTC-4)' },
+  { value: 'IST', label: 'IST - Indian Standard Time (UTC+5:30)' },
+  { value: 'AEST', label: 'AEST - Australian Eastern Standard Time (UTC+10)' },
+  { value: 'JST', label: 'JST - Japan Standard Time (UTC+9)' },
+  { value: 'CET', label: 'CET - Central European Time (UTC+1)' },
+  { value: 'CEST', label: 'CEST - Central European Summer Time (UTC+2)' },
+  { value: 'BST', label: 'BST - British Summer Time (UTC+1)' },
+  { value: 'KST', label: 'KST - Korea Standard Time (UTC+9)' },
+  { value: 'CST_CHINA', label: 'CST - China Standard Time (UTC+8)' },
+  { value: 'NZST', label: 'NZST - New Zealand Standard Time (UTC+12)' },
+  { value: 'HST', label: 'HST - Hawaii Standard Time (UTC-10)' }
 ];
 
 const fromTimezoneSelect = document.getElementById('from-timezone');
 const toTimezoneSelect = document.getElementById('to-timezone');
 const convertBtn = document.getElementById('convert-btn');
 const revertBtn = document.getElementById('revert-btn');
-const statusDiv = document.getElementById('status');
+const footerDiv = document.querySelector('.popup-footer');
+const systemTimeElement = document.getElementById('system-time');
 const customFormatToggle = document.getElementById('custom-format-toggle');
 const customFormatForm = document.getElementById('custom-format-form');
 const dateFormatInput = document.getElementById('date-format');
 const formatDescriptionInput = document.getElementById('format-description');
 const saveFormatBtn = document.getElementById('save-format-btn');
 const cancelFormatBtn = document.getElementById('cancel-format-btn');
+const siteDisableBtn = document.getElementById('site-disable-btn');
+const siteDisableText = document.getElementById('site-disable-text');
+const siteStatus = document.getElementById('site-status');
+const pageDisableBtn = document.getElementById('page-disable-btn');
+const pageDisableText = document.getElementById('page-disable-text');
+const pageStatus = document.getElementById('page-status');
+const customFormatText = document.getElementById('custom-format-text');
 
 function populateTimezones() {
   timezones.forEach(tz => {
     const fromOption = document.createElement('option');
-    fromOption.value = tz;
-    fromOption.textContent = tz;
+    fromOption.value = tz.value;
+    fromOption.textContent = tz.label;
     fromTimezoneSelect.appendChild(fromOption);
 
     const toOption = document.createElement('option');
-    toOption.value = tz;
-    toOption.textContent = tz;
+    toOption.value = tz.value;
+    toOption.textContent = tz.label;
     toTimezoneSelect.appendChild(toOption);
   });
 }
@@ -47,135 +61,204 @@ function savePreferences() {
   chrome.storage.sync.set({ fromTimezone: from, toTimezone: to });
 }
 
+function getSystemTimezone() {
+  try {
+    const systemTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log('Detected system timezone:', systemTz);
+
+    // Map common IANA timezones to our abbreviated list
+    const tzMap = {
+      'America/Los_Angeles': 'PST',
+      'America/Denver': 'MST',
+      'America/Chicago': 'CST',
+      'America/New_York': 'EST',
+      'Asia/Kolkata': 'IST',
+      'Australia/Sydney': 'AEST',
+      'Asia/Tokyo': 'JST',
+      'Europe/Paris': 'CET',
+      'Europe/London': 'GMT',
+      'Europe/Berlin': 'CET',
+      'Asia/Shanghai': 'JST',
+      'America/Toronto': 'EST',
+      'America/Vancouver': 'PST'
+    };
+
+    const mapped = tzMap[systemTz] || 'UTC';
+    console.log('Mapped timezone:', mapped);
+    return mapped;
+  } catch (e) {
+    console.warn('Failed to detect system timezone, using UTC as fallback:', e);
+    return 'UTC';
+  }
+}
+
 function loadPreferences() {
   chrome.storage.sync.get(['fromTimezone', 'toTimezone'], (result) => {
     if (result.fromTimezone) {
       fromTimezoneSelect.value = result.fromTimezone;
     } else {
-      fromTimezoneSelect.value = 'UTC'; // Default value
+      // Use system timezone as default
+      const systemTz = getSystemTimezone();
+      fromTimezoneSelect.value = systemTz;
     }
     if (result.toTimezone) {
       toTimezoneSelect.value = result.toTimezone;
     } else {
-      toTimezoneSelect.value = 'IST'; // Default value
+      // Default to a different timezone for conversion
+      const systemTz = getSystemTimezone();
+      toTimezoneSelect.value = systemTz === 'UTC' ? 'IST' : 'UTC';
     }
   });
 }
 
 function setButtonStates(convertActive = true) {
+  console.log('Setting button states - convertActive:', convertActive);
+
   if (convertActive) {
     convertBtn.className = 'btn-primary btn-active';
     revertBtn.className = 'btn-secondary btn-inactive';
     convertBtn.disabled = false;
     revertBtn.disabled = true;
+    document.getElementById('convert-text').textContent = 'Convert';
   } else {
     convertBtn.className = 'btn-primary btn-inactive';
     revertBtn.className = 'btn-secondary btn-active';
     convertBtn.disabled = true;
     revertBtn.disabled = false;
-  }
-
-  // Keep status text visible and don't clear it
-  if (statusDiv.textContent === '') {
-    chrome.storage.sync.get(['fromTimezone', 'toTimezone'], (data) => {
-      if (data.fromTimezone && data.toTimezone) {
-        statusDiv.textContent = `Ready to convert ${data.fromTimezone} -> ${data.toTimezone}`;
-      }
-    });
+    document.getElementById('convert-text').textContent = 'Convert';
   }
 }
 
-function resetButton(text = 'Convert', disabled = false) {
-    const icon = `<svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-    </svg>`;
-    convertBtn.innerHTML = `${icon} ${text}`;
-    convertBtn.disabled = disabled;
+function resetButton(text = null, disabled = false) {
+  // If no text provided, use default
+  if (!text) {
+    text = 'Convert';
+  }
+
+  // Update the text content
+  document.getElementById('convert-text').textContent = text;
+  convertBtn.disabled = disabled;
+
+  // Clear any timeout that might interfere
+  if (window.convertTimeout) {
+    clearTimeout(window.convertTimeout);
+    window.convertTimeout = null;
+  }
 }
 
-convertBtn.addEventListener('click', () => {
+// Note: resetStatusDiv is now handled by revertToTimeDisplay
+
+function handleConversionResponse(response) {
+  console.log('Handling conversion response:', response);
+
+  // Clear any existing timeout
+  if (window.convertTimeout) {
+    clearTimeout(window.convertTimeout);
+    window.convertTimeout = null;
+  }
+
+  let statusType = 'info';
+  if (response.status.includes('Converted') || response.status.includes('Already converted')) {
+    statusType = 'success';
+    console.log('Conversion successful, switching to revert mode');
+    setButtonStates(false); // Switch to revert mode
+  } else if (response.status.includes('No dates found')) {
+    statusType = 'info';
+    console.log('No dates found, keeping convert mode');
+    setButtonStates(true);
+  } else if (response.status.includes('Error')) {
+    statusType = 'error';
+    console.error('Conversion error:', response.status);
+    setButtonStates(true);
+  } else {
+    statusType = 'info';
+    console.log('Unknown response, keeping convert mode');
+    setButtonStates(true);
+  }
+
+  showStatus(response.status, statusType);
+}
+
+convertBtn.addEventListener('click', async () => {
   savePreferences();
   resetButton('Converting...', true);
-  statusDiv.textContent = 'Converting dates...';
+  showStatus('Converting dates...', 'info', 15000);
+
+  // Set a timeout to recover if conversion hangs
+  window.convertTimeout = setTimeout(() => {
+    console.log('Conversion timeout - recovering button state');
+    setButtonStates(true);
+    showStatus('Conversion timed out. Please try again.', 'error');
+  }, 12000);
 
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tab = tabs[0];
     if (!tab) {
-      statusDiv.textContent = '❌ No active tab found.';
+      showStatus('❌ No active tab found.', 'error');
       resetButton('Error', false);
       return;
     }
 
     // First try to send message to existing content script
+    console.log('Sending convertTime message to tab:', tab.id);
     chrome.tabs.sendMessage(tab.id, {
       action: 'convertTime',
       from: fromTimezoneSelect.value,
       to: toTimezoneSelect.value
     }, (response) => {
+      console.log('Received response from content script:', response);
+      console.log('Chrome runtime error:', chrome.runtime.lastError);
+
       if (chrome.runtime.lastError || !response) {
+        console.log('Content script not ready, injecting scripts...');
         // If content script not ready, inject and try again
         chrome.scripting.insertCSS({
           target: { tabId: tab.id },
-          files: ["style.css"]
+          files: ['style.css']
         }).then(() => {
-          chrome.scripting.executeScript({
+          return chrome.scripting.executeScript({
             target: { tabId: tab.id },
             files: ['lib/date-fns.umd.min.js', 'lib/date-fns-tz.umd.min.js', 'content.js']
-          }).then(() => {
-            // Wait a bit for script to initialize, then send message
-            setTimeout(() => {
-              chrome.tabs.sendMessage(tab.id, {
-                action: 'convertTime',
-                from: fromTimezoneSelect.value,
-                to: toTimezoneSelect.value
-              }, (response) => {
-                if (chrome.runtime.lastError) {
-                  statusDiv.textContent = 'Error: Conversion failed. Please reload the page and try again.';
-                  resetButton('Failed', false);
-                } else if (response && response.status) {
-                  statusDiv.textContent = response.status;
-                  if (response.status.includes('Converted')) {
-                    // Both "Converted" and "Already converted" should enable revert mode
-                    setButtonStates(false); // Switch to revert mode
-                    setTimeout(() => {
-                      resetButton('Convert', true); // Keep convert button disabled
-                    }, 3000);
-                  } else {
-                    setButtonStates(true); // Keep convert mode for failed conversions or no dates found
-                    setTimeout(() => {
-                      resetButton('Convert', false);
-                    }, 3000);
-                  }
-                } else {
-                  statusDiv.textContent = 'Conversion failed or no dates found.';
-                  setButtonStates(true);
-                  setTimeout(() => {
-                    resetButton('Convert', false);
-                  }, 3000);
-                }
-              });
-            }, 300);
           });
+        }).then(() => {
+          console.log('Scripts injected, waiting and sending message...');
+          // Wait a bit for script to initialize, then send message
+          setTimeout(() => {
+            chrome.tabs.sendMessage(tab.id, {
+              action: 'convertTime',
+              from: fromTimezoneSelect.value,
+              to: toTimezoneSelect.value
+            }, (response) => {
+              console.log('Second attempt response:', response);
+              console.log('Second attempt error:', chrome.runtime.lastError);
+
+              if (chrome.runtime.lastError) {
+                const errorMsg = `Error: ${chrome.runtime.lastError.message}. Please reload the page and try again.`;
+                console.error('Chrome runtime error:', chrome.runtime.lastError);
+                showStatus(errorMsg, 'error');
+                resetButton('Failed', false);
+              } else if (response && response.status) {
+                handleConversionResponse(response);
+              } else {
+                console.error('No response received from content script');
+                showStatus('Conversion failed: No response from content script.', 'error');
+                setButtonStates(true);
+                setTimeout(() => {
+                  resetButton('Convert', false);
+                }, 3000);
+              }
+            });
+          }, 500);
         }).catch(err => {
-          statusDiv.textContent = '❌ Error injecting script. See console.';
+          console.error('Error injecting scripts:', err);
+          showStatus(`Error injecting script: ${err.message}. See console.`, 'error');
           resetButton('Error', false);
         });
       } else if (response && response.status) {
-        statusDiv.textContent = response.status;
-        if (response.status.includes('Converted')) {
-          // Both "Converted" and "Already converted" should enable revert mode
-          setButtonStates(false); // Switch to revert mode
-          setTimeout(() => {
-            resetButton('Convert', true); // Keep convert button disabled
-          }, 3000);
-        } else {
-          setButtonStates(true); // Keep convert mode for failed conversions or no dates found
-          setTimeout(() => {
-            resetButton('Convert', false);
-          }, 3000);
-        }
+        handleConversionResponse(response);
       } else {
-        statusDiv.textContent = 'Conversion failed or no dates found.';
+        console.error('Invalid response:', response);
+        showStatus('Conversion failed: Invalid response.', 'error');
         setButtonStates(true);
         setTimeout(() => resetButton('Convert', false), 3000);
       }
@@ -185,12 +268,12 @@ convertBtn.addEventListener('click', () => {
 
 // Revert button functionality
 revertBtn.addEventListener('click', () => {
-  statusDiv.textContent = 'Reverting dates...';
+  showStatus('Reverting dates...', 'info', 10000);
 
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tab = tabs[0];
     if (!tab) {
-      statusDiv.textContent = 'No active tab found.';
+      showStatus('No active tab found.', 'error');
       return;
     }
 
@@ -198,42 +281,19 @@ revertBtn.addEventListener('click', () => {
       action: 'revertDates'
     }, (response) => {
       if (chrome.runtime.lastError) {
-        statusDiv.textContent = 'Error reverting dates. Please reload the page.';
+        showStatus('Error reverting dates. Please reload the page.', 'error');
+        setButtonStates(true); // Switch back to convert mode on error
       } else if (response && response.status) {
-        statusDiv.textContent = response.status;
+        showStatus(response.status, 'success');
         setButtonStates(true); // Switch back to convert mode
       } else {
-        statusDiv.textContent = 'No converted dates found to revert.';
+        showStatus('No converted dates found to revert.', 'info');
         setButtonStates(true);
       }
     });
   });
 });
 
-// Custom format toggle
-customFormatToggle.addEventListener('click', () => {
-  const isHidden = customFormatForm.classList.contains('hidden');
-  if (isHidden) {
-    customFormatForm.classList.remove('hidden');
-    customFormatToggle.innerHTML = `
-      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-      Cancel
-    `;
-  } else {
-    customFormatForm.classList.add('hidden');
-    customFormatToggle.innerHTML = `
-      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-      </svg>
-      Add Custom Format
-    `;
-    // Clear form
-    dateFormatInput.value = '';
-    formatDescriptionInput.value = '';
-  }
-});
 
 // Save custom format
 saveFormatBtn.addEventListener('click', () => {
@@ -241,16 +301,16 @@ saveFormatBtn.addEventListener('click', () => {
   const description = formatDescriptionInput.value.trim();
 
   if (!pattern) {
-    statusDiv.textContent = 'Please enter a date format pattern';
+    showStatus('Please enter a date format pattern', 'error');
     return;
   }
 
-  statusDiv.textContent = 'Saving custom format...';
+  showStatus('Saving custom format...', 'info', 10000);
 
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tab = tabs[0];
     if (!tab) {
-      statusDiv.textContent = 'No active tab found.';
+      showStatus('No active tab found.', 'error');
       return;
     }
 
@@ -260,24 +320,18 @@ saveFormatBtn.addEventListener('click', () => {
       description: description || 'Custom format'
     }, (response) => {
       if (chrome.runtime.lastError) {
-        statusDiv.textContent = 'Error saving format. Please reload the page.';
+        showStatus('Error saving format. Please reload the page.', 'error');
       } else if (response && response.status) {
-        statusDiv.textContent = response.status;
+        const statusType = response.status.includes('saved') ? 'success' : 'info';
+        showStatus(response.status, statusType);
         if (response.status.includes('saved')) {
           // Hide form and reset
           customFormatForm.classList.add('hidden');
-          customFormatToggle.innerHTML = `
-            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-            </svg>
-            Add Custom Format
-          `;
+          changeIcon(customFormatToggle.querySelector('.icon-container'), 'plus');
+          document.getElementById('custom-format-text').textContent = 'Add Custom Format';
           dateFormatInput.value = '';
           formatDescriptionInput.value = '';
         }
-        setTimeout(() => {
-          statusDiv.textContent = '';
-        }, 3000);
       }
     });
   });
@@ -286,18 +340,310 @@ saveFormatBtn.addEventListener('click', () => {
 // Cancel custom format
 cancelFormatBtn.addEventListener('click', () => {
   customFormatForm.classList.add('hidden');
-  customFormatToggle.innerHTML = `
-    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-    </svg>
-    Add Custom Format
-  `;
+  changeIcon(customFormatToggle.querySelector('.icon-container'), 'plus');
+  document.getElementById('custom-format-text').textContent = 'Add Custom Format';
   dateFormatInput.value = '';
   formatDescriptionInput.value = '';
 });
 
+// Site disable/enable functionality
+function getCurrentSiteUrl() {
+  return new Promise((resolve) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0] && tabs[0].url) {
+        try {
+          const url = new URL(tabs[0].url);
+          resolve(url.hostname);
+        } catch (e) {
+          resolve(null);
+        }
+      } else {
+        resolve(null);
+      }
+    });
+  });
+}
+
+function getCurrentPageUrl() {
+  return new Promise((resolve) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0] && tabs[0].url) {
+        try {
+          const url = new URL(tabs[0].url);
+          // Use pathname for page-specific disabling
+          resolve(url.hostname + url.pathname);
+        } catch (e) {
+          resolve(null);
+        }
+      } else {
+        resolve(null);
+      }
+    });
+  });
+}
+
+async function checkSiteDisableStatus() {
+  const hostname = await getCurrentSiteUrl();
+  if (!hostname) return false;
+
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(['disabledSites'], (data) => {
+      const disabledSites = data.disabledSites || [];
+      resolve(disabledSites.includes(hostname));
+    });
+  });
+}
+
+async function checkPageDisableStatus() {
+  const pageUrl = await getCurrentPageUrl();
+  if (!pageUrl) return false;
+
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(['disabledPages'], (data) => {
+      const disabledPages = data.disabledPages || [];
+      resolve(disabledPages.includes(pageUrl));
+    });
+  });
+}
+
+async function updateSiteDisableUI() {
+  const hostname = await getCurrentSiteUrl();
+  const isDisabled = await checkSiteDisableStatus();
+  const pageDisabled = await checkPageDisableStatus();
+
+  if (!hostname) {
+    siteDisableBtn.disabled = true;
+    siteDisableText.textContent = 'Disable Site';
+    changeIcon(siteDisableBtn.querySelector('.icon-container'), 'disable');
+    updateExtensionIcon(true);
+    return;
+  }
+
+  siteDisableBtn.disabled = false;
+
+  if (isDisabled) {
+    siteDisableText.textContent = 'Enable Site';
+    changeIcon(siteDisableBtn.querySelector('.icon-container'), 'enable');
+    siteDisableBtn.classList.add('active');
+
+    // Show status indicator
+    const siteStatusText = document.getElementById('site-status-text');
+    siteStatusText.textContent = `Site disabled: ${hostname}`;
+    changeIcon(siteStatus.querySelector('.icon-container'), 'disable');
+    siteStatus.classList.remove('hidden');
+
+    // Disable convert/revert buttons when site is disabled
+    convertBtn.disabled = true;
+    revertBtn.disabled = true;
+    convertBtn.className = 'btn-primary btn-inactive';
+    revertBtn.className = 'btn-secondary btn-inactive';
+
+    // Update extension icon to show disabled state
+    updateExtensionIcon(false);
+  } else {
+    siteDisableText.textContent = 'Disable Site';
+    changeIcon(siteDisableBtn.querySelector('.icon-container'), 'disable');
+    siteDisableBtn.classList.remove('active');
+    siteStatus.classList.add('hidden');
+
+    // Update extension icon based on page status
+    updateExtensionIcon(!pageDisabled);
+  }
+}
+
+async function updatePageDisableUI() {
+  const pageUrl = await getCurrentPageUrl();
+  const isDisabled = await checkPageDisableStatus();
+  const siteDisabled = await checkSiteDisableStatus();
+
+  if (!pageUrl) {
+    pageDisableBtn.disabled = true;
+    pageDisableText.textContent = 'Disable Page';
+    changeIcon(pageDisableBtn.querySelector('.icon-container'), 'page-disable');
+    updateExtensionIcon(!siteDisabled);
+    return;
+  }
+
+  pageDisableBtn.disabled = false;
+
+  if (isDisabled) {
+    pageDisableText.textContent = 'Enable Page';
+    changeIcon(pageDisableBtn.querySelector('.icon-container'), 'page-enable');
+    pageDisableBtn.classList.add('active');
+
+    // Show status indicator
+    const pageStatusText = document.getElementById('page-status-text');
+    const url = new URL('http://' + pageUrl);
+    pageStatusText.textContent = `Page disabled: ${url.pathname}`;
+    changeIcon(pageStatus.querySelector('.icon-container'), 'page-disable');
+    pageStatus.classList.remove('hidden');
+
+    // Disable convert/revert buttons when page is disabled
+    convertBtn.disabled = true;
+    revertBtn.disabled = true;
+    convertBtn.className = 'btn-primary btn-inactive';
+    revertBtn.className = 'btn-secondary btn-inactive';
+
+    // Update extension icon to show disabled state
+    updateExtensionIcon(false);
+  } else {
+    pageDisableText.textContent = 'Disable Page';
+    changeIcon(pageDisableBtn.querySelector('.icon-container'), 'page-disable');
+    pageDisableBtn.classList.remove('active');
+    pageStatus.classList.add('hidden');
+
+    // Update extension icon based on site status
+    updateExtensionIcon(!siteDisabled);
+  }
+}
+
+async function toggleSiteDisable() {
+  const hostname = await getCurrentSiteUrl();
+  if (!hostname) return;
+
+  const isCurrentlyDisabled = await checkSiteDisableStatus();
+
+  chrome.storage.sync.get(['disabledSites'], (data) => {
+    let disabledSites = data.disabledSites || [];
+
+    if (isCurrentlyDisabled) {
+      // Enable the site
+      disabledSites = disabledSites.filter(site => site !== hostname);
+
+      const refreshHandler = () => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          const tab = tabs[0];
+          if (tab) {
+            chrome.tabs.reload(tab.id);
+          }
+        });
+      };
+
+      showStatus(`Enabled conversion for ${hostname}. Click here to refresh page.`, 'success', 8000, refreshHandler);
+    } else {
+      // Disable the site
+      if (!disabledSites.includes(hostname)) {
+        disabledSites.push(hostname);
+      }
+      showStatus(`Disabled conversion for ${hostname}`, 'info');
+
+      // Revert any existing conversions
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const tab = tabs[0];
+        if (tab) {
+          chrome.tabs.sendMessage(tab.id, { action: 'revertDates' });
+        }
+      });
+    }
+
+    chrome.storage.sync.set({ disabledSites }, () => {
+      updateSiteDisableUI();
+    });
+  });
+}
+
+async function togglePageDisable() {
+  const pageUrl = await getCurrentPageUrl();
+  if (!pageUrl) return;
+
+  const isCurrentlyDisabled = await checkPageDisableStatus();
+
+  chrome.storage.sync.get(['disabledPages'], (data) => {
+    let disabledPages = data.disabledPages || [];
+
+    if (isCurrentlyDisabled) {
+      // Enable the page
+      disabledPages = disabledPages.filter(page => page !== pageUrl);
+      const url = new URL('http://' + pageUrl);
+
+      const refreshHandler = () => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          const tab = tabs[0];
+          if (tab) {
+            chrome.tabs.reload(tab.id);
+          }
+        });
+      };
+
+      showStatus(`Enabled conversion for ${url.pathname}. Click here to refresh page.`, 'success', 8000, refreshHandler);
+    } else {
+      // Disable the page
+      if (!disabledPages.includes(pageUrl)) {
+        disabledPages.push(pageUrl);
+      }
+      const url = new URL('http://' + pageUrl);
+      showStatus(`Disabled conversion for ${url.pathname}`, 'info');
+
+      // Revert any existing conversions
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const tab = tabs[0];
+        if (tab) {
+          chrome.tabs.sendMessage(tab.id, { action: 'revertDates' });
+        }
+      });
+    }
+
+    chrome.storage.sync.set({ disabledPages }, () => {
+      updatePageDisableUI();
+      updateSiteDisableUI(); // Also update site UI to check for conflicts
+    });
+  });
+}
+
+// Enhanced custom format toggle with better UX
+customFormatToggle.addEventListener('click', () => {
+  const isHidden = customFormatForm.classList.contains('hidden');
+  const iconContainer = customFormatToggle.querySelector('.icon-container');
+
+  if (isHidden) {
+    customFormatForm.classList.remove('hidden');
+    changeIcon(iconContainer, 'close');
+    customFormatText.textContent = 'Cancel';
+    customFormatToggle.classList.add('active');
+  } else {
+    customFormatForm.classList.add('hidden');
+    changeIcon(iconContainer, 'plus');
+    customFormatText.textContent = 'Add Format';
+    customFormatToggle.classList.remove('active');
+    // Clear form
+    dateFormatInput.value = '';
+    formatDescriptionInput.value = '';
+  }
+});
+
+// Button event handlers
+siteDisableBtn.addEventListener('click', toggleSiteDisable);
+pageDisableBtn.addEventListener('click', togglePageDisable);
+
+// Initialize all icon containers on page load
+function initializeIcons() {
+  const iconContainers = document.querySelectorAll('.icon-container');
+  iconContainers.forEach(container => {
+    const iconId = container.dataset.icon;
+    if (iconId) {
+      changeIcon(container, iconId);
+    }
+  });
+}
+
+// Helper function to change icon by cloning from templates
+function changeIcon(container, iconId) {
+  if (!container) return;
+
+  // Clear existing content
+  container.innerHTML = '';
+
+  // Clone the icon from templates
+  const iconTemplate = document.getElementById(`icon-${iconId}`);
+  if (iconTemplate) {
+    const iconClone = iconTemplate.cloneNode(true);
+    container.appendChild(iconClone);
+  }
+}
+
+
 // Listen for highlight changes from context menu actions
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request) => {
   if (request.action === 'highlightsChanged') {
     console.log('Highlights changed, checking new state...');
     // Re-check the current state
@@ -321,9 +667,137 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+// Status management with auto-revert to time
+let statusTimeout;
+let isShowingStatus = false;
+
+// System time and timezone display
+function updateSystemTime() {
+  if (isShowingStatus) return; // Don't update time while showing status
+
+  const now = new Date();
+  const timeString = now.toLocaleTimeString('en-US', {
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  if (systemTimeElement) {
+    systemTimeElement.textContent = `${timeString} ${timezone}`;
+  }
+}
+
+// Show status in footer with auto-revert
+function showStatus(message, type = 'info', duration = 3000, clickHandler = null) {
+  if (!systemTimeElement || !footerDiv) return;
+
+  // Clear existing timeout
+  if (statusTimeout) {
+    clearTimeout(statusTimeout);
+  }
+
+  // Update footer appearance
+  footerDiv.className = 'popup-footer';
+  if (type === 'success') {
+    footerDiv.classList.add('status-success');
+  } else if (type === 'error') {
+    footerDiv.classList.add('status-error');
+  } else {
+    footerDiv.classList.add('status-mode');
+  }
+
+  if (clickHandler) {
+    footerDiv.classList.add('status-clickable');
+    footerDiv.style.cursor = 'pointer';
+    footerDiv.onclick = clickHandler;
+  } else {
+    footerDiv.onclick = null;
+    footerDiv.style.cursor = 'default';
+  }
+
+  // Show status message
+  systemTimeElement.textContent = message;
+  isShowingStatus = true;
+
+  // Auto-revert to time display
+  statusTimeout = setTimeout(() => {
+    revertToTimeDisplay();
+  }, duration);
+}
+
+// Revert footer back to time display
+function revertToTimeDisplay() {
+  if (!footerDiv || !systemTimeElement) return;
+
+  footerDiv.className = 'popup-footer';
+  footerDiv.onclick = null;
+  footerDiv.style.cursor = 'default';
+  isShowingStatus = false;
+
+  // Immediately update time display
+  updateSystemTime();
+}
+
+// Update extension icon based on state
+function updateExtensionIcon(isActive) {
+  chrome.action.setIcon({
+    path: {
+      '16': isActive ? 'images/icon16.png' : 'images/icon16-disabled.png',
+      '32': isActive ? 'images/icon32.png' : 'images/icon32-disabled.png',
+      '48': isActive ? 'images/icon48.png' : 'images/icon48-disabled.png',
+      '128': isActive ? 'images/icon128.png' : 'images/icon128-disabled.png'
+    }
+  });
+
+  chrome.action.setBadgeText({
+    text: isActive ? '' : '⏸'
+  });
+
+  chrome.action.setBadgeBackgroundColor({
+    color: isActive ? '#2563eb' : '#9ca3af'
+  });
+}
+
+// Add change listeners to timezone dropdowns
+function addDropdownListeners() {
+  fromTimezoneSelect.addEventListener('change', () => {
+    console.log('From timezone changed, enabling convert if currently in revert mode');
+    // If we're in revert mode and user changes settings, switch to convert mode
+    if (convertBtn.disabled && !revertBtn.disabled) {
+      setButtonStates(true);
+      showStatus('Settings changed - ready to convert', 'info', 2000);
+    }
+    savePreferences();
+  });
+
+  toTimezoneSelect.addEventListener('change', () => {
+    console.log('To timezone changed, enabling convert if currently in revert mode');
+    // If we're in revert mode and user changes settings, switch to convert mode
+    if (convertBtn.disabled && !revertBtn.disabled) {
+      setButtonStates(true);
+      showStatus('Settings changed - ready to convert', 'info', 2000);
+    }
+    savePreferences();
+  });
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
   populateTimezones();
   loadPreferences();
+  addDropdownListeners();
+
+  // Initialize both site and page disable UI
+  await updateSiteDisableUI();
+  await updatePageDisableUI();
+
+  // Initialize icons
+  initializeIcons();
+
+  // Start system time ticker
+  updateSystemTime();
+  setInterval(updateSystemTime, 1000);
 
   // Check if there are already converted dates on the current page
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -333,14 +807,18 @@ document.addEventListener('DOMContentLoaded', () => {
       chrome.tabs.sendMessage(tab.id, {
         action: 'checkExistingHighlights'
       }, (response) => {
+        console.log('Initial highlight check response:', response);
         if (chrome.runtime.lastError) {
           // Content script not ready, use default state
+          console.log('Content script not ready, setting convert mode');
           setButtonStates(true);
         } else if (response && response.hasHighlights) {
           // There are existing highlights, enable revert mode
+          console.log('Found existing highlights, setting revert mode');
           setButtonStates(false);
         } else {
           // No highlights, use convert mode
+          console.log('No highlights found, setting convert mode');
           setButtonStates(true);
         }
       });
@@ -352,9 +830,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Check if timezones are set, if not, prompt user
   chrome.storage.sync.get(['fromTimezone', 'toTimezone'], (data) => {
     if (!data.fromTimezone || !data.toTimezone) {
-      statusDiv.textContent = 'Please set your default timezones.';
+      showStatus('Please set your default timezones.', 'info', 5000);
     } else {
-      statusDiv.textContent = `Ready to convert ${data.fromTimezone} -> ${data.toTimezone}`;
+      showStatus(`Ready to convert ${data.fromTimezone} -> ${data.toTimezone}`, 'info', 3000);
     }
   });
+
+  // Set initial extension icon state
+  const siteDisabled = await checkSiteDisableStatus();
+  const pageDisabled = await checkPageDisableStatus();
+  updateExtensionIcon(!siteDisabled && !pageDisabled);
 });

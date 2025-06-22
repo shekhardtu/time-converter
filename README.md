@@ -1,195 +1,292 @@
-# Timezone Converter Chrome Extension
+# 🌍 Timezone Converter Chrome Extension
 
-A powerful Chrome extension that automatically detects and converts date/time formats on web pages across different timezones.
+<div align="center">
 
-## Features
+![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-blue?style=for-the-badge&logo=google-chrome)
+![Manifest V3](https://img.shields.io/badge/Manifest-V3-green?style=for-the-badge)
+![License MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript)
 
-### 🕐 Automatic Date Detection
-- Detects 15+ common date/time formats automatically
-- Supports ISO 8601, US, European, and international formats
-- Handles Unix timestamps and relative time expressions
+[![GitHub Stars](https://img.shields.io/github/stars/yourusername/timezone-converter-extension?style=social)](https://github.com/yourusername/timezone-converter-extension)
+[![GitHub Issues](https://img.shields.io/github/issues/yourusername/timezone-converter-extension)](https://github.com/yourusername/timezone-converter-extension/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/yourusername/timezone-converter-extension)](https://github.com/yourusername/timezone-converter-extension/pulls)
+[![Tests](https://img.shields.io/badge/tests-101%20passing-brightgreen)](https://github.com/yourusername/timezone-converter-extension)
 
-### ✨ Smart Highlighting & Control
-- Visual highlighting of converted dates
-- Hover to see the original date/time
-- **Right-click** on any converted date to:
-  - Remove just that specific highlight.
-  - Remove all highlights of the same format and prevent it from being converted again on that site (adds to a "stoplist").
-- Clear the stoplist for a site via the extension popup to re-enable all formats.
+**Automatically detect and convert dates & times across different timezones on any webpage**
 
-### 🌍 Smart Timezone Conversion
-- Convert between any timezone pair
-- Persistent settings per browser
+[📥 Install from Chrome Web Store](#) • [🐛 Report Bug](https://github.com/yourusername/timezone-converter-extension/issues) • [✨ Request Feature](https://github.com/yourusername/timezone-converter-extension/issues)
 
-### ⚙️ Custom Format Support
-- Add custom date formats for specific websites
-- Format patterns using familiar tokens (YYYY, MM, DD, etc.)
-- Per-domain format storage
-
-### 🎨 Modern Interface
-- Clean, glassmorphism design
-- SVG icons and smooth animations
-- Minimal page styling that doesn't interfere with content
-
-## Quick Start
-
-1. **Install the Extension**
-   - Load unpacked extension in Chrome Developer Mode
-   - Pin the extension to your toolbar
-
-2. **Set Your Timezones**
-   - Click the extension icon
-   - Select "Convert from" timezone
-   - Select "Convert to" timezone
-   - Click "Convert"
-
-3. **See the Magic**
-   - Dates on the page are automatically highlighted and converted
-   - Hover over converted dates to see the original
-   - Use "Revert" to toggle back to original dates
-
-4. **Control Highlights**
-   - **Right-click** a highlighted date to open the context menu.
-   - Choose to remove only that highlight or all highlights matching that format.
-   - If a format is causing issues, removing all instances will stop it from being converted automatically on that site in the future.
-
-## Supported Date Formats
-
-### Built-in Formats
-- **ISO 8601**: `2024-12-19T15:30:00Z`, `2024-12-19 15:30:00`
-- **US Format**: `12/19/2024 3:30 PM`, `12/19/24`
-- **European**: `19.12.2024 15:30`, `19-12-2024`
-- **Month Names**: `December 19, 2024`, `19 Dec 2024 3:30 PM`
-- **Time Only**: `3:30 PM`, `15:30:00`
-- **Unix Timestamps**: `1734615000`
-- **Relative**: `5 minutes ago`, `in 2 hours`
-
-### Custom Formats
-Use the "Add Custom Format" feature for specialized formats:
-- Server logs: `YYYY-MM-DD HH:mm:ss`
-- Database timestamps: `DD/MM/YYYY HH:mm`
-- Application-specific formats
-
-## Format Tokens
-
-| Token | Description | Example |
-|-------|-------------|---------|
-| `YYYY` | 4-digit year | 2024 |
-| `MM` | Month (01-12) | 12 |
-| `DD` | Day (01-31) | 19 |
-| `HH` | Hour (00-23) | 15 |
-| `mm` | Minute (00-59) | 30 |
-| `ss` | Second (00-59) | 45 |
-| `A` | AM/PM | PM |
-
-## Usage Examples
-
-### Basic Conversion
-1. Visit any webpage with dates
-2. Open extension popup
-3. Set "From: UTC" and "To: IST"
-4. Click "Convert"
-5. All UTC dates become IST dates with blue highlighting
-
-### Custom Format
-1. Visit a site with format like `2024.12.19-15:30`
-2. Click "Add Custom Format"
-3. Enter pattern: `YYYY.MM.DD-HH:mm`
-4. Enter description: "Server timestamps"
-5. Click "Save"
-6. Now this format will be detected automatically
-
-### Reverting Changes
-- Click "Revert" to restore original dates
-- Toggle between converted and original views
-- Page refresh maintains your timezone preference
-
-## Technical Details
-
-### Storage
-- Timezone preferences: Chrome sync storage
-- Custom formats: Stored per-domain
-- Settings persist across browser sessions
-
-### Performance
-- Efficient DOM traversal with TreeWalker
-- Regex pattern optimization
-- Minimal memory footprint
-
-### Privacy
-- No data sent to external servers
-- All processing happens locally
-- No tracking or analytics
-
-## Troubleshooting
-
-### Dates Not Converting?
-1. Check if format is supported (see documentation)
-2. Try adding a custom format
-3. Verify timezone settings are correct
-4. Refresh page after setting up custom formats
-
-### Performance Issues?
-1. Limit custom formats to essential ones
-2. Use specific patterns to avoid false matches
-3. Reload extension if problems persist
-
-### UI Issues?
-1. Check for conflicting CSS on the page
-2. Try different zoom levels
-3. Refresh page to reset styles
-
-## Development
-
-### Project Structure
-```
-time-converter/
-├── manifest.json          # Extension configuration
-├── popup.html/js          # Extension interface
-├── content.js             # Date detection and conversion
-├── background.js          # Extension lifecycle
-├── lib/                   # Date/timezone libraries
-│   ├── date-fns.umd.min.js
-│   └── date-fns-tz.umd.min.js
-├── style.css              # Page styling
-└── DATETIME_FORMATS.md    # Technical documentation
-```
-
-### Building
-1. Clone the repository
-2. Load as unpacked extension in Chrome
-3. Make changes and reload extension
-4. Test on various websites
-
-### Contributing
-- Add new date format patterns
-- Improve parsing algorithms
-- Enhance UI/UX
-- Report bugs and edge cases
-
-## Browser Support
-
-- ✅ Chrome (Manifest V3)
-- ✅ Chromium-based browsers
-- ❌ Firefox (requires manifest conversion)
-- ❌ Safari (different extension system)
-
-## Permissions
-
-- `activeTab`: Access current page content
-- `scripting`: Inject conversion scripts
-- `storage`: Save timezone preferences, custom formats, and site-specific stoplists
-- `tabs`: Communicate with page content
-- `contextMenus`: To provide right-click functionality for managing highlights.
-
-## License
-
-MIT License - feel free to modify and distribute
-
-## Support
-
-For technical details and format specifications, see [DATETIME_FORMATS.md](./DATETIME_FORMATS.md)
+</div>
 
 ---
 
-**Made with ❤️ for developers who work across timezones**
+## 🚀 Features
+
+### ⚡ **Smart Date Detection**
+- **15+ Format Support**: Automatically detects ISO 8601, US/European formats, Unix timestamps, and relative time
+- **Context-Aware**: Avoids false positives by understanding date context
+- **Real-time Processing**: Instant conversion as pages load
+
+### 🎨 **Modern UI Experience**  
+- **Clean Design**: Shadcn-inspired interface with intuitive controls
+- **Smart Highlighting**: Blue highlights with hover tooltips showing original dates
+- **Status Integration**: Footer displays system time and conversion status
+- **Responsive**: Works seamlessly across different screen sizes
+
+### 🔧 **Advanced Controls**
+- **Site-Level Disable**: Turn off conversion for entire domains
+- **Page-Level Disable**: Disable conversion for specific pages
+- **Custom Formats**: Add site-specific date patterns using tokens (YYYY, MM, DD, etc.)
+- **Right-Click Menu**: Quick access to remove highlights or disable detection
+
+### 🌐 **Timezone Management**
+- **20+ Timezones**: Support for major world timezones with full descriptions
+- **Smart Defaults**: Auto-detects your system timezone
+- **Persistent Settings**: Remembers your preferred timezone combinations
+- **Real-time Updates**: Live system clock with timezone display
+
+### 🔒 **Privacy & Security**
+- **Local Processing**: All conversion happens locally - no external servers
+- **Minimal Permissions**: Only requests necessary browser permissions
+- **No Tracking**: Zero user analytics or data collection
+- **Open Source**: Transparent code you can review and contribute to
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+| Popup Interface | Date Conversion | Settings |
+|----------------|-----------------|----------|
+| ![Popup](docs/images/popup.png) | ![Conversion](docs/images/conversion.png) | ![Settings](docs/images/settings.png) |
+
+</div>
+
+---
+
+## 🛠️ Installation
+
+### From Chrome Web Store (Recommended)
+1. Visit the [Chrome Web Store page](#)
+2. Click "Add to Chrome"
+3. Confirm installation
+
+### Manual Installation (Development)
+1. Download or clone this repository
+```bash
+git clone https://github.com/yourusername/timezone-converter-extension.git
+cd timezone-converter-extension
+```
+
+2. Install dependencies and build
+```bash
+npm install
+npm run build
+```
+
+3. Load in Chrome
+   - Open `chrome://extensions/`
+   - Enable "Developer mode"
+   - Click "Load unpacked"
+   - Select the extension directory
+
+---
+
+## 🎯 Usage
+
+### Basic Conversion
+1. **Click the extension icon** in your browser toolbar
+2. **Select timezones** from the dropdowns (From → To)
+3. **Click Convert** to transform all dates on the current page
+4. **Click Revert** to restore original dates
+
+### Advanced Features
+
+#### Custom Date Formats
+```
+YYYY-MM-DD HH:mm:ss    → 2024-03-15 14:30:00
+MM/DD/YYYY             → 03/15/2024
+DD.MM.YYYY             → 15.03.2024
+```
+
+#### Keyboard Shortcuts
+- **Alt+C** (Cmd+C on Mac): Convert dates
+- **Alt+R** (Cmd+R on Mac): Revert dates
+
+#### Site Management
+- **Disable Site**: Turn off conversion for the entire domain
+- **Disable Page**: Turn off conversion for the current page only
+- **Custom Formats**: Add patterns specific to certain websites
+
+---
+
+## 🧪 Development
+
+### Prerequisites
+- Node.js 16+ and npm
+- Chrome/Chromium browser
+- Basic knowledge of JavaScript and Chrome Extensions
+
+### Setup Development Environment
+```bash
+# Clone repository
+git clone https://github.com/yourusername/timezone-converter-extension.git
+cd timezone-converter-extension
+
+# Install dependencies  
+npm install
+
+# Run tests
+npm test
+
+# Run linting
+npm run lint
+
+# Build for production
+npm run build
+```
+
+### Testing
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+
+# Run specific test file
+npm test -- tests/popup.test.js
+```
+
+### Project Structure
+```
+timezone-converter-extension/
+├── manifest.json          # Extension configuration
+├── popup.html             # Extension popup UI
+├── popup.js              # Popup logic and timezone management
+├── content.js            # Page content manipulation
+├── background.js         # Extension service worker
+├── style.css            # Page styling for highlights
+├── images/              # Extension icons and assets
+├── lib/                 # Date manipulation libraries
+├── tests/               # Jest test suites
+└── docs/                # Documentation and screenshots
+```
+
+---
+
+## 🤝 Contributing
+
+We love contributions! Whether you're fixing bugs, adding features, or improving documentation, your help makes this extension better for everyone.
+
+### Quick Start
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Make** your changes
+4. **Test** thoroughly (`npm test`)
+5. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+6. **Push** to your branch (`git push origin feature/amazing-feature`)
+7. **Open** a Pull Request
+
+### Development Guidelines
+- ✅ **Write tests** for new features
+- ✅ **Follow ESLint** configuration
+- ✅ **Update documentation** for user-facing changes
+- ✅ **Test manually** in Chrome before submitting
+- ✅ **Keep commits focused** and descriptive
+
+### Areas We Need Help With
+- 🌍 **Internationalization**: Adding support for more date formats
+- 🎨 **UI/UX**: Improving design and user experience  
+- 🧪 **Testing**: Expanding test coverage
+- 📚 **Documentation**: Writing guides and examples
+- 🐛 **Bug Fixes**: Resolving issues and edge cases
+
+See our [Contributing Guidelines](CONTRIBUTING.md) for detailed information.
+
+---
+
+## 💬 Feedback & Support
+
+### 🐛 Found a Bug?
+[Create an issue](https://github.com/yourusername/timezone-converter-extension/issues/new?template=bug_report.md) with:
+- Steps to reproduce
+- Expected vs actual behavior  
+- Chrome version and OS
+- Screenshots if helpful
+
+### ✨ Want a Feature?
+[Request a feature](https://github.com/yourusername/timezone-converter-extension/issues/new?template=feature_request.md) by describing:
+- What you'd like to see
+- Why it would be useful
+- How you imagine it working
+
+### 💡 Questions or Ideas?
+[Start a discussion](https://github.com/yourusername/timezone-converter-extension/discussions) to:
+- Ask questions about usage
+- Share ideas for improvements
+- Connect with other users
+- Get help with development
+
+### ⭐ Enjoying the Extension?
+- **Star this repository** to show your support
+- **Leave a review** on the Chrome Web Store
+- **Share it** with friends and colleagues
+- **Follow us** for updates
+
+---
+
+## 📊 Stats & Analytics
+
+![Code Quality](https://img.shields.io/codeclimate/maintainability/yourusername/timezone-converter-extension)
+![Test Coverage](https://img.shields.io/codecov/c/github/yourusername/timezone-converter-extension)
+![Bundle Size](https://img.shields.io/bundlephobia/minzip/timezone-converter-extension)
+
+### Version History
+- **v1.1.0** - Modern UI redesign, enhanced state management
+- **v1.0.0** - Initial release with core functionality
+
+### Browser Support
+- ✅ Chrome 88+
+- ✅ Edge 88+  
+- ✅ Brave
+- ✅ Opera
+- ❌ Firefox (different extension system)
+- ❌ Safari (different extension system)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### What This Means
+- ✅ **Commercial use** - Use in commercial projects
+- ✅ **Modification** - Change and customize the code
+- ✅ **Distribution** - Share with others
+- ✅ **Private use** - Use for personal projects
+- ⚠️ **Attribution required** - Credit the original authors
+
+---
+
+## 🙏 Acknowledgments
+
+- **Date-fns Library** - Robust date manipulation
+- **Heroicons** - Beautiful SVG icons  
+- **Shadcn** - Design system inspiration
+- **Chrome Extensions Community** - Documentation and best practices
+- **Contributors** - Everyone who helped improve this extension
+
+---
+
+<div align="center">
+
+**Made with ❤️ by the community**
+
+[⬆ Back to Top](#-timezone-converter-chrome-extension)
+
+</div>
