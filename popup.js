@@ -26,7 +26,6 @@ const toTimezoneSelect = document.getElementById('to-timezone');
 const convertBtn = document.getElementById('convert-btn');
 const revertBtn = document.getElementById('revert-btn');
 const footerDiv = document.querySelector('.popup-footer');
-const systemTimeElement = document.getElementById('system-time');
 const customFormatToggle = document.getElementById('custom-format-toggle');
 const customFormatForm = document.getElementById('custom-format-form');
 const dateFormatInput = document.getElementById('date-format');
@@ -40,6 +39,237 @@ const pageDisableBtn = document.getElementById('page-disable-btn');
 const pageDisableText = document.getElementById('page-disable-text');
 const pageStatus = document.getElementById('page-status');
 const customFormatText = document.getElementById('custom-format-text');
+
+// -----------------------------
+// Multi-timezone footer widget
+// -----------------------------
+const timezoneWidgetsContainer = document.getElementById('timezone-widgets');
+const tzFlagMap = {
+  'UTC': '🌐', 'GMT': '🌐', 'IST': '🇮🇳', 'EET': '🇷🇺', 'CET': '🇫🇷', 'CEST': '🇪🇺',
+  'PST': '🇺🇸', 'PDT': '🇺🇸', 'MST': '🇺🇸', 'MDT': '🇺🇸', 'CST': '🇺🇸', 'CDT': '🇺🇸',
+  'EST': '🇺🇸', 'EDT': '🇺🇸', 'AEST': '🇦🇺', 'JST': '🇯🇵', 'BST': '🇬🇧', 'KST': '🇰🇷',
+  'CST_CHINA': '🇨🇳', 'NZST': '🇳🇿', 'HST': '🇺🇸'
+};
+
+const tzToIana = {
+  'UTC': 'UTC', 'GMT': 'Etc/GMT', 'IST': 'Asia/Kolkata', 'EET': 'Europe/Kaliningrad',
+  'CET': 'Europe/Paris', 'CEST': 'Europe/Berlin', 'PST': 'America/Los_Angeles',
+  'PDT': 'America/Los_Angeles', 'MST': 'America/Denver', 'MDT': 'America/Denver',
+  'CST': 'America/Chicago', 'CDT': 'America/Chicago', 'EST': 'America/New_York',
+  'EDT': 'America/New_York', 'AEST': 'Australia/Sydney', 'JST': 'Asia/Tokyo',
+  'BST': 'Europe/London', 'KST': 'Asia/Seoul', 'CST_CHINA': 'Asia/Shanghai',
+  'NZST': 'Pacific/Auckland', 'HST': 'Pacific/Honolulu'
+};
+
+const defaultWidgetTimezones = ['UTC', getSystemTimezone(), 'EET'];
+
+function renderTimezoneWidgets() {
+  if (!timezoneWidgetsContainer) return;
+  chrome.storage.sync.get(['widgetTimezones'], (data) => {
+    const tzList = Array.isArray(data.widgetTimezones) && data.widgetTimezones.length ? data.widgetTimezones : defaultWidgetTimezones;
+    timezoneWidgetsContainer.innerHTML = '';
+    tzList.forEach((tz, idx) => {
+      const widget = document.createElement('div');
+      widget.className = 'tz-widget';
+      widget.title = 'Click to change timezone';
+      widget.dataset.index = idx.toString();
+      widget.dataset.tz = tz;
+      widget.innerHTML = `
+        <div class="tz-time" id="tz-time-${idx}"></div>
+        <div class="tz-label">${tz}</div>
+      `;
+      widget.addEventListener('click', () => openTimezoneSelect(idx, tz));
+      timezoneWidgetsContainer.appendChild(widget);
+    });
+    updateWidgetTimes();
+  });
+}
+
+// Global interval ID for time updates
+let timeUpdateInterval;
+
+// Only updates the seconds for improved performance
+function updateSecondsOnly() {
+  if (!timezoneWidgetsContainer) return;
+  const now = new Date();
+  const secondsStr = now.getSeconds().toString().padStart(2, '0');
+
+  const secondsSpans = timezoneWidgetsContainer.querySelectorAll('.tz-time-seconds');
+  secondsSpans.forEach(span => {
+    span.textContent = `:${secondsStr}`;
+  });
+}
+
+// Builds or updates the timezone widgets
+function updateWidgetTimes(fullUpdate = true) {
+  if (!timezoneWidgetsContainer) return;
+  const now = new Date();
+  const widgets = timezoneWidgetsContainer.querySelectorAll('.tz-widget');
+
+  // Get UTC offset for reference
+  const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
+
+  widgets.forEach((w, idx) => {
+    const tz = w.dataset.tz;
+    const iana = tzToIana[tz] || tz;
+
+    // Create date object for the timezone
+    const tzDate = new Date(now.toLocaleString('en-US', { timeZone: iana }));
+
+    // Calculate offset from UTC in hours (positive means ahead of UTC)
+    const offsetMinutes = Math.round((tzDate - utcDate) / (1000 * 60));
+    const offsetHours = Math.floor(Math.abs(offsetMinutes) / 60);
+    const offsetMins = Math.abs(offsetMinutes) % 60;
+
+    let offsetStr;
+    if (offsetMinutes === 0) {
+      offsetStr = '+00:00';
+    } else if (offsetMinutes > 0) {
+      offsetStr = `+${offsetHours.toString().padStart(2, '0')}:${offsetMins.toString().padStart(2, '0')}`;
+    } else {
+      offsetStr = `-${offsetHours.toString().padStart(2, '0')}:${offsetMins.toString().padStart(2, '0')}`;
+    }
+
+    // Format date and time strings
+    const dateStr = now.toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', timeZone: iana });
+    const timeStr = now.toLocaleTimeString('en-GB', { hour12: false, hour: '2-digit', minute: '2-digit', timeZone: iana });
+    const secondsStr = now.getSeconds().toString().padStart(2, '0');
+
+    const timeElem = w.querySelector(`#tz-time-${idx}`);
+
+    if (timeElem) {
+      // For full updates, handle the date line and rebuild the time elements
+      if (fullUpdate) {
+        // First get or create the date-flag line (row 1)
+        let dateLineElem = w.querySelector('.tz-date-line');
+        if (!dateLineElem) {
+          // Create date-flag container
+          dateLineElem = document.createElement('div');
+          dateLineElem.className = 'tz-date-line';
+
+          // Flag part
+          const flagSpan = document.createElement('span');
+          flagSpan.className = 'tz-flag';
+          flagSpan.textContent = tzFlagMap[tz] || '';
+          dateLineElem.appendChild(flagSpan);
+
+          // Date part
+          const dateSpan = document.createElement('span');
+          dateSpan.className = 'tz-date';
+          dateLineElem.appendChild(dateSpan);
+
+          // Insert at top of widget
+          w.insertBefore(dateLineElem, w.firstChild);
+        }
+
+        // Update the date text
+        const dateSpan = dateLineElem.querySelector('.tz-date');
+        if (dateSpan) dateSpan.textContent = dateStr;
+
+        // If we need to build/rebuild the time row
+        let timeRow = timeElem.querySelector('.tz-time-row');
+        if (!timeRow) {
+          // Clear the time element first
+          timeElem.innerHTML = '';
+
+          // Create a single time row with all time elements
+          timeRow = document.createElement('div');
+          timeRow.className = 'tz-time-row';
+
+          // Time part (HH:MM) with emphasis
+          const timeSpan = document.createElement('span');
+          timeSpan.className = 'tz-time-main';
+          timeSpan.textContent = timeStr;
+          timeRow.appendChild(timeSpan);
+
+          // Seconds part
+          const secondsSpan = document.createElement('span');
+          secondsSpan.className = 'tz-time-seconds';
+          secondsSpan.textContent = `:${secondsStr}`;
+          timeRow.appendChild(secondsSpan);
+
+          // Offset part
+          const offsetSpan = document.createElement('span');
+          offsetSpan.className = 'tz-offset';
+          offsetSpan.textContent = offsetStr;
+          timeRow.appendChild(offsetSpan);
+
+          timeElem.appendChild(timeRow);
+        } else {
+          // Just update the values of existing elements
+          const timeSpan = timeRow.querySelector('.tz-time-main');
+          if (timeSpan) timeSpan.textContent = timeStr;
+
+          const secondsSpan = timeRow.querySelector('.tz-time-seconds');
+          if (secondsSpan) secondsSpan.textContent = `:${secondsStr}`;
+
+          const offsetSpan = timeRow.querySelector('.tz-offset');
+          if (offsetSpan) offsetSpan.textContent = offsetStr;
+        }
+      } else {
+        // For partial updates, only update the seconds
+        const timeRow = timeElem.querySelector('.tz-time-row');
+        if (timeRow) {
+          const secondsSpan = timeRow.querySelector('.tz-time-seconds');
+          if (secondsSpan) secondsSpan.textContent = `:${secondsStr}`;
+        }
+      }
+    }
+  });
+
+  // Ensure continuous updates for seconds
+  if (!timeUpdateInterval) {
+    timeUpdateInterval = setInterval(() => {
+      updateWidgetTimes(false); // Only update seconds for better performance
+    }, 1000); // Update every second
+  }
+}
+
+// Clear interval when popup closes
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && timeUpdateInterval) {
+    clearInterval(timeUpdateInterval);
+    timeUpdateInterval = null;
+  } else if (document.visibilityState === 'visible' && !timeUpdateInterval) {
+    updateWidgetTimes(); // Restart updates
+  }
+});
+
+function openTimezoneSelect(index, currentTz) {
+  if (!timezoneWidgetsContainer) return;
+  const select = document.createElement('select');
+  select.className = 'tz-select-inline';
+  // Prevent propagation so widget click handler doesn't re-trigger while interacting with select
+  ['click','mousedown','mouseup'].forEach(evt => select.addEventListener(evt, e => e.stopPropagation()));
+  timezones.forEach(tzObj => {
+    const opt = document.createElement('option');
+    opt.value = tzObj.value;
+    opt.textContent = tzObj.label;
+    if (tzObj.value === currentTz) opt.selected = true;
+    select.appendChild(opt);
+  });
+  const widget = timezoneWidgetsContainer.children[index];
+  widget.innerHTML = '';
+  widget.appendChild(select);
+  select.focus();
+
+  const saveSelection = () => {
+    chrome.storage.sync.get(['widgetTimezones'], (data) => {
+      const tzList = Array.isArray(data.widgetTimezones) && data.widgetTimezones.length ? data.widgetTimezones : defaultWidgetTimezones.slice();
+      tzList[index] = select.value;
+      chrome.storage.sync.set({ widgetTimezones: tzList }, () => {
+        renderTimezoneWidgets();
+      });
+    });
+  };
+
+  // Save on change only – do not save on blur which was causing premature close
+  select.addEventListener('change', (e) => {
+    e.stopPropagation();
+    saveSelection();
+  });
+}
+
 
 function populateTimezones() {
   timezones.forEach(tz => {
@@ -676,22 +906,14 @@ function updateSystemTime() {
   if (isShowingStatus) return; // Don't update time while showing status
 
   const now = new Date();
-  const timeString = now.toLocaleTimeString('en-US', {
-    hour12: false,
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  });
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  if (systemTimeElement) {
-    systemTimeElement.textContent = `${timeString} ${timezone}`;
-  }
+
+
 }
 
 // Show status in footer with auto-revert
 function showStatus(message, type = 'info', duration = 3000, clickHandler = null) {
-  if (!systemTimeElement || !footerDiv) return;
+  if (!footerDiv) return;
 
   // Clear existing timeout
   if (statusTimeout) {
@@ -718,7 +940,6 @@ function showStatus(message, type = 'info', duration = 3000, clickHandler = null
   }
 
   // Show status message
-  systemTimeElement.textContent = message;
   isShowingStatus = true;
 
   // Auto-revert to time display
@@ -729,7 +950,7 @@ function showStatus(message, type = 'info', duration = 3000, clickHandler = null
 
 // Revert footer back to time display
 function revertToTimeDisplay() {
-  if (!footerDiv || !systemTimeElement) return;
+  if (!footerDiv) return;
 
   footerDiv.className = 'popup-footer';
   footerDiv.onclick = null;
@@ -798,6 +1019,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Start system time ticker
   updateSystemTime();
   setInterval(updateSystemTime, 1000);
+
+  // Render and start multi-timezone footer widgets
+  renderTimezoneWidgets();
+  setInterval(updateWidgetTimes, 1000);
 
   // Check if there are already converted dates on the current page
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
