@@ -1,5 +1,5 @@
 // Comprehensive timezone conversion accuracy tests
-const { jest } = require('@jest/globals');
+const { describe, test, expect } = require('@jest/globals');
 
 // Mock Chrome APIs
 global.chrome = {
@@ -51,7 +51,7 @@ global.dateFnsTz = {
       const hour12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
       const ampm = hour < 12 ? 'AM' : 'PM';
 
-      let result = formatString
+      const result = formatString
         .replace(/yyyy/gi, year)
         .replace(/MM/g, month)
         .replace(/dd/gi, day)
@@ -63,7 +63,7 @@ global.dateFnsTz = {
 
       return result;
     } catch (error) {
-      return date.toISOString().slice(0, 19).replace('T', ' ');
+      return 'Invalid Date';
     }
   },
   zonedTimeToUtc: (date, timeZone) => {
@@ -111,7 +111,7 @@ global.dateFnsTz = {
 // Load content.js functions (we'll need to extract the conversion function)
 // For now, let's test the expected behavior
 describe('Comprehensive Timezone Conversion Tests', () => {
-  
+
   // Test data: Known conversions that should be correct
   const testCases = [
     {
@@ -209,16 +209,24 @@ describe('Comprehensive Timezone Conversion Tests', () => {
       toTz: 'America/New_York',
       expected: '2024-06-15 05:00:00', // IST to EDT (summer)
       description: 'Direct timezone to timezone conversion'
+    },
+    {
+      name: 'New date format support (DD MMM, YYYY HH:MM AM/PM)',
+      input: '2024-06-22T16:41:00Z',
+      fromTz: 'UTC',
+      toTz: 'Asia/Kolkata',
+      expected: '2024-06-22 22:11:00', // UTC+5:30
+      description: 'Testing new format like "22 Jun, 2025 04:41 PM"'
     }
   ];
 
   testCases.forEach(testCase => {
     test(testCase.name, () => {
       const inputDate = new Date(testCase.input);
-      
+
       // Test using our improved dateFnsTz functions
       let result;
-      
+
       if (testCase.fromTz === 'UTC') {
         // For UTC sources, directly convert to target timezone
         result = global.dateFnsTz.formatInTimeZone(inputDate, testCase.toTz, 'yyyy-MM-dd HH:mm:ss');
@@ -238,7 +246,7 @@ describe('Comprehensive Timezone Conversion Tests', () => {
       // March 10, 2024 at 2:00 AM EST becomes 3:00 AM EDT
       const springDate = new Date('2024-03-10T07:00:00Z'); // 2:00 AM EST
       const result = global.dateFnsTz.formatInTimeZone(springDate, 'America/New_York', 'yyyy-MM-dd HH:mm:ss');
-      
+
       // Should be 3:00 AM (spring forward)
       expect(result).toBe('2024-03-10 03:00:00');
     });
@@ -247,7 +255,7 @@ describe('Comprehensive Timezone Conversion Tests', () => {
       // November 3, 2024 at 2:00 AM EDT becomes 1:00 AM EST
       const fallDate = new Date('2024-11-03T06:00:00Z'); // 2:00 AM EDT
       const result = global.dateFnsTz.formatInTimeZone(fallDate, 'America/New_York', 'yyyy-MM-dd HH:mm:ss');
-      
+
       // Should be 1:00 AM (fall back)
       expect(result).toBe('2024-11-03 01:00:00');
     });
@@ -255,14 +263,14 @@ describe('Comprehensive Timezone Conversion Tests', () => {
     test('Leap Year Handling', () => {
       const leapDate = new Date('2024-02-29T12:00:00Z');
       const result = global.dateFnsTz.formatInTimeZone(leapDate, 'Asia/Kolkata', 'yyyy-MM-dd HH:mm:ss');
-      
+
       expect(result).toBe('2024-02-29 17:30:00');
     });
 
     test('Year Boundary Crossing', () => {
       const newYearDate = new Date('2023-12-31T20:00:00Z');
       const result = global.dateFnsTz.formatInTimeZone(newYearDate, 'Asia/Kolkata', 'yyyy-MM-dd HH:mm:ss');
-      
+
       // Should cross into new year
       expect(result).toBe('2024-01-01 01:30:00');
     });
@@ -272,7 +280,7 @@ describe('Comprehensive Timezone Conversion Tests', () => {
   describe('Reliability Tests', () => {
     test('Invalid timezone should not crash', () => {
       const date = new Date('2024-06-15T12:00:00Z');
-      
+
       expect(() => {
         global.dateFnsTz.formatInTimeZone(date, 'Invalid/Timezone', 'yyyy-MM-dd HH:mm:ss');
       }).not.toThrow();
@@ -281,14 +289,14 @@ describe('Comprehensive Timezone Conversion Tests', () => {
     test('Invalid date should return fallback', () => {
       const invalidDate = new Date('invalid');
       const result = global.dateFnsTz.formatInTimeZone(invalidDate, 'UTC', 'yyyy-MM-dd HH:mm:ss');
-      
+
       expect(result).toBe('Invalid Date');
     });
 
     test('Extreme dates should work', () => {
       const extremeDate = new Date('1900-01-01T00:00:00Z');
       const result = global.dateFnsTz.formatInTimeZone(extremeDate, 'Asia/Kolkata', 'yyyy-MM-dd HH:mm:ss');
-      
+
       expect(result).toMatch(/1900-01-01/);
     });
   });
@@ -298,7 +306,7 @@ describe('Comprehensive Timezone Conversion Tests', () => {
 if (typeof window !== 'undefined') {
   window.runTimezoneTests = function() {
     console.log('Running manual timezone verification tests...');
-    
+
     const testCases = [
       {
         name: 'Critical: UTC to IST',

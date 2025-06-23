@@ -39,7 +39,10 @@
         </div>
         <div class="custom-select-dropdown">
           <div class="dropdown-search">
-            <input type="text" class="search-input" placeholder="Search timezones..." />
+            <div class="search-input-container">
+              <input type="text" class="search-input" placeholder="Search timezones..." />
+              <div class="search-results-count"></div>
+            </div>
           </div>
           <div class="dropdown-options" id="from-timezone-options">
             <!-- Options will be populated by JavaScript -->
@@ -68,7 +71,10 @@
         </div>
         <div class="custom-select-dropdown">
           <div class="dropdown-search">
-            <input type="text" class="search-input" placeholder="Search timezones..." />
+            <div class="search-input-container">
+              <input type="text" class="search-input" placeholder="Search timezones..." />
+              <div class="search-results-count"></div>
+            </div>
           </div>
           <div class="dropdown-options" id="to-timezone-options">
             <!-- Options will be populated by JavaScript -->
@@ -196,6 +202,9 @@
   </div>
 </div>
   
+  <script src="lib/date-fns-tz.umd.min.js"></script>
+  <script src="all-timezones.js"></script>
+  <script src="modules/time-calculator.js"></script>
   <script src="custom-dropdown.js"></script>
   <script src="popup.js"></script>
 </body>

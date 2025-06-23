@@ -33,26 +33,15 @@ function getSystemTimezone() {
     const systemTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
     console.log('Detected system timezone:', systemTz);
 
-    // Map common IANA timezones to our abbreviated list
-    const tzMap = {
-      'America/Los_Angeles': 'PST',
-      'America/Denver': 'MST',
-      'America/Chicago': 'CST',
-      'America/New_York': 'EST',
-      'Asia/Kolkata': 'IST',
-      'Australia/Sydney': 'AEST',
-      'Asia/Tokyo': 'JST',
-      'Europe/Paris': 'CET',
-      'Europe/London': 'GMT',
-      'Europe/Berlin': 'CET',
-      'Asia/Shanghai': 'JST',
-      'America/Toronto': 'EST',
-      'America/Vancouver': 'PST'
-    };
+    // Simple mapping for common cases, detailed mapping is in popup.js
+    if (systemTz.includes('America/New_York')) return 'EST';
+    if (systemTz.includes('America/Chicago')) return 'CST';
+    if (systemTz.includes('America/Denver')) return 'MST';
+    if (systemTz.includes('America/Los_Angeles')) return 'PST';
+    if (systemTz.includes('Asia/Kolkata')) return 'IST';
+    if (systemTz.includes('Europe/London')) return 'GMT';
 
-    const mapped = tzMap[systemTz] || 'UTC';
-    console.log('Mapped timezone:', mapped);
-    return mapped;
+    return 'UTC';
   } catch (e) {
     console.warn('Failed to detect system timezone, using UTC as fallback:', e);
     return 'UTC';

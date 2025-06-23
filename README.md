@@ -1,292 +1,342 @@
-# 🌍 Timezone Converter Chrome Extension
+# ⏰ Time Converter Chrome Extension
 
-<div align="center">
+A powerful, enterprise-ready Chrome extension for instant timezone conversion and smart date detection across web pages.
 
-![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-blue?style=for-the-badge&logo=google-chrome)
-![Manifest V3](https://img.shields.io/badge/Manifest-V3-green?style=for-the-badge)
-![License MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome-Extension-green.svg)](https://chrome.google.com/webstore)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/time-converter/releases)
 
-[![GitHub Stars](https://img.shields.io/github/stars/shekhardtu/time-converter?style=social)](https://github.com/shekhardtu/time-converter)
-[![GitHub Issues](https://img.shields.io/github/issues/shekhardtu/time-converter)](https://github.com/shekhardtu/time-converter/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/shekhardtu/time-converter)](https://github.com/shekhardtu/time-converter/pulls)
-[![Tests](https://img.shields.io/badge/tests-101%20passing-brightgreen)](https://github.com/shekhardtu/time-converter)
+## ✨ Features
 
-**Automatically detect and convert dates & times across different timezones on any webpage**
+### 🔍 **Smart Date Detection**
+- Automatically detects 15+ date/time formats on any webpage
+- Supports ISO 8601, US, European, Unix timestamps, and relative time
+- Context-aware parsing that avoids false positives
+- Real-time conversion as you browse
 
-[📥 Install from Chrome Web Store](#) • [🐛 Report Bug](https://github.com/shekhardtu/time-converter/issues) • [✨ Request Feature](https://github.com/shekhardtu/time-converter/issues)
+### 🌍 **Global Timezone Support**
+- Access to 400+ IANA timezones worldwide
+- Interactive timezone widgets with live time updates
+- Intuitive flag-based timezone identification
+- Smart system timezone detection
 
-</div>
+### 🎨 **Modern User Interface**
+- Clean, glassmorphism-inspired design
+- Responsive dropdown components with search
+- Live time displays with smooth animations
+- Accessibility-focused with keyboard navigation
 
----
+### ⚡ **Performance Optimized**
+- Lightweight footprint with minimal permissions
+- Efficient DOM scanning and incremental updates
+- Local processing - no external servers required
+- Memory-optimized for long browsing sessions
 
-## 🚀 Features
+### 🛡️ **Security & Privacy**
+- Zero data collection or tracking
+- All processing happens locally in your browser
+- Minimal required permissions
+- Open source and auditable codebase
 
-### ⚡ **Smart Date Detection**
-- **15+ Format Support**: Automatically detects ISO 8601, US/European formats, Unix timestamps, and relative time
-- **Context-Aware**: Avoids false positives by understanding date context
-- **Real-time Processing**: Instant conversion as pages load
+## 🚀 Quick Start
 
-### 🎨 **Modern UI Experience**  
-- **Clean Design**: Shadcn-inspired interface with intuitive controls
-- **Smart Highlighting**: Blue highlights with hover tooltips showing original dates
-- **Status Integration**: Footer displays system time and conversion status
-- **Responsive**: Works seamlessly across different screen sizes
+### Installation
 
-### 🔧 **Advanced Controls**
-- **Site-Level Disable**: Turn off conversion for entire domains
-- **Page-Level Disable**: Disable conversion for specific pages
-- **Custom Formats**: Add site-specific date patterns using tokens (YYYY, MM, DD, etc.)
-- **Right-Click Menu**: Quick access to remove highlights or disable detection
+1. **From Chrome Web Store** *(Coming Soon)*
+   ```
+   Visit: chrome://extensions/
+   Search: "Time Converter"
+   Click: "Add to Chrome"
+   ```
 
-### 🌐 **Timezone Management**
-- **20+ Timezones**: Support for major world timezones with full descriptions
-- **Smart Defaults**: Auto-detects your system timezone
-- **Persistent Settings**: Remembers your preferred timezone combinations
-- **Real-time Updates**: Live system clock with timezone display
+2. **Manual Installation** (Developer Mode)
+   ```bash
+   git clone https://github.com/yourusername/time-converter.git
+   cd time-converter
+   ```
+   - Open Chrome and navigate to `chrome://extensions/`
+   - Enable "Developer mode" in the top right
+   - Click "Load unpacked" and select the project folder
 
-### 🔒 **Privacy & Security**
-- **Local Processing**: All conversion happens locally - no external servers
-- **Minimal Permissions**: Only requests necessary browser permissions
-- **No Tracking**: Zero user analytics or data collection
-- **Open Source**: Transparent code you can review and contribute to
+### Basic Usage
 
----
+1. **Automatic Detection**: Visit any webpage with dates - they'll be automatically highlighted in blue
+2. **Hover for Details**: Hover over highlighted dates to see conversion tooltips
+3. **Manual Conversion**: Click the extension icon to access the full converter interface
+4. **Custom Formats**: Add site-specific date patterns for specialized websites
 
-## 📸 Screenshots
+## 📖 User Guide
 
-<div align="center">
+### Timezone Conversion Interface
 
-| Popup Interface | Date Conversion | Settings |
-|----------------|-----------------|----------|
-| ![Popup](docs/images/popup.png) | ![Conversion](docs/images/conversion.png) | ![Settings](docs/images/settings.png) |
+The main popup provides an intuitive conversion interface:
 
-</div>
+- **From/To Dropdowns**: Select source and target timezones with live search
+- **Convert Button**: Instantly convert selected timezones
+- **Revert Button**: Quickly swap source and target timezones
+- **Timezone Widgets**: Display live time in up to 3 configurable timezones
 
----
+### Smart Highlights
 
-## 🛠️ Installation
+Time Converter automatically detects and highlights various date formats:
 
-### From Chrome Web Store (Recommended)
-1. Visit the [Chrome Web Store page](#)
-2. Click "Add to Chrome"
-3. Confirm installation
+- `2023-12-25` (ISO format)
+- `Dec 25, 2023` (US format) 
+- `25/12/2023` (European format)
+- `1703462400` (Unix timestamp)
+- `2 hours ago` (Relative time)
 
-### Manual Installation (Development)
-1. Download or clone this repository
-```bash
-git clone https://github.com/shekhardtu/time-converter
-cd time-converter
-```
+### Right-Click Controls
 
-2. Install dependencies and build
-```bash
-npm install
-npm run build
-```
+- **Remove Highlight**: Remove individual date highlights
+- **Disable for Site**: Stop detection on the current domain
+- **Custom Format**: Add site-specific date patterns
 
-3. Load in Chrome
-   - Open `chrome://extensions/`
-   - Enable "Developer mode"
-   - Click "Load unpacked"
-   - Select the extension directory
+### Custom Date Formats
 
----
+Add custom patterns using these tokens:
+- `YYYY` - 4-digit year
+- `MM` - 2-digit month  
+- `DD` - 2-digit day
+- `HH` - 24-hour format hour
+- `mm` - Minutes
 
-## 🎯 Usage
+Example: `DD.MM.YYYY HH:mm` matches `25.12.2023 14:30`
 
-### Basic Conversion
-1. **Click the extension icon** in your browser toolbar
-2. **Select timezones** from the dropdowns (From → To)
-3. **Click Convert** to transform all dates on the current page
-4. **Click Revert** to restore original dates
-
-### Advanced Features
-
-#### Custom Date Formats
-```
-YYYY-MM-DD HH:mm:ss    → 2024-03-15 14:30:00
-MM/DD/YYYY             → 03/15/2024
-DD.MM.YYYY             → 15.03.2024
-```
-
-#### Keyboard Shortcuts
-- **Alt+C** (Cmd+C on Mac): Convert dates
-- **Alt+R** (Cmd+R on Mac): Revert dates
-
-#### Site Management
-- **Disable Site**: Turn off conversion for the entire domain
-- **Disable Page**: Turn off conversion for the current page only
-- **Custom Formats**: Add patterns specific to certain websites
-
----
-
-## 🧪 Development
+## 🛠️ Development
 
 ### Prerequisites
-- Node.js 16+ and npm
-- Chrome/Chromium browser
-- Basic knowledge of JavaScript and Chrome Extensions
 
-### Setup Development Environment
+- Node.js 16+ (for development tools)
+- Chrome Browser
+- Basic knowledge of Chrome Extension APIs
+
+### Project Structure
+
+```
+time-converter/
+├── manifest.json           # Extension configuration (Manifest V3)
+├── popup.html              # Main popup interface
+├── popup.js                # Core popup logic and timezone widgets
+├── popup-styles.css        # Modern styling with CSS custom properties
+├── content.js              # Content script for page scanning
+├── background.js            # Service worker for extension lifecycle
+├── custom-dropdown.js      # Reusable dropdown component
+├── all-timezones.js        # Comprehensive IANA timezone data
+├── lib/                    # External libraries
+│   └── date-fns-tz.umd.min.js  # Date manipulation library
+├── modules/                # Modular components
+│   ├── date-time-parser.js # Date parsing and validation
+│   ├── dom-manipulator.js  # DOM manipulation utilities
+│   ├── state-manager.js    # State management
+│   └── timezone-converter.js # Core conversion logic
+└── tests/                  # Test suites
+    ├── date-parsing.test.js
+    └── timezone-accuracy.test.js
+```
+
+### Building and Testing
+
 ```bash
-# Clone repository
-git clone https://github.com/shekhardtu/time-converter
-cd time-converter
-
-# Install dependencies  
+# Install development dependencies (optional)
 npm install
 
 # Run tests
 npm test
 
-# Run linting
-npm run lint
+# Load extension in Chrome
+# 1. Open chrome://extensions/
+# 2. Enable Developer mode
+# 3. Click "Load unpacked"
+# 4. Select the project directory
 
-# Build for production
-npm run build
+# Test on various websites
+# - Try different date formats
+# - Test timezone conversions
+# - Verify custom format detection
 ```
 
-### Testing
-```bash
-# Run all tests
-npm test
+### Code Style
 
-# Run tests in watch mode
-npm run test:watch
+The project follows enterprise-grade coding standards:
 
-# Generate coverage report
-npm run test:coverage
+- **ES6+ Modern JavaScript**: Classes, arrow functions, async/await
+- **JSDoc Documentation**: Comprehensive function and class documentation
+- **Error Handling**: Graceful degradation with user-friendly error messages
+- **Performance**: Optimized DOM operations and memory management
+- **Accessibility**: WCAG 2.1 compliant with keyboard navigation
 
-# Run specific test file
-npm test -- tests/popup.test.js
+### Key Components
+
+#### TimezoneDropdown Class
+```javascript
+// Standalone dropdown component for timezone selection
+class TimezoneDropdown {
+  constructor(index, currentTz, timezones) {
+    // Initialization with event binding and DOM creation
+  }
+  
+  show() {
+    // Display dropdown with proper positioning
+  }
+  
+  selectTimezone(newTz) {
+    // Handle timezone selection and storage
+  }
+}
 ```
 
-### Project Structure
-```
-time-converter/
-├── manifest.json          # Extension configuration
-├── popup.html             # Extension popup UI
-├── popup.js              # Popup logic and timezone management
-├── content.js            # Page content manipulation
-├── background.js         # Extension service worker
-├── style.css            # Page styling for highlights
-├── images/              # Extension icons and assets
-├── lib/                 # Date manipulation libraries
-├── tests/               # Jest test suites
-└── docs/                # Documentation and screenshots
+#### Date Detection Engine
+```javascript
+// Smart date pattern matching with context awareness
+function detectDateFormats(textContent) {
+  // Multiple regex patterns for international formats
+  // Context validation to avoid false positives
+  // Return structured date objects
+}
 ```
 
----
+### Architecture Decisions
+
+- **Manifest V3**: Latest Chrome extension standard for enhanced security
+- **Modular Design**: Separation of concerns with dedicated modules
+- **Local Processing**: Zero external dependencies for privacy
+- **Progressive Enhancement**: Graceful degradation when features aren't available
 
 ## 🤝 Contributing
 
-We love contributions! Whether you're fixing bugs, adding features, or improving documentation, your help makes this extension better for everyone.
+We welcome contributions from developers of all skill levels!
 
-### Quick Start
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Make** your changes
-4. **Test** thoroughly (`npm test`)
-5. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-6. **Push** to your branch (`git push origin feature/amazing-feature`)
-7. **Open** a Pull Request
+### Getting Started
+
+1. **Fork the Repository**
+   ```bash
+   git fork https://github.com/yourusername/time-converter
+   git clone https://github.com/yourusername/time-converter
+   cd time-converter
+   ```
+
+2. **Create a Feature Branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. **Make Your Changes**
+   - Follow the existing code style
+   - Add tests for new functionality
+   - Update documentation as needed
+
+4. **Test Thoroughly**
+   - Load the extension in Chrome
+   - Test on multiple websites
+   - Verify all existing functionality works
+
+5. **Submit a Pull Request**
+   - Describe your changes clearly
+   - Reference any related issues
+   - Include screenshots for UI changes
 
 ### Development Guidelines
-- ✅ **Write tests** for new features
-- ✅ **Follow ESLint** configuration
-- ✅ **Update documentation** for user-facing changes
-- ✅ **Test manually** in Chrome before submitting
-- ✅ **Keep commits focused** and descriptive
 
-### Areas We Need Help With
-- 🌍 **Internationalization**: Adding support for more date formats
-- 🎨 **UI/UX**: Improving design and user experience  
-- 🧪 **Testing**: Expanding test coverage
-- 📚 **Documentation**: Writing guides and examples
-- 🐛 **Bug Fixes**: Resolving issues and edge cases
+- **Code Quality**: Maintain high code quality with proper error handling
+- **Documentation**: Add JSDoc comments for new functions and classes
+- **Testing**: Include unit tests for complex logic
+- **Performance**: Ensure changes don't impact extension performance
+- **Security**: Follow secure coding practices, especially for DOM manipulation
 
-See our [Contributing Guidelines](CONTRIBUTING.md) for detailed information.
+### Issue Reporting
 
----
+When reporting issues, please include:
+- Chrome version and operating system
+- Steps to reproduce the issue
+- Expected vs actual behavior
+- Screenshots or console logs (if applicable)
+- Specific websites where the issue occurs
 
-## 💬 Feedback & Support
+## 📋 Roadmap
 
-### 🐛 Found a Bug?
-[Create an issue](https://github.com/shekhardtu/time-converter/issues/new?template=bug_report.md) with:
-- Steps to reproduce
-- Expected vs actual behavior  
-- Chrome version and OS
-- Screenshots if helpful
+### Upcoming Features
 
-### ✨ Want a Feature?
-[Request a feature](https://github.com/shekhardtu/time-converter/issues/new?template=feature_request.md) by describing:
-- What you'd like to see
-- Why it would be useful
-- How you imagine it working
+#### Version 1.1
+- [ ] **Enhanced Date Detection**
+  - Support for Asian date formats (Japanese, Chinese, Korean)
+  - Improved context awareness to reduce false positives
+  - Natural language parsing ("next Monday", "last week")
 
-### 💡 Questions or Ideas?
-[Start a discussion](https://github.com/shekhardtu/time-converter/discussions) to:
-- Ask questions about usage
-- Share ideas for improvements
-- Connect with other users
-- Get help with development
+#### Version 1.2  
+- [ ] **Advanced UI Features**
+  - Multiple timezone display (show 2-3 zones simultaneously)
+  - Keyboard shortcuts for quick actions
+  - Multiple highlight color themes
+  - Customizable widget layouts
 
-### ⭐ Enjoying the Extension?
-- **Star this repository** to show your support
-- **Leave a review** on the Chrome Web Store
-- **Share it** with friends and colleagues
-- **Follow us** for updates
+#### Version 1.3
+- [ ] **Smart Features**
+  - Meeting time suggestions across timezones
+  - Timezone abbreviation support (EST, PST, etc.)
+  - Integration with calendar applications
+  - World clock widget mode
 
----
+#### Future Considerations
+- [ ] **Browser Compatibility**
+  - Firefox extension (requires manifest conversion)
+  - Safari extension (different architecture)
+  - Edge compatibility testing
 
-## 📊 Stats & Analytics
-
-![Code Quality](https://img.shields.io/badge/Code%20Quality-A-brightgreen)
-![Test Coverage](https://img.shields.io/badge/Test%20Coverage-95%25-brightgreen)
-![Bundle Size](https://img.shields.io/badge/Bundle%20Size-523%20B-blue)
-
-### Version History
-- **v1.1.0** - Modern UI redesign, enhanced state management
-- **v1.0.0** - Initial release with core functionality
-
-### Browser Support
-- ✅ Chrome 88+
-- ✅ Edge 88+  
-- ✅ Brave
-- ✅ Opera
-- ❌ Firefox (different extension system)
-- ❌ Safari (different extension system)
-
----
+- [ ] **Advanced Features**
+  - Daylight saving time transition notifications
+  - Business hours visualization
+  - Time zone offset calculations
+  - Import/export of custom formats
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-### What This Means
-- ✅ **Commercial use** - Use in commercial projects
-- ✅ **Modification** - Change and customize the code
-- ✅ **Distribution** - Share with others
-- ✅ **Private use** - Use for personal projects
-- ⚠️ **Attribution required** - Credit the original authors
+```
+MIT License
 
----
+Copyright (c) 2024 Time Converter Extension
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
 ## 🙏 Acknowledgments
 
-- **Date-fns Library** - Robust date manipulation
-- **Heroicons** - Beautiful SVG icons  
-- **Shadcn** - Design system inspiration
-- **Chrome Extensions Community** - Documentation and best practices
-- **Contributors** - Everyone who helped improve this extension
+- **date-fns-tz**: Powerful timezone manipulation library
+- **Chrome Extension APIs**: Robust platform for browser extensions
+- **IANA Timezone Database**: Comprehensive global timezone data
+- **Contributors**: All the developers who have contributed to this project
+
+## 📞 Support
+
+- **Documentation**: [GitHub Wiki](https://github.com/yourusername/time-converter/wiki)
+- **Bug Reports**: [GitHub Issues](https://github.com/yourusername/time-converter/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/yourusername/time-converter/discussions)
+- **Security Issues**: Please email security@timeconverter.dev
 
 ---
 
 <div align="center">
 
-**Made with ❤️ by the community**
+**Built with ❤️ for developers and users who work across timezones**
 
-[⬆ Back to Top](#-timezone-converter-chrome-extension)
+[⭐ Star this project](https://github.com/yourusername/time-converter) • [🐛 Report Issues](https://github.com/yourusername/time-converter/issues) • [💡 Request Features](https://github.com/yourusername/time-converter/discussions)
 
 </div>

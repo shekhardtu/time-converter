@@ -1,50 +1,43 @@
 // Tests for date parsing and validation logic
 
 // Import the functions we need to test
-// Since content.js is not a module, we'll need to load it differently
 const fs = require('fs');
 const path = require('path');
 
-// Read and evaluate the content.js file to get access to functions
-const contentJs = fs.readFileSync(path.join(__dirname, '../content.js'), 'utf8');
+// Read and evaluate the date-time-parser.js module
+const dateTimeParserJs = fs.readFileSync(path.join(__dirname, '../modules/date-time-parser.js'), 'utf8');
 
 // Extract the DATE_PARSING_PATTERNS, parseAndValidateDate, and isValidDateRange functions
-// We'll need to isolate these functions for testing
 let DATE_PARSING_PATTERNS, parseAndValidateDate, isValidDateRange, isValidDateText;
 
 beforeAll(() => {
-  // Execute the content script in a controlled environment
+  // Set up a minimal browser-like environment
+  global.window = global.window || {};
+  global.window.TimeConverter = {};
+
+  // Execute the date-time-parser script in a controlled environment
   const scriptContext = {
     window: global.window,
-    document: global.document,
-    chrome: global.chrome,
-    dateFns: global.dateFns,
-    dateFnsTz: global.dateFnsTz,
     console: global.console
   };
 
-  // Use eval in the script context (not ideal but necessary for this legacy code structure)
+  // Use eval to execute the module script
   const contextKeys = Object.keys(scriptContext);
   const contextValues = Object.values(scriptContext);
   const wrappedScript = `
     (function(${contextKeys.join(', ')}) {
-      ${contentJs}
-      return {
-        DATE_PARSING_PATTERNS,
-        parseAndValidateDate,
-        isValidDateRange,
-        isValidDateText
-      };
+      ${dateTimeParserJs}
+      return window.TimeConverter.dateTimeParser;
     })
   `;
 
   const scriptFunction = eval(wrappedScript);
-  const exports = scriptFunction(...contextValues);
+  const parser = scriptFunction(...contextValues);
 
-  DATE_PARSING_PATTERNS = exports.DATE_PARSING_PATTERNS;
-  parseAndValidateDate = exports.parseAndValidateDate;
-  isValidDateRange = exports.isValidDateRange;
-  isValidDateText = exports.isValidDateText;
+  DATE_PARSING_PATTERNS = parser.DATE_PARSING_PATTERNS;
+  parseAndValidateDate = parser.parseAndValidateDate;
+  isValidDateRange = parser.isValidDateRange;
+  isValidDateText = parser.isValidDateText;
 });
 
 describe('Date Parsing Patterns', () => {
@@ -71,6 +64,15 @@ describe('Date Parsing Patterns', () => {
     expect(yyyyIndex).toBeGreaterThan(-1);
     expect(mmddIndex).toBeGreaterThan(-1);
     expect(yyyyIndex).toBeLessThan(mmddIndex);
+  });
+
+  test('should have the new DD_MONTH_COMMA_YYYY_TIME pattern defined', () => {
+    const newPatternIndex = DATE_PARSING_PATTERNS.findIndex(p => p.name === 'DD_MONTH_COMMA_YYYY_TIME');
+    expect(newPatternIndex).toBeGreaterThan(-1);
+
+    const pattern = DATE_PARSING_PATTERNS[newPatternIndex];
+    expect(pattern.regex).toBeInstanceOf(RegExp);
+    expect(typeof pattern.parser).toBe('function');
   });
 });
 
@@ -145,7 +147,12 @@ describe('Date Text Validation', () => {
       'December 19, 2024 3:30 PM',
       'Dec 19, 2024 15:30',
       '19 December 2024 15:30',
-      '5 Jan 2024 09:15'
+      '5 Jan 2024 09:15',
+
+      // DD MMM, YYYY HH:MM AM/PM format
+      '22 Jun, 2025 04:41 PM',
+      '01 Jan, 2024 12:00 AM',
+      '15 Dec, 2023 11:59 PM'
     ];
 
     validFormats.forEach(dateStr => {
@@ -241,5 +248,23 @@ describe('parseAndValidateDate function', () => {
 
     const midnight = parseAndValidateDate('12/19/2024 12:00 AM');
     expect(midnight.hour).toBe(0);
+  });
+
+  test('should handle DD MMM, YYYY HH:MM AM/PM format correctly', () => {
+    const result = parseAndValidateDate('22 Jun, 2025 04:41 PM');
+    expect(result).not.toBeNull();
+    expect(result).toHaveProperty('year', 2025);
+    expect(result).toHaveProperty('month', 6); // June = 6
+    expect(result).toHaveProperty('day', 22);
+    expect(result).toHaveProperty('hour', 16); // 4:41 PM = 16:41
+    expect(result).toHaveProperty('minute', 41);
+
+    const amResult = parseAndValidateDate('01 Jan, 2024 12:00 AM');
+    expect(amResult).not.toBeNull();
+    expect(amResult).toHaveProperty('year', 2024);
+    expect(amResult).toHaveProperty('month', 1); // January = 1
+    expect(amResult).toHaveProperty('day', 1);
+    expect(amResult).toHaveProperty('hour', 0); // 12:00 AM = 0
+    expect(amResult).toHaveProperty('minute', 0);
   });
 });

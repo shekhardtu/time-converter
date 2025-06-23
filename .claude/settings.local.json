@@ -21,7 +21,12 @@
       "Bash(sed:*)",
       "Bash(yarn prepare-release:*)",
       "Bash(git add:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm test:*)",
+      "Bash(mv:*)",
+      "Bash(ls:*)",
+      "Bash(true)",
+      "Bash(rg:*)"
     ],
     "deny": []
   }

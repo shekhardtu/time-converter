@@ -53,6 +53,8 @@
       ],
       "js": [
         "lib/date-fns-tz.umd.min.js",
+        "modules/date-time-parser.js",
+        "modules/timezone-converter.js",
         "content.js"
       ],
       "css": [
