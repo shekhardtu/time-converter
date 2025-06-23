@@ -2,6 +2,7 @@
     background: #3b82f6 !important;
     color: white !important;
     padding: 1px 4px !important;
+    padding-right: 20px !important;
     border-radius: 3px !important;
     font-weight: 500 !important;
     cursor: help !important;
@@ -13,6 +14,11 @@
 
 .time-converter-replaced:hover {
     background: #2563eb !important;
+}
+
+.time-converter-replaced .time-converter-close-btn:hover {
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #333 !important;
 }
 
 /* Simple tooltip */
@@ -110,4 +116,9 @@
 
 .time-converter-close-btn:hover {
     background: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Selection tooltip styles */
+.tz-selection-tooltip {
+    transition: opacity 0.2s ease !important;
 }

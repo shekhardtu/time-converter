@@ -85,16 +85,6 @@
     </div>
   </div>
   
-  <div class="button-group">
-    <button id="convert-btn" class="btn-primary btn-active">
-      <span class="icon-container" data-icon="convert"></span>
-      <span id="convert-text">Convert</span>
-    </button>
-    <button id="revert-btn" class="btn-secondary btn-inactive">
-      <span class="icon-container" data-icon="revert"></span>
-      <span id="revert-text">Revert</span>
-    </button>
-  </div>
   
   
   
@@ -110,22 +100,6 @@
     </div>
   </div>
   
-  <!-- Custom format form (collapsible) -->
-  <div id="custom-format-form" class="custom-format-form hidden">
-    <div class="row">
-      <label for="date-format">Date Format Pattern:</label>
-      <input type="text" id="date-format" placeholder="e.g., YYYY-MM-DD HH:mm:ss" />
-      <small>Use YYYY, MM, DD, HH, mm, ss, A for AM/PM</small>
-    </div>
-    <div class="row">
-      <label for="format-description">Description:</label>
-      <input type="text" id="format-description" placeholder="e.g., Server log timestamps" />
-    </div>
-    <div class="button-group">
-      <button id="save-format-btn" class="btn-primary">Save</button>
-      <button id="cancel-format-btn" class="btn-secondary">Cancel</button>
-    </div>
-  </div>
 
   <!-- Hidden SVG icon templates to avoid duplication -->
   <div id="icon-templates" style="display: none;">
@@ -181,19 +155,11 @@
     </svg>
   </div>
   </div>
-  <!-- Enhanced function buttons in 3-column layout -->
-  <div class="function-buttons">
-    <button id="site-disable-btn" class="function-btn">
+  <!-- Site toggle button -->
+  <div class="function-buttons-single">
+    <button id="site-toggle-btn" class="site-toggle-btn">
       <span class="icon-container" data-icon="disable"></span>
-      <span id="site-disable-text">Disable Site</span>
-    </button>
-    <button id="custom-format-toggle" class="function-btn">
-      <span class="icon-container" data-icon="plus"></span>
-      <span id="custom-format-text">Add Format</span>
-    </button>
-    <button id="page-disable-btn" class="function-btn">
-      <span class="icon-container" data-icon="page-disable"></span>
-      <span id="page-disable-text">Disable Page</span>
+      <span id="site-toggle-text">Disable for site</span>
     </button>
   </div>
   

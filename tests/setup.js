@@ -87,11 +87,50 @@ global.dateFnsTz = {
 global.document.createTreeWalker = jest.fn();
 global.document.createDocumentFragment = jest.fn();
 global.document.createTextNode = jest.fn();
+global.document.querySelector = jest.fn();
+global.document.querySelectorAll = jest.fn(() => []);
+global.document.head = {
+  appendChild: jest.fn()
+};
 
 // Mock window object
 global.window.timeConverterInjected = undefined;
 global.window.timeConverterPageState = undefined;
 global.window.lastRightClickedElement = undefined;
+
+// Setup TimeConverter global object
+global.window.TimeConverter = {};
+
+// Load and setup the modules for testing
+const fs = require('fs');
+const path = require('path');
+
+// Load all-timezones.js
+const allTimezonesScript = fs.readFileSync(path.join(__dirname, '../all-timezones.js'), 'utf8');
+eval(allTimezonesScript);
+
+// Load date-time-parser.js
+const dateTimeParserScript = fs.readFileSync(path.join(__dirname, '../modules/date-time-parser.js'), 'utf8');
+eval(dateTimeParserScript);
+
+// Load timezone-converter.js
+const timezoneConverterScript = fs.readFileSync(path.join(__dirname, '../modules/timezone-converter.js'), 'utf8');
+eval(timezoneConverterScript);
+
+// Load time-calculator.js
+const timeCalculatorScript = fs.readFileSync(path.join(__dirname, '../modules/time-calculator.js'), 'utf8');
+eval(timeCalculatorScript);
+
+// Load custom-dropdown.js
+const customDropdownScript = fs.readFileSync(path.join(__dirname, '../custom-dropdown.js'), 'utf8');
+eval(customDropdownScript);
+
+// Make functions globally available for tests
+if (global.window.TimeConverter && global.window.TimeConverter.timezoneConverter) {
+  global.convertDateWithLibrary = global.window.TimeConverter.timezoneConverter.convertDateWithLibrary;
+  global.getIANATimezone = global.window.TimeConverter.timezoneConverter.getIANATimezone;
+  global.getShortTimezoneName = global.window.TimeConverter.timezoneConverter.getShortTimezoneName;
+}
 
 // Helper function to reset mocks between tests
 global.resetMocks = () => {

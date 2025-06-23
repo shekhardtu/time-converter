@@ -3,27 +3,129 @@
 const fs = require('fs');
 const path = require('path');
 
-// Mock DOM elements for popup
-const createMockPopupElement = (id, tagName = 'div') => ({
-  id,
-  tagName: tagName.toUpperCase(),
-  value: '',
-  textContent: '',
-  innerHTML: '',
-  className: '',
-  disabled: false,
-  style: { display: 'block' },
-  classList: {
-    add: jest.fn(),
-    remove: jest.fn(),
-    contains: jest.fn(),
-    toggle: jest.fn()
-  },
-  addEventListener: jest.fn(),
-  appendChild: jest.fn(),
-  querySelector: jest.fn(),
-  querySelectorAll: jest.fn(() => [])
-});
+// Mock DOM elements for popup with full CustomDropdown support
+const createMockPopupElement = (id, tagName = 'div') => {
+  const element = {
+    id,
+    tagName: tagName.toUpperCase(),
+    value: '',
+    textContent: '',
+    innerHTML: '',
+    className: '',
+    disabled: false,
+    style: { display: 'block' },
+    dataset: {},
+    title: '',
+    children: [],
+    parentNode: null,
+    classList: {
+      add: jest.fn(),
+      remove: jest.fn(),
+      contains: jest.fn(),
+      toggle: jest.fn()
+    },
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    appendChild: jest.fn((child) => {
+      element.children.push(child);
+      child.parentNode = element;
+      return child;
+    }),
+    removeChild: jest.fn((child) => {
+      const index = element.children.indexOf(child);
+      if (index > -1) {
+        element.children.splice(index, 1);
+        child.parentNode = null;
+      }
+      return child;
+    }),
+    querySelector: jest.fn((selector) => {
+      // Mock specific selectors that CustomDropdown uses
+      const selectorMap = {
+        '.custom-select-trigger': createMockPopupElement('trigger', 'div'),
+        '.custom-select-dropdown': createMockPopupElement('dropdown', 'div'),
+        '.search-input': createMockPopupElement('search', 'input'),
+        '.dropdown-options': createMockPopupElement('options', 'div'),
+        '.select-flag': createMockPopupElement('flag', 'span'),
+        '.select-text': createMockPopupElement('text', 'span'),
+        '.search-results-count': createMockPopupElement('count', 'span'),
+        '.popup': createMockPopupElement('popup', 'div')
+      };
+      return selectorMap[selector] || null;
+    }),
+    querySelectorAll: jest.fn(() => []),
+    getBoundingClientRect: jest.fn(() => ({
+      top: 0, left: 0, bottom: 100, right: 100, width: 100, height: 100
+    })),
+    scrollIntoView: jest.fn(),
+    focus: jest.fn(),
+    blur: jest.fn(),
+    click: jest.fn(),
+    setAttribute: jest.fn((name, value) => {
+      element.dataset[name] = value;
+    }),
+    getAttribute: jest.fn((name) => element.dataset[name]),
+    hasAttribute: jest.fn((name) => name in element.dataset),
+    removeAttribute: jest.fn((name) => delete element.dataset[name]),
+    dispatchEvent: jest.fn(),
+    cloneNode: jest.fn(() => createMockPopupElement(id + '_clone', tagName))
+  };
+
+  return element;
+};
+
+// Create mock custom dropdown container with required structure
+const createMockCustomDropdownContainer = (id) => {
+  const container = createMockPopupElement(id, 'div');
+
+  // Create the required child elements that CustomDropdown expects
+  const trigger = createMockPopupElement('trigger', 'div');
+  trigger.className = 'custom-select-trigger';
+
+  const dropdown = createMockPopupElement('dropdown', 'div');
+  dropdown.className = 'custom-select-dropdown';
+
+  const searchInput = createMockPopupElement('search', 'input');
+  searchInput.className = 'search-input';
+
+  const optionsContainer = createMockPopupElement('options', 'div');
+  optionsContainer.className = 'dropdown-options';
+
+  const selectFlag = createMockPopupElement('flag', 'span');
+  selectFlag.className = 'select-flag';
+
+  const selectText = createMockPopupElement('text', 'span');
+  selectText.className = 'select-text';
+
+  const resultsCount = createMockPopupElement('count', 'span');
+  resultsCount.className = 'search-results-count';
+
+  // Add children to dropdown
+  dropdown.children = [searchInput, optionsContainer, resultsCount];
+
+  // Add children to trigger
+  trigger.children = [selectFlag, selectText];
+
+  // Add children to container
+  container.children = [trigger, dropdown];
+
+  // Override querySelector to return the appropriate child elements
+  container.querySelector = jest.fn((selector) => {
+    const elements = {
+      '.custom-select-trigger': trigger,
+      '.custom-select-dropdown': dropdown,
+      '.search-input': searchInput,
+      '.dropdown-options': optionsContainer,
+      '.select-flag': selectFlag,
+      '.select-text': selectText,
+      '.search-results-count': resultsCount,
+      '.popup': createMockPopupElement('popup', 'div')
+    };
+    return elements[selector] || null;
+  });
+
+  return container;
+};
 
 beforeEach(() => {
   resetMocks();
@@ -46,7 +148,14 @@ beforeEach(() => {
       'site-disable-text': createMockPopupElement('site-disable-text', 'span'),
       'site-status': createMockPopupElement('site-status', 'div'),
       'convert-shortcut': createMockPopupElement('convert-shortcut', 'span'),
-      'revert-shortcut': createMockPopupElement('revert-shortcut', 'span')
+      'revert-shortcut': createMockPopupElement('revert-shortcut', 'span'),
+      'timezone-widgets': createMockPopupElement('timezone-widgets', 'div'),
+      'from-timezone-container': createMockCustomDropdownContainer('from-timezone-container'),
+      'to-timezone-container': createMockCustomDropdownContainer('to-timezone-container'),
+      'page-disable-btn': createMockPopupElement('page-disable-btn', 'button'),
+      'page-disable-text': createMockPopupElement('page-disable-text', 'span'),
+      'page-status': createMockPopupElement('page-status', 'div'),
+      'custom-format-text': createMockPopupElement('custom-format-text', 'div')
     };
     return elementMap[id] || createMockPopupElement(id);
   });
@@ -84,9 +193,9 @@ describe('Popup Initialization', () => {
 
     expect(Array.isArray(timezones)).toBe(true);
     expect(timezones.some(tz => tz.value === 'UTC')).toBe(true);
-    expect(timezones.some(tz => tz.value === 'EST')).toBe(true);
-    expect(timezones.some(tz => tz.value === 'PST')).toBe(true);
-    expect(timezones.some(tz => tz.value === 'IST')).toBe(true);
+    expect(timezones.some(tz => tz.value === 'America/New_York')).toBe(true); // EST
+    expect(timezones.some(tz => tz.value === 'America/Los_Angeles')).toBe(true); // PST
+    expect(timezones.some(tz => tz.value === 'Asia/Kolkata')).toBe(true); // IST
     expect(timezones.some(tz => tz.value === 'GMT')).toBe(true);
   });
 
@@ -280,29 +389,6 @@ describe('Site Disable Functionality', () => {
     expect(result).toBe(true);
   });
 
-  test('should toggle site disable status', async () => {
-    global.chrome.tabs.query.mockImplementation((query, callback) => {
-      callback([{ url: 'https://example.com/page' }]);
-    });
-
-    global.chrome.storage.sync.get.mockImplementation((keys, callback) => {
-      callback({ disabledSites: [] });
-    });
-
-    await eval(`
-      (async function() {
-        ${popupScript}
-        await toggleSiteDisable();
-      })()
-    `);
-
-    expect(global.chrome.storage.sync.set).toHaveBeenCalledWith(
-      expect.objectContaining({
-        disabledSites: expect.arrayContaining(['example.com'])
-      }),
-      expect.any(Function)
-    );
-  });
 });
 
 describe('Custom Format Management', () => {

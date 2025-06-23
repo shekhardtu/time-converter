@@ -17,17 +17,19 @@
 
 
 
-/**
- * Default timezone configuration for widgets
- * @type {Array<string>}
- */
-const DEFAULT_WIDGET_TIMEZONES = ['UTC', 'Auto', 'EET'];
+
+// =============================================================================
+// TIMEZONE DATA
+// =============================================================================
 
 /**
- * Update interval for timezone widgets (milliseconds)
- * @type {number}
+ * Global timezones array for tests and dropdown population
+ * @type {Array}
  */
-const WIDGET_UPDATE_INTERVAL = 1000;
+// eslint-disable-next-line no-unused-vars
+const timezones = getAllTimezones();
+
+
 
 // =============================================================================
 // DOM ELEMENT REFERENCES
@@ -37,30 +39,17 @@ const elements = {
   // Main form elements
   fromTimezoneSelect: document.getElementById('from-timezone'),
   toTimezoneSelect: document.getElementById('to-timezone'),
-  convertBtn: document.getElementById('convert-btn'),
-  revertBtn: document.getElementById('revert-btn'),
 
   // Footer and widgets
   footerDiv: document.querySelector('.popup-footer'),
   timezoneWidgetsContainer: document.getElementById('timezone-widgets'),
 
-  // Custom format form
-  customFormatToggle: document.getElementById('custom-format-toggle'),
-  customFormatForm: document.getElementById('custom-format-form'),
-  dateFormatInput: document.getElementById('date-format'),
-  formatDescriptionInput: document.getElementById('format-description'),
-  saveFormatBtn: document.getElementById('save-format-btn'),
-  cancelFormatBtn: document.getElementById('cancel-format-btn'),
-
-  // Site/page controls
-  siteDisableBtn: document.getElementById('site-disable-btn'),
-  siteDisableText: document.getElementById('site-disable-text'),
-  siteStatus: document.getElementById('site-status'),
-  pageDisableBtn: document.getElementById('page-disable-btn'),
-  pageDisableText: document.getElementById('page-disable-text'),
-  pageStatus: document.getElementById('page-status'),
-  customFormatText: document.getElementById('custom-format-text')
+  // Site toggle control
+  siteToggleBtn: document.getElementById('site-toggle-btn'),
+  siteToggleText: document.getElementById('site-toggle-text'),
+  siteStatus: document.getElementById('site-status')
 };
+
 
 // =============================================================================
 // GLOBAL STATE
@@ -68,7 +57,6 @@ const elements = {
 
 let timeUpdateInterval = null;
 let statusTimeout = null;
-let isShowingStatus = false;
 
 // =============================================================================
 // STATUS AND UI MANAGEMENT
@@ -115,7 +103,6 @@ function showStatus(message, type = 'info', duration = 3000, clickHandler = null
   statusDiv.textContent = message; // Use textContent to prevent XSS
   elements.footerDiv.innerHTML = '';
   elements.footerDiv.appendChild(statusDiv);
-  isShowingStatus = true;
 
   // Auto-revert to time display
   statusTimeout = setTimeout(() => {
@@ -133,7 +120,6 @@ function revertToTimeDisplay() {
   elements.footerDiv.classList.remove('showing-status');
   elements.footerDiv.onclick = null;
   elements.footerDiv.style.cursor = 'default';
-  isShowingStatus = false;
 
   // Show timezone widgets again
   elements.footerDiv.innerHTML = '<div id="timezone-widgets" class="timezone-widgets"></div>';
@@ -141,87 +127,7 @@ function revertToTimeDisplay() {
   renderTimezoneWidgets();
 }
 
-/**
- * Sets button states for convert/revert mode
- * @param {boolean} convertActive - Whether convert mode is active
- */
-function setButtonStates(convertActive = true) {
-  console.log('setButtonStates called with convertActive:', convertActive);
 
-  if (!elements.convertBtn || !elements.revertBtn) {
-    console.log('Button elements not found!');
-    return;
-  }
-
-  if (convertActive) {
-    console.log('Setting CONVERT mode (Convert enabled, Revert disabled)');
-    elements.convertBtn.className = 'btn-primary btn-active';
-    elements.revertBtn.className = 'btn-secondary btn-inactive';
-    elements.convertBtn.disabled = false;
-    elements.revertBtn.disabled = true;
-    const convertText = document.getElementById('convert-text');
-    if (convertText) convertText.textContent = 'Convert';
-  } else {
-    console.log('Setting REVERT mode (Convert disabled, Revert enabled)');
-    elements.convertBtn.className = 'btn-primary btn-inactive';
-    elements.revertBtn.className = 'btn-secondary btn-active';
-    elements.convertBtn.disabled = true;
-    elements.revertBtn.disabled = false;
-  }
-
-  console.log('Button states set - Convert:', !elements.convertBtn.disabled, 'Revert:', !elements.revertBtn.disabled);
-}
-
-/**
- * Resets convert button to default state
- * @param {string} text - Button text
- * @param {boolean} disabled - Whether button is disabled
- */
-function resetButton(text = 'Convert', disabled = false) {
-  const convertText = document.getElementById('convert-text');
-  if (convertText) convertText.textContent = text;
-  if (elements.convertBtn) elements.convertBtn.disabled = disabled;
-
-  // Clear any timeout that might interfere
-  if (window.convertTimeout) {
-    clearTimeout(window.convertTimeout);
-    window.convertTimeout = null;
-  }
-}
-
-/**
- * Handles conversion response from content script
- * @param {Object} response - Response from content script
- */
-function handleConversionResponse(response) {
-  console.log('Handling conversion response:', response);
-
-  // Clear any existing timeout
-  if (window.convertTimeout) {
-    clearTimeout(window.convertTimeout);
-    window.convertTimeout = null;
-  }
-
-  // Reset button text and state
-  resetButton('Convert', false);
-
-  let statusType = 'info';
-  if (response.status.includes('Converted') || response.status.includes('Already converted')) {
-    statusType = 'success';
-    setButtonStates(false); // Switch to revert mode
-  } else if (response.status.includes('No dates found')) {
-    statusType = 'info';
-    setButtonStates(true);
-  } else if (response.status.includes('Error')) {
-    statusType = 'error';
-    setButtonStates(true);
-  } else {
-    statusType = 'info';
-    setButtonStates(true);
-  }
-
-  showStatus(response.status, statusType);
-}
 
 // =============================================================================
 // UTILITY FUNCTIONS
@@ -286,19 +192,6 @@ function getTimezoneFlag(tzCode) {
   return '🌐';
 }
 
-/**
- * Safely executes a function with error handling
- * @param {Function} fn - Function to execute
- * @param {string} context - Context description for error logging
- */
-function safeExecute(fn, context = 'operation') {
-  try {
-    return fn();
-  } catch (error) {
-    console.error(`Error in ${context}:`, error.message);
-    return null;
-  }
-}
 
 // =============================================================================
 // TIMEZONE WIDGET MANAGEMENT
@@ -365,9 +258,19 @@ function createTimezoneWidget(timezone, index) {
   widget.dataset.index = index.toString();
   widget.dataset.tz = timezone;
 
+  // Get abbreviation from timezone data
+  let abbreviation = timezone;
+  if (typeof getAllTimezones === 'function') {
+    const allTz = getAllTimezones();
+    const tzData = allTz.find(tz => tz.value === timezone || tz.ianaTimezone === timezone);
+    if (tzData?.abbreviation) {
+      abbreviation = tzData.abbreviation;
+    }
+  }
+
   widget.innerHTML = `
     <div class="tz-time" id="tz-time-${index}"></div>
-    <div class="tz-label">${timezone}</div>
+    <div class="tz-label">${abbreviation}</div>
   `;
 
   widget.addEventListener('click', (e) => {
@@ -490,27 +393,6 @@ function updateTimezoneWidgetTimes(fullUpdate = true) {
   }
 }
 
-/**
- * Gets timezone offset string for display
- * @param {string} ianaTimezone - IANA timezone identifier
- * @returns {string} Formatted offset string (e.g., "+05:30")
- */
-function getTimezoneOffset(ianaTimezone) {
-  try {
-    const now = new Date();
-    const utc = new Date(now.getTime() + (now.getTimezoneOffset() * 60000));
-    const target = new Date(utc.toLocaleString('en-US', { timeZone: ianaTimezone }));
-    const offset = (target.getTime() - utc.getTime()) / (1000 * 60);
-
-    const hours = Math.floor(Math.abs(offset) / 60);
-    const minutes = Math.abs(offset) % 60;
-    const sign = offset >= 0 ? '+' : '-';
-
-    return `${sign}${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-  } catch (error) {
-    return '+00:00';
-  }
-}
 
 /**
  * Gets default widget timezones with system timezone detection
@@ -666,9 +548,9 @@ class TimezoneDropdown {
           <span class="select-flag">${currentTzData.flag}</span>
           <div class="select-text">
             <div class="select-main">
-              <div class="select-name">${currentTzData.name || currentTzData.label || this.currentTz}</div>
+              <div class="select-name">${currentTzData.abbreviation || ''} - ${currentTzData.name || ''}</div>
             </div>
-            <div class="select-city">${currentTzData.city || ''}</div>
+            <div class="select-city">${currentTzData.value || currentTzData.ianaTimezone || this.currentTz} <span class="select-offset">(${currentTzData.offset || ''})</span></div>
           </div>
         </div>
         <svg class="select-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -784,10 +666,10 @@ class TimezoneDropdown {
         <span class="option-flag">${tz.flag}</span>
         <div class="option-content">
           <div class="option-header">
-            <div class="option-name">${tz.name || tz.label || tz.value}</div>
+            <div class="option-name">${tz.abbreviation || ''} - ${tz.name || ''}</div>
           </div>
           <div class="option-details">
-            <span class="option-city">${tz.city || ''}</span>
+            <span class="option-city">${tz.value || tz.ianaTimezone} <span class="option-offset">(${tz.offset})</span></span>
           </div>
         </div>
       `;
@@ -812,6 +694,7 @@ class TimezoneDropdown {
     this.filteredTimezones = this.timezones.filter(tz =>
       (tz.name || tz.label || tz.value).toLowerCase().includes(lowerQuery) ||
       (tz.city || '').toLowerCase().includes(lowerQuery) ||
+      (tz.abbreviation || '').toLowerCase().includes(lowerQuery) ||
       tz.value.toLowerCase().includes(lowerQuery)
     );
     this.populateOptions();
@@ -985,25 +868,11 @@ function renderIcons() {
 // =============================================================================
 
 
-/**
- * Legacy function mapping for backward compatibility
- * @deprecated Use new function names instead
- */
-function openTimezoneSelect(index, currentTz) {
-  openTimezoneSelector(index, currentTz);
-}
 
 // =============================================================================
 // LEGACY COMPATIBILITY FUNCTIONS
 // =============================================================================
 
-/**
- * Updates widget times - legacy function
- * @param {boolean} fullUpdate - Whether to perform full update
- */
-function updateWidgetTimes(fullUpdate = true) {
-  updateTimezoneWidgetTimes(fullUpdate);
-}
 
 
 /**
@@ -1013,12 +882,20 @@ function updateWidgetTimes(fullUpdate = true) {
 /**
  * Saves user preferences to Chrome storage
  */
-function savePreferences() {
+async function savePreferences() {
   if (!elements.fromTimezoneSelect || !elements.toTimezoneSelect) return;
 
   const from = elements.fromTimezoneSelect.value;
   const to = elements.toTimezoneSelect.value;
-  chrome.storage.sync.set({ fromTimezone: from, toTimezone: to });
+
+  return new Promise((resolve) => {
+    chrome.storage.sync.set({ fromTimezone: from, toTimezone: to }, () => {
+      if (chrome.runtime.lastError) {
+        console.error('Error saving preferences:', chrome.runtime.lastError);
+      }
+      resolve();
+    });
+  });
 }
 
 // =============================================================================
@@ -1029,230 +906,196 @@ function savePreferences() {
  * Initializes all event handlers for the popup interface
  */
 function initializeEventHandlers() {
-  // Convert button
-  if (elements.convertBtn) {
-    elements.convertBtn.addEventListener('click', handleConvertClick);
+  // Site toggle button
+  if (elements.siteToggleBtn) {
+    elements.siteToggleBtn.addEventListener('click', handleSiteToggle);
   }
 
-  // Revert button
-  if (elements.revertBtn) {
-    elements.revertBtn.addEventListener('click', handleRevertClick);
+  // Timezone dropdown change handlers for auto-conversion
+  if (elements.fromTimezoneSelect) {
+    console.log('Attaching change listener to from-timezone select');
+
+    // Track the current value
+    let currentFromValue = elements.fromTimezoneSelect.value;
+
+    elements.fromTimezoneSelect.addEventListener('change', (e) => {
+      console.log('From timezone changed to:', e.target.value);
+      if (e.target.value !== currentFromValue) {
+        currentFromValue = e.target.value;
+        setTimeout(() => handleTimezoneChange(), 100);
+      }
+    });
+
+    // Use MutationObserver as backup to catch programmatic changes
+    const fromObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
+          const newValue = elements.fromTimezoneSelect.value;
+          console.log('From timezone value mutated to:', newValue);
+          if (newValue !== currentFromValue) {
+            currentFromValue = newValue;
+            setTimeout(() => handleTimezoneChange(), 100);
+          }
+        }
+      });
+    });
+
+    fromObserver.observe(elements.fromTimezoneSelect, {
+      attributes: true,
+      attributeFilter: ['value']
+    });
   }
 
-  // Custom format toggle
-  if (elements.customFormatToggle) {
-    elements.customFormatToggle.addEventListener('click', toggleCustomFormatForm);
-  }
+  if (elements.toTimezoneSelect) {
+    console.log('Attaching change listener to to-timezone select');
 
-  // Save format button
-  if (elements.saveFormatBtn) {
-    elements.saveFormatBtn.addEventListener('click', handleSaveFormat);
-  }
+    // Track the current value
+    let currentToValue = elements.toTimezoneSelect.value;
 
-  // Cancel format button
-  if (elements.cancelFormatBtn) {
-    elements.cancelFormatBtn.addEventListener('click', handleCancelFormat);
-  }
+    elements.toTimezoneSelect.addEventListener('change', (e) => {
+      console.log('To timezone changed to:', e.target.value);
+      if (e.target.value !== currentToValue) {
+        currentToValue = e.target.value;
+        setTimeout(() => handleTimezoneChange(), 100);
+      }
+    });
 
-  // Site disable button
-  if (elements.siteDisableBtn) {
-    elements.siteDisableBtn.addEventListener('click', handleSiteDisable);
-  }
+    // Use MutationObserver as backup to catch programmatic changes
+    const toObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
+          const newValue = elements.toTimezoneSelect.value;
+          console.log('To timezone value mutated to:', newValue);
+          if (newValue !== currentToValue) {
+            currentToValue = newValue;
+            setTimeout(() => handleTimezoneChange(), 100);
+          }
+        }
+      });
+    });
 
-  // Page disable button
-  if (elements.pageDisableBtn) {
-    elements.pageDisableBtn.addEventListener('click', handlePageDisable);
+    toObserver.observe(elements.toTimezoneSelect, {
+      attributes: true,
+      attributeFilter: ['value']
+    });
   }
 }
 
 /**
- * Handles convert button click
+ * Handles automatic conversion when timezone selections change
  */
-function handleConvertClick() {
-  // Validate timezone selections
+async function handleTimezoneChange() {
+  // Get current timezone values
   const fromTz = elements.fromTimezoneSelect?.value;
   const toTz = elements.toTimezoneSelect?.value;
 
+  console.log('handleTimezoneChange called:', fromTz, '->', toTz);
+
+  // Only proceed if both timezones are selected
   if (!fromTz || !toTz) {
-    showStatus('Please select both source and target timezones', 'error');
+    console.log('Missing timezone selection');
     return;
   }
 
-  savePreferences();
-  resetButton('Converting...', true);
-  showStatus('Converting dates...', 'info', 15000);
+  // Save preferences and wait for completion
+  await savePreferences();
 
-  // Set a timeout to recover if conversion hangs
-  window.convertTimeout = setTimeout(() => {
-    console.log('Conversion timeout - recovering button state');
-    setButtonStates(true);
-    showStatus('Conversion timed out. Please try again.', 'error');
-  }, 12000);
-
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  // Get current tab
+  chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
     const tab = tabs[0];
-    if (!tab) {
-      showStatus('❌ No active tab found.', 'error');
-      resetButton('Error', false);
+    if (!tab || !tab.url) {
       return;
     }
 
-    // First try to send message to existing content script
-    console.log('Sending convertTime message to tab:', tab.id);
-    chrome.tabs.sendMessage(tab.id, {
-      action: 'convertTime',
-      from: elements.fromTimezoneSelect?.value || 'UTC',
-      to: elements.toTimezoneSelect?.value || 'UTC'
-    }, (response) => {
-      console.log('Received response from content script:', response);
-      console.log('Chrome runtime error:', chrome.runtime.lastError);
-
-      if (chrome.runtime.lastError || !response) {
-        console.log('Content script not ready, injecting scripts...');
-        // If content script not ready, inject and try again
-        chrome.scripting.insertCSS({
-          target: { tabId: tab.id },
-          files: ['style.css']
-        }).then(() => {
-          return chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            files: [
-              'lib/date-fns.umd.min.js',
-              'lib/date-fns-tz.umd.min.js',
-              'modules/date-time-parser.js',
-              'modules/timezone-converter.js',
-              'content.js'
-            ]
-          });
-        }).then(() => {
-          console.log('Scripts injected, waiting and sending message...');
-          // Wait a bit for script to initialize, then send message
-          setTimeout(() => {
-            chrome.tabs.sendMessage(tab.id, {
-              action: 'convertTime',
-              from: elements.fromTimezoneSelect?.value || 'UTC',
-              to: elements.toTimezoneSelect?.value || 'UTC'
-            }, (response) => {
-              console.log('Second attempt response:', response);
-              console.log('Second attempt error:', chrome.runtime.lastError);
-
-              if (chrome.runtime.lastError) {
-                const errorMsg = `Error: ${chrome.runtime.lastError.message}. Please reload the page and try again.`;
-                console.error('Chrome runtime error:', chrome.runtime.lastError);
-                showStatus(errorMsg, 'error');
-                resetButton('Failed', false);
-              } else if (response && response.status) {
-                handleConversionResponse(response);
-              } else {
-                console.error('No response received from content script');
-                showStatus('Conversion failed: No response from content script.', 'error');
-                setButtonStates(true);
-                setTimeout(() => {
-                  resetButton('Convert', false);
-                }, 3000);
-              }
-            });
-          }, 500);
-        }).catch(err => {
-          console.error('Error injecting scripts:', err);
-          showStatus(`Error injecting script: ${err.message}. See console.`, 'error');
-          resetButton('Error', false);
-        });
-      } else if (response && response.status) {
-        handleConversionResponse(response);
-      } else {
-        console.error('Invalid response:', response);
-        showStatus('Conversion failed: Invalid response.', 'error');
-        setButtonStates(true);
-        setTimeout(() => resetButton('Convert', false), 3000);
+    try {
+      const url = new URL(tab.url);
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+        return;
       }
-    });
+
+      const hostname = url.hostname;
+
+      // Check if site is disabled
+      chrome.storage.sync.get(['disabledSites'], (data) => {
+        const disabledSites = data.disabledSites || [];
+        if (disabledSites.includes(hostname)) {
+          showStatus(`Conversion disabled for ${hostname}`, 'info', 2000);
+          return;
+        }
+
+        // Perform conversion immediately
+        console.log('Calling performConversion for tab:', tab.id);
+        performConversion(tab.id, fromTz, toTz);
+      });
+    } catch (e) {
+      console.error('Error in handleTimezoneChange:', e);
+    }
   });
 }
 
 /**
- * Handles revert button click
+ * Performs the actual conversion on the page
  */
-function handleRevertClick() {
-  showStatus('Reverting dates...', 'info', 10000);
+function performConversion(tabId, fromTz, toTz) {
+  showStatus('Converting dates...', 'info', 2000);
 
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const tab = tabs[0];
-    if (!tab) {
-      showStatus('No active tab found.', 'error');
-      return;
-    }
-
-    chrome.tabs.sendMessage(tab.id, {
-      action: 'revertDates'
+  // Send message with timeout to ensure response
+  const sendConversionMessage = (isRetry = false) => {
+    chrome.tabs.sendMessage(tabId, {
+      action: 'convertTime',
+      from: fromTz,
+      to: toTz
     }, (response) => {
       if (chrome.runtime.lastError) {
-        showStatus('Error reverting dates. Please reload the page.', 'error');
-        setButtonStates(true); // Switch back to convert mode on error
+        if (isRetry) {
+          showStatus('Error: Please reload the page and try again', 'error', 3000);
+          return;
+        }
+
+        // Inject scripts and retry
+        injectScriptsAndConvert(tabId, fromTz, toTz);
       } else if (response && response.status) {
-        showStatus(response.status, 'success');
-        setButtonStates(true); // Switch back to convert mode
+        showStatus(response.status, 'success', 2000);
       } else {
-        showStatus('No converted dates found to revert.', 'info');
-        setButtonStates(true);
+        showStatus('No response from page', 'error', 2000);
       }
     });
-  });
+  };
+
+  // Helper function to inject scripts
+  const injectScriptsAndConvert = (tabId, fromTz, toTz) => {
+    // Store timezone parameters for use after script injection
+    const conversionParams = { fromTz, toTz };
+
+    chrome.scripting.insertCSS({
+      target: { tabId: tabId },
+      files: ['style.css']
+    }).then(() => {
+      return chrome.scripting.executeScript({
+        target: { tabId: tabId },
+        files: [
+          'lib/date-fns-tz.umd.min.js',
+          'modules/date-time-parser.js',
+          'modules/timezone-converter.js',
+          'content.js',
+          'selection-feature/selection-date-parser.js',
+          'selection-feature/selection-detector.js',
+          'selection-feature/selection-content.js'
+        ]
+      });
+    }).then(() => {
+      // Wait for scripts to initialize and pass timezone parameters
+      setTimeout(() => sendConversionMessage(true, conversionParams.fromTz, conversionParams.toTz), 1000);
+    }).catch(err => {
+      console.error('Error injecting scripts:', err);
+      showStatus('Error: Unable to convert on this page', 'error', 3000);
+    });
+  };
+
+  // Try sending message first
+  sendConversionMessage();
 }
 
-/**
- * Toggles custom format form visibility
- */
-function toggleCustomFormatForm() {
-  if (elements.customFormatForm) {
-    const isHidden = elements.customFormatForm.classList.contains('hidden');
-    if (isHidden) {
-      elements.customFormatForm.classList.remove('hidden');
-      if (elements.customFormatText) {
-        elements.customFormatText.textContent = 'Hide Format';
-      }
-    } else {
-      elements.customFormatForm.classList.add('hidden');
-      if (elements.customFormatText) {
-        elements.customFormatText.textContent = 'Add Format';
-      }
-    }
-  }
-}
-
-/**
- * Handles save format button click
- */
-function handleSaveFormat() {
-  const pattern = elements.dateFormatInput?.value.trim();
-  const description = elements.formatDescriptionInput?.value.trim();
-
-  if (!pattern) {
-    console.warn('Please enter a date format pattern');
-    return;
-  }
-
-  console.log('Saving custom format:', { pattern, description });
-  // Add your save format logic here
-}
-
-/**
- * Handles cancel format button click
- */
-function handleCancelFormat() {
-  if (elements.customFormatForm) {
-    elements.customFormatForm.classList.add('hidden');
-  }
-  if (elements.customFormatText) {
-    elements.customFormatText.textContent = 'Add Format';
-  }
-  if (elements.dateFormatInput) {
-    elements.dateFormatInput.value = '';
-  }
-  if (elements.formatDescriptionInput) {
-    elements.formatDescriptionInput.value = '';
-  }
-}
 
 /**
  * Gets current site URL hostname with proper validation
@@ -1297,18 +1140,22 @@ async function checkSiteDisableStatus() {
 }
 
 /**
- * Updates site disable button UI based on current page
+ * Updates site toggle button UI based on current page
  */
-async function updateSiteDisableUI() {
+async function updateSiteToggleUI() {
   const hostname = await getCurrentSiteUrl();
   const isDisabled = await checkSiteDisableStatus();
 
   if (!hostname) {
     // Not a valid website - disable the button
-    elements.siteDisableBtn.disabled = true;
-    elements.siteDisableText.textContent = 'Disable Site';
-    elements.siteDisableBtn.classList.remove('active');
-    elements.siteDisableBtn.title = 'Only available on websites (http/https)';
+    elements.siteToggleBtn.disabled = true;
+    elements.siteToggleText.textContent = 'Disable for site';
+    elements.siteToggleBtn.classList.remove('enabled');
+    elements.siteToggleBtn.title = 'Only available on websites (http/https)';
+
+    // Update icon
+    const icon = elements.siteToggleBtn.querySelector('.icon-container');
+    if (icon) icon.setAttribute('data-icon', 'disable');
     return;
   }
 
@@ -1316,40 +1163,44 @@ async function updateSiteDisableUI() {
   if (hostname === 'localhost' || hostname.startsWith('127.') || hostname === '' ||
       hostname.startsWith('chrome://') || hostname.startsWith('moz-extension://') ||
       hostname.startsWith('chrome-extension://') || hostname.includes('://localhost')) {
-    elements.siteDisableBtn.disabled = true;
-    elements.siteDisableText.textContent = 'Disable Site';
-    elements.siteDisableBtn.classList.remove('active');
-    elements.siteDisableBtn.title = 'Not available for local/extension pages';
+    elements.siteToggleBtn.disabled = true;
+    elements.siteToggleText.textContent = 'Disable for site';
+    elements.siteToggleBtn.classList.remove('enabled');
+    elements.siteToggleBtn.title = 'Not available for local/extension pages';
+
+    // Update icon
+    const icon = elements.siteToggleBtn.querySelector('.icon-container');
+    if (icon) icon.setAttribute('data-icon', 'disable');
     return;
   }
 
   // Valid website - enable the button
-  elements.siteDisableBtn.disabled = false;
-  elements.siteDisableBtn.title = `${isDisabled ? 'Enable' : 'Disable'} conversion for ${hostname}`;
+  elements.siteToggleBtn.disabled = false;
+  elements.siteToggleBtn.title = `${isDisabled ? 'Enable' : 'Disable'} conversion for ${hostname}`;
 
   if (isDisabled) {
-    elements.siteDisableText.textContent = 'Enable Site';
-    elements.siteDisableBtn.classList.add('active');
+    elements.siteToggleText.textContent = 'Enable for site';
+    elements.siteToggleBtn.classList.add('enabled');
+
+    // Update icon to enable
+    const icon = elements.siteToggleBtn.querySelector('.icon-container');
+    if (icon) icon.setAttribute('data-icon', 'enable');
 
     // Show status indicator
     if (elements.siteStatus) {
       const siteStatusText = document.getElementById('site-status-text');
       if (siteStatusText) {
-        siteStatusText.textContent = `Site disabled: ${hostname}`;
+        siteStatusText.textContent = `Disabled for ${hostname}`;
       }
       elements.siteStatus.classList.remove('hidden');
     }
-
-    // Disable convert/revert buttons when site is disabled
-    if (elements.convertBtn && elements.revertBtn) {
-      elements.convertBtn.disabled = true;
-      elements.revertBtn.disabled = true;
-      elements.convertBtn.className = 'btn-primary btn-inactive';
-      elements.revertBtn.className = 'btn-secondary btn-inactive';
-    }
   } else {
-    elements.siteDisableText.textContent = 'Disable Site';
-    elements.siteDisableBtn.classList.remove('active');
+    elements.siteToggleText.textContent = 'Disable for site';
+    elements.siteToggleBtn.classList.remove('enabled');
+
+    // Update icon to disable
+    const icon = elements.siteToggleBtn.querySelector('.icon-container');
+    if (icon) icon.setAttribute('data-icon', 'disable');
 
     if (elements.siteStatus) {
       elements.siteStatus.classList.add('hidden');
@@ -1358,12 +1209,12 @@ async function updateSiteDisableUI() {
 }
 
 /**
- * Handles site disable button click
+ * Handles site toggle button click
  */
-async function handleSiteDisable() {
+async function handleSiteToggle() {
   const hostname = await getCurrentSiteUrl();
   if (!hostname) {
-    showStatus('Site disable only works on websites (http/https)', 'error');
+    showStatus('Only works on websites (http/https)', 'error');
     return;
   }
 
@@ -1375,13 +1226,24 @@ async function handleSiteDisable() {
     if (isCurrentlyDisabled) {
       // Enable the site
       disabledSites = disabledSites.filter(site => site !== hostname);
-      showStatus(`Enabled conversion for ${hostname}`, 'success', 3000);
+      showStatus(`Enabled for ${hostname}`, 'success', 3000);
+
+      // Auto-convert after enabling
+      const fromTz = elements.fromTimezoneSelect?.value;
+      const toTz = elements.toTimezoneSelect?.value;
+      if (fromTz && toTz) {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          if (tabs[0]) {
+            setTimeout(() => performConversion(tabs[0].id, fromTz, toTz), 500);
+          }
+        });
+      }
     } else {
       // Disable the site
       if (!disabledSites.includes(hostname)) {
         disabledSites.push(hostname);
       }
-      showStatus(`Disabled conversion for ${hostname}`, 'info', 3000);
+      showStatus(`Disabled for ${hostname}`, 'info', 3000);
 
       // Revert any existing conversions
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -1393,153 +1255,11 @@ async function handleSiteDisable() {
     }
 
     chrome.storage.sync.set({ disabledSites }, () => {
-      updateSiteDisableUI();
+      updateSiteToggleUI();
     });
   });
 }
 
-/**
- * Gets current page URL for page-specific disabling
- * @returns {Promise<string|null>} Valid page URL or null
- */
-function getCurrentPageUrl() {
-  return new Promise((resolve) => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0] && tabs[0].url) {
-        try {
-          const url = new URL(tabs[0].url);
-          // Only allow http/https protocols
-          if (url.protocol === 'http:' || url.protocol === 'https:') {
-            // Use hostname + pathname for page-specific disabling
-            resolve(url.hostname + url.pathname);
-          } else {
-            resolve(null);
-          }
-        } catch (e) {
-          resolve(null);
-        }
-      } else {
-        resolve(null);
-      }
-    });
-  });
-}
-
-/**
- * Checks if current page is disabled
- * @returns {Promise<boolean>} True if page is disabled
- */
-async function checkPageDisableStatus() {
-  const pageUrl = await getCurrentPageUrl();
-  if (!pageUrl) return false;
-
-  return new Promise((resolve) => {
-    chrome.storage.sync.get(['disabledPages'], (data) => {
-      const disabledPages = data.disabledPages || [];
-      resolve(disabledPages.includes(pageUrl));
-    });
-  });
-}
-
-/**
- * Updates page disable button UI based on current page
- */
-async function updatePageDisableUI() {
-  const pageUrl = await getCurrentPageUrl();
-  const isDisabled = await checkPageDisableStatus();
-  const siteDisabled = await checkSiteDisableStatus();
-
-  if (!pageUrl) {
-    // Not a valid page - disable the button
-    elements.pageDisableBtn.disabled = true;
-    elements.pageDisableText.textContent = 'Disable Page';
-    elements.pageDisableBtn.classList.remove('active');
-    elements.pageDisableBtn.title = 'Only available on websites (http/https)';
-    return;
-  }
-
-  const url = new URL('http://' + pageUrl);
-  const pagePath = url.pathname;
-
-  // Valid page - enable the button
-  elements.pageDisableBtn.disabled = false;
-  elements.pageDisableBtn.title = `${isDisabled ? 'Enable' : 'Disable'} conversion for ${pagePath}`;
-
-  if (isDisabled) {
-    elements.pageDisableText.textContent = 'Enable Page';
-    elements.pageDisableBtn.classList.add('active');
-
-    // Show status indicator
-    if (elements.pageStatus) {
-      const pageStatusText = document.getElementById('page-status-text');
-      if (pageStatusText) {
-        pageStatusText.textContent = `Page disabled: ${pagePath}`;
-      }
-      elements.pageStatus.classList.remove('hidden');
-    }
-
-    // Disable convert/revert buttons when page is disabled
-    if (elements.convertBtn && elements.revertBtn) {
-      elements.convertBtn.disabled = true;
-      elements.revertBtn.disabled = true;
-      elements.convertBtn.className = 'btn-primary btn-inactive';
-      elements.revertBtn.className = 'btn-secondary btn-inactive';
-    }
-  } else {
-    elements.pageDisableText.textContent = 'Disable Page';
-    elements.pageDisableBtn.classList.remove('active');
-
-    if (elements.pageStatus) {
-      elements.pageStatus.classList.add('hidden');
-    }
-
-    // Button state will be set by the final initialization call
-  }
-}
-
-/**
- * Handles page disable button click
- */
-async function handlePageDisable() {
-  const pageUrl = await getCurrentPageUrl();
-  if (!pageUrl) {
-    showStatus('Page disable only works on websites (http/https)', 'error');
-    return;
-  }
-
-  const isCurrentlyDisabled = await checkPageDisableStatus();
-  const url = new URL('http://' + pageUrl);
-  const pagePath = url.pathname;
-
-  chrome.storage.sync.get(['disabledPages'], (data) => {
-    let disabledPages = data.disabledPages || [];
-
-    if (isCurrentlyDisabled) {
-      // Enable the page
-      disabledPages = disabledPages.filter(page => page !== pageUrl);
-      showStatus(`Enabled conversion for ${pagePath}`, 'success', 3000);
-    } else {
-      // Disable the page
-      if (!disabledPages.includes(pageUrl)) {
-        disabledPages.push(pageUrl);
-      }
-      showStatus(`Disabled conversion for ${pagePath}`, 'info', 3000);
-
-      // Revert any existing conversions
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const tab = tabs[0];
-        if (tab) {
-          chrome.tabs.sendMessage(tab.id, { action: 'revertDates' });
-        }
-      });
-    }
-
-    chrome.storage.sync.set({ disabledPages }, () => {
-      updatePageDisableUI();
-      updateSiteDisableUI(); // Also update site UI to check for conflicts
-    });
-  });
-}
 
 /**
  * Initializes custom dropdowns for main timezone selectors
@@ -1547,83 +1267,39 @@ async function handlePageDisable() {
 function initializeCustomDropdowns() {
   // Get comprehensive timezone data
   const allTimezones = getAllTimezones();
-
   // Initialize from timezone dropdown
   if (document.getElementById('from-timezone-custom')) {
     new CustomDropdown('from-timezone-custom', 'from-timezone', allTimezones);
   }
-
   // Initialize to timezone dropdown
   if (document.getElementById('to-timezone-custom')) {
+
     new CustomDropdown('to-timezone-custom', 'to-timezone', allTimezones);
   }
+
+
 }
 
-/**
- * Checks for existing highlights and sets button states accordingly
- */
-function checkInitialButtonState() {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const tab = tabs[0];
-    if (!tab) {
-      console.log('No active tab, setting convert mode');
-      setButtonStates(true);
-      return;
-    }
-
-    // Simple, direct check for highlights
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: () => {
-        const highlights = document.querySelectorAll('.time-converter-replaced');
-        return highlights.length > 0;
-      }
-    }).then((results) => {
-      if (results && results[0] && typeof results[0].result === 'boolean') {
-        const hasHighlights = results[0].result;
-        console.log('Highlights found:', hasHighlights);
-
-        if (hasHighlights) {
-          console.log('Page has highlights, setting REVERT mode');
-          setButtonStates(false); // false = revert mode (convert disabled, revert enabled)
-        } else {
-          console.log('Page has no highlights, setting CONVERT mode');
-          setButtonStates(true); // true = convert mode (convert enabled, revert disabled)
-        }
-      } else {
-        console.log('Failed to get highlight status, defaulting to convert mode');
-        setButtonStates(true);
-      }
-    }).catch((error) => {
-      console.log('Error checking highlights:', error);
-      setButtonStates(true);
-    });
-  });
-}
 
 // Initialize timezone widgets and icons when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', async () => {
     renderIcons();
     renderTimezoneWidgets();
-    initializeEventHandlers();
     initializeCustomDropdowns();
-    await updateSiteDisableUI();
-    await updatePageDisableUI();
-    // Final button state check - this should be last
-    setTimeout(() => {
-      checkInitialButtonState();
-    }, 100);
+    initializeEventHandlers();  // Initialize handlers AFTER dropdowns
+    await updateSiteToggleUI();
+
+    // Don't trigger initial conversion - let content script handle it on load
+    // Only convert when user explicitly changes dropdowns
   });
 } else {
   renderIcons();
   renderTimezoneWidgets();
-  initializeEventHandlers();
   initializeCustomDropdowns();
-  updateSiteDisableUI().then(() => updatePageDisableUI()).then(() => {
-    // Final button state check - this should be last
-    setTimeout(() => {
-      checkInitialButtonState();
-    }, 100);
-  });
+  initializeEventHandlers();  // Initialize handlers AFTER dropdowns
+  updateSiteToggleUI();
+
+  // Don't trigger initial conversion - let content script handle it on load
+  // Only convert when user explicitly changes dropdowns
 }

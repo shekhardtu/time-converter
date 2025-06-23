@@ -1,13 +1,12 @@
 {
   "manifest_version": 3,
   "name": "On Page Timezone Converter",
-  "version": "1.12.0",
+  "version": "1.23.4",
   "description": "Converts timestamps from one timezone to another on any webpage.",
   "permissions": [
     "activeTab",
     "scripting",
-    "storage",
-    "contextMenus"
+    "storage"
   ],
   "commands": {
     "convert-dates": {
@@ -51,7 +50,10 @@
         "lib/date-fns-tz.umd.min.js",
         "modules/date-time-parser.js",
         "modules/timezone-converter.js",
-        "content.js"
+        "content.js",
+        "selection-feature/selection-date-parser.js",
+        "selection-feature/selection-detector.js",
+        "selection-feature/selection-content.js"
       ],
       "css": [
         "style.css"

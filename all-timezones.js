@@ -1,438 +1,3780 @@
-// Comprehensive IANA timezone data with flags, cities, and UTC offsets
-// Generated from Intl.supportedValuesOf('timeZone') and enhanced with metadata
+// Chrome-specific IANA timezone data with resolved names
+// Generated on: 2025-06-26T11:08:12.789Z
+// Chrome version: 137
+// Total timezones: 418
+
+/* global module */
 
 function getAllTimezones() {
   const timezones = [
-    // UTC and GMT
-    { value: 'UTC', name: 'UTC - Coordinated Universal Time', city: 'Global', flag: '🌐', offset: '+00:00', ianaTimezone: 'UTC' },
-    { value: 'GMT', name: 'GMT - Greenwich Mean Time', city: 'London', flag: '🇬🇧', offset: '+00:00', ianaTimezone: 'GMT' },
-
-    // Africa
-    { value: 'Africa/Abidjan', name: 'West Africa Time', city: 'Abidjan', flag: '🇨🇮', offset: '+00:00', ianaTimezone: 'Africa/Abidjan' },
-    { value: 'Africa/Accra', name: 'Ghana Mean Time', city: 'Accra', flag: '🇬🇭', offset: '+00:00', ianaTimezone: 'Africa/Accra' },
-    { value: 'Africa/Addis_Ababa', name: 'East Africa Time', city: 'Addis Ababa', flag: '🇪🇹', offset: '+03:00', ianaTimezone: 'Africa/Addis_Ababa' },
-    { value: 'Africa/Algiers', name: 'Central European Time', city: 'Algiers', flag: '🇩🇿', offset: '+01:00', ianaTimezone: 'Africa/Algiers' },
-    { value: 'Africa/Cairo', name: 'Eastern European Time', city: 'Cairo', flag: '🇪🇬', offset: '+02:00', ianaTimezone: 'Africa/Cairo' },
-    { value: 'Africa/Casablanca', name: 'Western European Time', city: 'Casablanca', flag: '🇲🇦', offset: '+01:00', ianaTimezone: 'Africa/Casablanca' },
-    { value: 'Africa/Ceuta', name: 'Central European Time', city: 'Ceuta', flag: '🇪🇸', offset: '+01:00', ianaTimezone: 'Africa/Ceuta' },
-    { value: 'Africa/El_Aaiun', name: 'Western European Time', city: 'El Aaiun', flag: '🇪🇭', offset: '+01:00', ianaTimezone: 'Africa/El_Aaiun' },
-    { value: 'Africa/Johannesburg', name: 'South Africa Standard Time', city: 'Johannesburg', flag: '🇿🇦', offset: '+02:00', ianaTimezone: 'Africa/Johannesburg' },
-    { value: 'Africa/Juba', name: 'East Africa Time', city: 'Juba', flag: '🇸🇸', offset: '+03:00', ianaTimezone: 'Africa/Juba' },
-    { value: 'Africa/Khartoum', name: 'Central Africa Time', city: 'Khartoum', flag: '🇸🇩', offset: '+02:00', ianaTimezone: 'Africa/Khartoum' },
-    { value: 'Africa/Lagos', name: 'West Africa Time', city: 'Lagos', flag: '🇳🇬', offset: '+01:00', ianaTimezone: 'Africa/Lagos' },
-    { value: 'Africa/Maputo', name: 'Central Africa Time', city: 'Maputo', flag: '🇲🇿', offset: '+02:00', ianaTimezone: 'Africa/Maputo' },
-    { value: 'Africa/Monrovia', name: 'Greenwich Mean Time', city: 'Monrovia', flag: '🇱🇷', offset: '+00:00', ianaTimezone: 'Africa/Monrovia' },
-    { value: 'Africa/Nairobi', name: 'East Africa Time', city: 'Nairobi', flag: '🇰🇪', offset: '+03:00', ianaTimezone: 'Africa/Nairobi' },
-    { value: 'Africa/Ndjamena', name: 'West Africa Time', city: 'N\'Djamena', flag: '🇹🇩', offset: '+01:00', ianaTimezone: 'Africa/Ndjamena' },
-    { value: 'Africa/Sao_Tome', name: 'Greenwich Mean Time', city: 'São Tomé', flag: '🇸🇹', offset: '+00:00', ianaTimezone: 'Africa/Sao_Tome' },
-    { value: 'Africa/Tripoli', name: 'Eastern European Time', city: 'Tripoli', flag: '🇱🇾', offset: '+02:00', ianaTimezone: 'Africa/Tripoli' },
-    { value: 'Africa/Tunis', name: 'Central European Time', city: 'Tunis', flag: '🇹🇳', offset: '+01:00', ianaTimezone: 'Africa/Tunis' },
-    { value: 'Africa/Windhoek', name: 'Central Africa Time', city: 'Windhoek', flag: '🇳🇦', offset: '+02:00', ianaTimezone: 'Africa/Windhoek' },
-
-    // America - North America
-    { value: 'America/Adak', name: 'Hawaii-Aleutian Standard Time', city: 'Adak', flag: '🇺🇸', offset: '-10:00', ianaTimezone: 'America/Adak' },
-    { value: 'America/Anchorage', name: 'Alaska Standard Time', city: 'Anchorage', flag: '🇺🇸', offset: '-09:00', ianaTimezone: 'America/Anchorage' },
-    { value: 'America/Anguilla', name: 'Atlantic Standard Time', city: 'The Valley', flag: '🇦🇮', offset: '-04:00', ianaTimezone: 'America/Anguilla' },
-    { value: 'America/Antigua', name: 'Atlantic Standard Time', city: 'St. John\'s', flag: '🇦🇬', offset: '-04:00', ianaTimezone: 'America/Antigua' },
-    { value: 'America/Araguaina', name: 'Brasília Time', city: 'Araguaína', flag: '🇧🇷', offset: '-03:00', ianaTimezone: 'America/Araguaina' },
-    { value: 'America/Argentina/Buenos_Aires', name: 'Argentina Time', city: 'Buenos Aires', flag: '🇦🇷', offset: '-03:00', ianaTimezone: 'America/Argentina/Buenos_Aires' },
-    { value: 'America/Argentina/Catamarca', name: 'Argentina Time', city: 'Catamarca', flag: '🇦🇷', offset: '-03:00', ianaTimezone: 'America/Argentina/Catamarca' },
-    { value: 'America/Argentina/Cordoba', name: 'Argentina Time', city: 'Córdoba', flag: '🇦🇷', offset: '-03:00', ianaTimezone: 'America/Argentina/Cordoba' },
-    { value: 'America/Argentina/Jujuy', name: 'Argentina Time', city: 'Jujuy', flag: '🇦🇷', offset: '-03:00', ianaTimezone: 'America/Argentina/Jujuy' },
-    { value: 'America/Argentina/La_Rioja', name: 'Argentina Time', city: 'La Rioja', flag: '🇦🇷', offset: '-03:00', ianaTimezone: 'America/Argentina/La_Rioja' },
-    { value: 'America/Argentina/Mendoza', name: 'Argentina Time', city: 'Mendoza', flag: '🇦🇷', offset: '-03:00', ianaTimezone: 'America/Argentina/Mendoza' },
-    { value: 'America/Argentina/Rio_Gallegos', name: 'Argentina Time', city: 'Río Gallegos', flag: '🇦🇷', offset: '-03:00', ianaTimezone: 'America/Argentina/Rio_Gallegos' },
-    { value: 'America/Argentina/Salta', name: 'Argentina Time', city: 'Salta', flag: '🇦🇷', offset: '-03:00', ianaTimezone: 'America/Argentina/Salta' },
-    { value: 'America/Argentina/San_Juan', name: 'Argentina Time', city: 'San Juan', flag: '🇦🇷', offset: '-03:00', ianaTimezone: 'America/Argentina/San_Juan' },
-    { value: 'America/Argentina/San_Luis', name: 'Argentina Time', city: 'San Luis', flag: '🇦🇷', offset: '-03:00', ianaTimezone: 'America/Argentina/San_Luis' },
-    { value: 'America/Argentina/Tucuman', name: 'Argentina Time', city: 'Tucumán', flag: '🇦🇷', offset: '-03:00', ianaTimezone: 'America/Argentina/Tucuman' },
-    { value: 'America/Argentina/Ushuaia', name: 'Argentina Time', city: 'Ushuaia', flag: '🇦🇷', offset: '-03:00', ianaTimezone: 'America/Argentina/Ushuaia' },
-    { value: 'America/Aruba', name: 'Atlantic Standard Time', city: 'Oranjestad', flag: '🇦🇼', offset: '-04:00', ianaTimezone: 'America/Aruba' },
-    { value: 'America/Asuncion', name: 'Paraguay Time', city: 'Asunción', flag: '🇵🇾', offset: '-03:00', ianaTimezone: 'America/Asuncion' },
-    { value: 'America/Atikokan', name: 'Eastern Standard Time', city: 'Atikokan', flag: '🇨🇦', offset: '-05:00', ianaTimezone: 'America/Atikokan' },
-    { value: 'America/Bahia', name: 'Brasília Time', city: 'Salvador', flag: '🇧🇷', offset: '-03:00', ianaTimezone: 'America/Bahia' },
-    { value: 'America/Bahia_Banderas', name: 'Central Standard Time', city: 'Bahía de Banderas', flag: '🇲🇽', offset: '-06:00', ianaTimezone: 'America/Bahia_Banderas' },
-    { value: 'America/Barbados', name: 'Atlantic Standard Time', city: 'Bridgetown', flag: '🇧🇧', offset: '-04:00', ianaTimezone: 'America/Barbados' },
-    { value: 'America/Belem', name: 'Brasília Time', city: 'Belém', flag: '🇧🇷', offset: '-03:00', ianaTimezone: 'America/Belem' },
-    { value: 'America/Belize', name: 'Central Standard Time', city: 'Belize City', flag: '🇧🇿', offset: '-06:00', ianaTimezone: 'America/Belize' },
-    { value: 'America/Blanc-Sablon', name: 'Atlantic Standard Time', city: 'Blanc-Sablon', flag: '🇨🇦', offset: '-04:00', ianaTimezone: 'America/Blanc-Sablon' },
-    { value: 'America/Boa_Vista', name: 'Amazon Time', city: 'Boa Vista', flag: '🇧🇷', offset: '-04:00', ianaTimezone: 'America/Boa_Vista' },
-    { value: 'America/Bogota', name: 'Colombia Time', city: 'Bogotá', flag: '🇨🇴', offset: '-05:00', ianaTimezone: 'America/Bogota' },
-    { value: 'America/Boise', name: 'Mountain Standard Time', city: 'Boise', flag: '🇺🇸', offset: '-07:00', ianaTimezone: 'America/Boise' },
-    { value: 'America/Cambridge_Bay', name: 'Mountain Standard Time', city: 'Cambridge Bay', flag: '🇨🇦', offset: '-07:00', ianaTimezone: 'America/Cambridge_Bay' },
-    { value: 'America/Campo_Grande', name: 'Amazon Time', city: 'Campo Grande', flag: '🇧🇷', offset: '-04:00', ianaTimezone: 'America/Campo_Grande' },
-    { value: 'America/Cancun', name: 'Eastern Standard Time', city: 'Cancún', flag: '🇲🇽', offset: '-05:00', ianaTimezone: 'America/Cancun' },
-    { value: 'America/Caracas', name: 'Venezuela Time', city: 'Caracas', flag: '🇻🇪', offset: '-04:00', ianaTimezone: 'America/Caracas' },
-    { value: 'America/Cayenne', name: 'French Guiana Time', city: 'Cayenne', flag: '🇬🇫', offset: '-03:00', ianaTimezone: 'America/Cayenne' },
-    { value: 'America/Cayman', name: 'Eastern Standard Time', city: 'George Town', flag: '🇰🇾', offset: '-05:00', ianaTimezone: 'America/Cayman' },
-    { value: 'America/Chicago', name: 'Central Standard Time', city: 'Chicago', flag: '🇺🇸', offset: '-06:00', ianaTimezone: 'America/Chicago' },
-    { value: 'America/Chihuahua', name: 'Mountain Standard Time', city: 'Chihuahua', flag: '🇲🇽', offset: '-07:00', ianaTimezone: 'America/Chihuahua' },
-    { value: 'America/Costa_Rica', name: 'Central Standard Time', city: 'San José', flag: '🇨🇷', offset: '-06:00', ianaTimezone: 'America/Costa_Rica' },
-    { value: 'America/Creston', name: 'Mountain Standard Time', city: 'Creston', flag: '🇨🇦', offset: '-07:00', ianaTimezone: 'America/Creston' },
-    { value: 'America/Cuiaba', name: 'Amazon Time', city: 'Cuiabá', flag: '🇧🇷', offset: '-04:00', ianaTimezone: 'America/Cuiaba' },
-    { value: 'America/Curacao', name: 'Atlantic Standard Time', city: 'Willemstad', flag: '🇨🇼', offset: '-04:00', ianaTimezone: 'America/Curacao' },
-    { value: 'America/Danmarkshavn', name: 'Greenwich Mean Time', city: 'Danmarkshavn', flag: '🇬🇱', offset: '+00:00', ianaTimezone: 'America/Danmarkshavn' },
-    { value: 'America/Dawson', name: 'Pacific Standard Time', city: 'Dawson', flag: '🇨🇦', offset: '-08:00', ianaTimezone: 'America/Dawson' },
-    { value: 'America/Dawson_Creek', name: 'Mountain Standard Time', city: 'Dawson Creek', flag: '🇨🇦', offset: '-07:00', ianaTimezone: 'America/Dawson_Creek' },
-    { value: 'America/Denver', name: 'Mountain Standard Time', city: 'Denver', flag: '🇺🇸', offset: '-07:00', ianaTimezone: 'America/Denver' },
-    { value: 'America/Detroit', name: 'Eastern Standard Time', city: 'Detroit', flag: '🇺🇸', offset: '-05:00', ianaTimezone: 'America/Detroit' },
-    { value: 'America/Dominica', name: 'Atlantic Standard Time', city: 'Roseau', flag: '🇩🇲', offset: '-04:00', ianaTimezone: 'America/Dominica' },
-    { value: 'America/Edmonton', name: 'Mountain Standard Time', city: 'Edmonton', flag: '🇨🇦', offset: '-07:00', ianaTimezone: 'America/Edmonton' },
-    { value: 'America/Eirunepe', name: 'Acre Time', city: 'Eirunepé', flag: '🇧🇷', offset: '-05:00', ianaTimezone: 'America/Eirunepe' },
-    { value: 'America/El_Salvador', name: 'Central Standard Time', city: 'San Salvador', flag: '🇸🇻', offset: '-06:00', ianaTimezone: 'America/El_Salvador' },
-    { value: 'America/Fort_Nelson', name: 'Mountain Standard Time', city: 'Fort Nelson', flag: '🇨🇦', offset: '-07:00', ianaTimezone: 'America/Fort_Nelson' },
-    { value: 'America/Fortaleza', name: 'Brasília Time', city: 'Fortaleza', flag: '🇧🇷', offset: '-03:00', ianaTimezone: 'America/Fortaleza' },
-    { value: 'America/Glace_Bay', name: 'Atlantic Standard Time', city: 'Glace Bay', flag: '🇨🇦', offset: '-04:00', ianaTimezone: 'America/Glace_Bay' },
-    { value: 'America/Goose_Bay', name: 'Atlantic Standard Time', city: 'Happy Valley-Goose Bay', flag: '🇨🇦', offset: '-04:00', ianaTimezone: 'America/Goose_Bay' },
-    { value: 'America/Grand_Turk', name: 'Eastern Standard Time', city: 'Cockburn Town', flag: '🇹🇨', offset: '-05:00', ianaTimezone: 'America/Grand_Turk' },
-    { value: 'America/Grenada', name: 'Atlantic Standard Time', city: 'St. George\'s', flag: '🇬🇩', offset: '-04:00', ianaTimezone: 'America/Grenada' },
-    { value: 'America/Guadeloupe', name: 'Atlantic Standard Time', city: 'Basse-Terre', flag: '🇬🇵', offset: '-04:00', ianaTimezone: 'America/Guadeloupe' },
-    { value: 'America/Guatemala', name: 'Central Standard Time', city: 'Guatemala City', flag: '🇬🇹', offset: '-06:00', ianaTimezone: 'America/Guatemala' },
-    { value: 'America/Guayaquil', name: 'Ecuador Time', city: 'Guayaquil', flag: '🇪🇨', offset: '-05:00', ianaTimezone: 'America/Guayaquil' },
-    { value: 'America/Guyana', name: 'Guyana Time', city: 'Georgetown', flag: '🇬🇾', offset: '-04:00', ianaTimezone: 'America/Guyana' },
-    { value: 'America/Halifax', name: 'Atlantic Standard Time', city: 'Halifax', flag: '🇨🇦', offset: '-04:00', ianaTimezone: 'America/Halifax' },
-    { value: 'America/Havana', name: 'Cuba Standard Time', city: 'Havana', flag: '🇨🇺', offset: '-05:00', ianaTimezone: 'America/Havana' },
-    { value: 'America/Hermosillo', name: 'Mountain Standard Time', city: 'Hermosillo', flag: '🇲🇽', offset: '-07:00', ianaTimezone: 'America/Hermosillo' },
-    { value: 'America/Indiana/Indianapolis', name: 'Eastern Standard Time', city: 'Indianapolis', flag: '🇺🇸', offset: '-05:00', ianaTimezone: 'America/Indiana/Indianapolis' },
-    { value: 'America/Indiana/Knox', name: 'Central Standard Time', city: 'Knox', flag: '🇺🇸', offset: '-06:00', ianaTimezone: 'America/Indiana/Knox' },
-    { value: 'America/Indiana/Marengo', name: 'Eastern Standard Time', city: 'Marengo', flag: '🇺🇸', offset: '-05:00', ianaTimezone: 'America/Indiana/Marengo' },
-    { value: 'America/Indiana/Petersburg', name: 'Eastern Standard Time', city: 'Petersburg', flag: '🇺🇸', offset: '-05:00', ianaTimezone: 'America/Indiana/Petersburg' },
-    { value: 'America/Indiana/Tell_City', name: 'Central Standard Time', city: 'Tell City', flag: '🇺🇸', offset: '-06:00', ianaTimezone: 'America/Indiana/Tell_City' },
-    { value: 'America/Indiana/Vevay', name: 'Eastern Standard Time', city: 'Vevay', flag: '🇺🇸', offset: '-05:00', ianaTimezone: 'America/Indiana/Vevay' },
-    { value: 'America/Indiana/Vincennes', name: 'Eastern Standard Time', city: 'Vincennes', flag: '🇺🇸', offset: '-05:00', ianaTimezone: 'America/Indiana/Vincennes' },
-    { value: 'America/Indiana/Winamac', name: 'Eastern Standard Time', city: 'Winamac', flag: '🇺🇸', offset: '-05:00', ianaTimezone: 'America/Indiana/Winamac' },
-    { value: 'America/Inuvik', name: 'Mountain Standard Time', city: 'Inuvik', flag: '🇨🇦', offset: '-07:00', ianaTimezone: 'America/Inuvik' },
-    { value: 'America/Iqaluit', name: 'Eastern Standard Time', city: 'Iqaluit', flag: '🇨🇦', offset: '-05:00', ianaTimezone: 'America/Iqaluit' },
-    { value: 'America/Jamaica', name: 'Eastern Standard Time', city: 'Kingston', flag: '🇯🇲', offset: '-05:00', ianaTimezone: 'America/Jamaica' },
-    { value: 'America/Juneau', name: 'Alaska Standard Time', city: 'Juneau', flag: '🇺🇸', offset: '-09:00', ianaTimezone: 'America/Juneau' },
-    { value: 'America/Kentucky/Louisville', name: 'Eastern Standard Time', city: 'Louisville', flag: '🇺🇸', offset: '-05:00', ianaTimezone: 'America/Kentucky/Louisville' },
-    { value: 'America/Kentucky/Monticello', name: 'Eastern Standard Time', city: 'Monticello', flag: '🇺🇸', offset: '-05:00', ianaTimezone: 'America/Kentucky/Monticello' },
-    { value: 'America/Kralendijk', name: 'Atlantic Standard Time', city: 'Kralendijk', flag: '🇧🇶', offset: '-04:00', ianaTimezone: 'America/Kralendijk' },
-    { value: 'America/La_Paz', name: 'Bolivia Time', city: 'La Paz', flag: '🇧🇴', offset: '-04:00', ianaTimezone: 'America/La_Paz' },
-    { value: 'America/Lima', name: 'Peru Time', city: 'Lima', flag: '🇵🇪', offset: '-05:00', ianaTimezone: 'America/Lima' },
-    { value: 'America/Los_Angeles', name: 'Pacific Standard Time', city: 'Los Angeles', flag: '🇺🇸', offset: '-08:00', ianaTimezone: 'America/Los_Angeles' },
-    { value: 'America/Lower_Princes', name: 'Atlantic Standard Time', city: 'Lower Prince\'s Quarter', flag: '🇸🇽', offset: '-04:00', ianaTimezone: 'America/Lower_Princes' },
-    { value: 'America/Maceio', name: 'Brasília Time', city: 'Maceió', flag: '🇧🇷', offset: '-03:00', ianaTimezone: 'America/Maceio' },
-    { value: 'America/Managua', name: 'Central Standard Time', city: 'Managua', flag: '🇳🇮', offset: '-06:00', ianaTimezone: 'America/Managua' },
-    { value: 'America/Manaus', name: 'Amazon Time', city: 'Manaus', flag: '🇧🇷', offset: '-04:00', ianaTimezone: 'America/Manaus' },
-    { value: 'America/Marigot', name: 'Atlantic Standard Time', city: 'Marigot', flag: '🇲🇫', offset: '-04:00', ianaTimezone: 'America/Marigot' },
-    { value: 'America/Martinique', name: 'Atlantic Standard Time', city: 'Fort-de-France', flag: '🇲🇶', offset: '-04:00', ianaTimezone: 'America/Martinique' },
-    { value: 'America/Matamoros', name: 'Central Standard Time', city: 'Matamoros', flag: '🇲🇽', offset: '-06:00', ianaTimezone: 'America/Matamoros' },
-    { value: 'America/Mazatlan', name: 'Mountain Standard Time', city: 'Mazatlán', flag: '🇲🇽', offset: '-07:00', ianaTimezone: 'America/Mazatlan' },
-    { value: 'America/Menominee', name: 'Central Standard Time', city: 'Menominee', flag: '🇺🇸', offset: '-06:00', ianaTimezone: 'America/Menominee' },
-    { value: 'America/Merida', name: 'Central Standard Time', city: 'Mérida', flag: '🇲🇽', offset: '-06:00', ianaTimezone: 'America/Merida' },
-    { value: 'America/Metlakatla', name: 'Alaska Standard Time', city: 'Metlakatla', flag: '🇺🇸', offset: '-09:00', ianaTimezone: 'America/Metlakatla' },
-    { value: 'America/Mexico_City', name: 'Central Standard Time', city: 'Mexico City', flag: '🇲🇽', offset: '-06:00', ianaTimezone: 'America/Mexico_City' },
-    { value: 'America/Miquelon', name: 'St. Pierre & Miquelon Standard Time', city: 'Saint-Pierre', flag: '🇵🇲', offset: '-03:00', ianaTimezone: 'America/Miquelon' },
-    { value: 'America/Moncton', name: 'Atlantic Standard Time', city: 'Moncton', flag: '🇨🇦', offset: '-04:00', ianaTimezone: 'America/Moncton' },
-    { value: 'America/Monterrey', name: 'Central Standard Time', city: 'Monterrey', flag: '🇲🇽', offset: '-06:00', ianaTimezone: 'America/Monterrey' },
-    { value: 'America/Montevideo', name: 'Uruguay Standard Time', city: 'Montevideo', flag: '🇺🇾', offset: '-03:00', ianaTimezone: 'America/Montevideo' },
-    { value: 'America/Montserrat', name: 'Atlantic Standard Time', city: 'Plymouth', flag: '🇲🇸', offset: '-04:00', ianaTimezone: 'America/Montserrat' },
-    { value: 'America/Nassau', name: 'Eastern Standard Time', city: 'Nassau', flag: '🇧🇸', offset: '-05:00', ianaTimezone: 'America/Nassau' },
-    { value: 'America/New_York', name: 'Eastern Standard Time', city: 'New York', flag: '🇺🇸', offset: '-05:00', ianaTimezone: 'America/New_York' },
-    { value: 'America/Nipigon', name: 'Eastern Standard Time', city: 'Nipigon', flag: '🇨🇦', offset: '-05:00', ianaTimezone: 'America/Nipigon' },
-    { value: 'America/Nome', name: 'Alaska Standard Time', city: 'Nome', flag: '🇺🇸', offset: '-09:00', ianaTimezone: 'America/Nome' },
-    { value: 'America/Noronha', name: 'Fernando de Noronha Time', city: 'Fernando de Noronha', flag: '🇧🇷', offset: '-02:00', ianaTimezone: 'America/Noronha' },
-    { value: 'America/North_Dakota/Beulah', name: 'Central Standard Time', city: 'Beulah', flag: '🇺🇸', offset: '-06:00', ianaTimezone: 'America/North_Dakota/Beulah' },
-    { value: 'America/North_Dakota/Center', name: 'Central Standard Time', city: 'Center', flag: '🇺🇸', offset: '-06:00', ianaTimezone: 'America/North_Dakota/Center' },
-    { value: 'America/North_Dakota/New_Salem', name: 'Central Standard Time', city: 'New Salem', flag: '🇺🇸', offset: '-06:00', ianaTimezone: 'America/North_Dakota/New_Salem' },
-    { value: 'America/Nuuk', name: 'West Greenland Time', city: 'Nuuk', flag: '🇬🇱', offset: '-03:00', ianaTimezone: 'America/Nuuk' },
-    { value: 'America/Ojinaga', name: 'Mountain Standard Time', city: 'Ojinaga', flag: '🇲🇽', offset: '-07:00', ianaTimezone: 'America/Ojinaga' },
-    { value: 'America/Panama', name: 'Eastern Standard Time', city: 'Panama City', flag: '🇵🇦', offset: '-05:00', ianaTimezone: 'America/Panama' },
-    { value: 'America/Pangnirtung', name: 'Eastern Standard Time', city: 'Pangnirtung', flag: '🇨🇦', offset: '-05:00', ianaTimezone: 'America/Pangnirtung' },
-    { value: 'America/Paramaribo', name: 'Suriname Time', city: 'Paramaribo', flag: '🇸🇷', offset: '-03:00', ianaTimezone: 'America/Paramaribo' },
-    { value: 'America/Phoenix', name: 'Mountain Standard Time', city: 'Phoenix', flag: '🇺🇸', offset: '-07:00', ianaTimezone: 'America/Phoenix' },
-    { value: 'America/Port-au-Prince', name: 'Eastern Standard Time', city: 'Port-au-Prince', flag: '🇭🇹', offset: '-05:00', ianaTimezone: 'America/Port-au-Prince' },
-    { value: 'America/Port_of_Spain', name: 'Atlantic Standard Time', city: 'Port of Spain', flag: '🇹🇹', offset: '-04:00', ianaTimezone: 'America/Port_of_Spain' },
-    { value: 'America/Porto_Velho', name: 'Amazon Time', city: 'Porto Velho', flag: '🇧🇷', offset: '-04:00', ianaTimezone: 'America/Porto_Velho' },
-    { value: 'America/Puerto_Rico', name: 'Atlantic Standard Time', city: 'San Juan', flag: '🇵🇷', offset: '-04:00', ianaTimezone: 'America/Puerto_Rico' },
-    { value: 'America/Punta_Arenas', name: 'Chile Standard Time', city: 'Punta Arenas', flag: '🇨🇱', offset: '-03:00', ianaTimezone: 'America/Punta_Arenas' },
-    { value: 'America/Rainy_River', name: 'Central Standard Time', city: 'Rainy River', flag: '🇨🇦', offset: '-06:00', ianaTimezone: 'America/Rainy_River' },
-    { value: 'America/Rankin_Inlet', name: 'Central Standard Time', city: 'Rankin Inlet', flag: '🇨🇦', offset: '-06:00', ianaTimezone: 'America/Rankin_Inlet' },
-    { value: 'America/Recife', name: 'Brasília Time', city: 'Recife', flag: '🇧🇷', offset: '-03:00', ianaTimezone: 'America/Recife' },
-    { value: 'America/Regina', name: 'Central Standard Time', city: 'Regina', flag: '🇨🇦', offset: '-06:00', ianaTimezone: 'America/Regina' },
-    { value: 'America/Resolute', name: 'Central Standard Time', city: 'Resolute', flag: '🇨🇦', offset: '-06:00', ianaTimezone: 'America/Resolute' },
-    { value: 'America/Rio_Branco', name: 'Acre Time', city: 'Rio Branco', flag: '🇧🇷', offset: '-05:00', ianaTimezone: 'America/Rio_Branco' },
-    { value: 'America/Santarem', name: 'Brasília Time', city: 'Santarém', flag: '🇧🇷', offset: '-03:00', ianaTimezone: 'America/Santarem' },
-    { value: 'America/Santiago', name: 'Chile Standard Time', city: 'Santiago', flag: '🇨🇱', offset: '-04:00', ianaTimezone: 'America/Santiago' },
-    { value: 'America/Santo_Domingo', name: 'Atlantic Standard Time', city: 'Santo Domingo', flag: '🇩🇴', offset: '-04:00', ianaTimezone: 'America/Santo_Domingo' },
-    { value: 'America/Sao_Paulo', name: 'Brasília Time', city: 'São Paulo', flag: '🇧🇷', offset: '-03:00', ianaTimezone: 'America/Sao_Paulo' },
-    { value: 'America/Scoresbysund', name: 'East Greenland Time', city: 'Scoresbysund', flag: '🇬🇱', offset: '-01:00', ianaTimezone: 'America/Scoresbysund' },
-    { value: 'America/Sitka', name: 'Alaska Standard Time', city: 'Sitka', flag: '🇺🇸', offset: '-09:00', ianaTimezone: 'America/Sitka' },
-    { value: 'America/St_Barthelemy', name: 'Atlantic Standard Time', city: 'Gustavia', flag: '🇧🇱', offset: '-04:00', ianaTimezone: 'America/St_Barthelemy' },
-    { value: 'America/St_Johns', name: 'Newfoundland Standard Time', city: 'St. John\'s', flag: '🇨🇦', offset: '-03:30', ianaTimezone: 'America/St_Johns' },
-    { value: 'America/St_Kitts', name: 'Atlantic Standard Time', city: 'Basseterre', flag: '🇰🇳', offset: '-04:00', ianaTimezone: 'America/St_Kitts' },
-    { value: 'America/St_Lucia', name: 'Atlantic Standard Time', city: 'Castries', flag: '🇱🇨', offset: '-04:00', ianaTimezone: 'America/St_Lucia' },
-    { value: 'America/St_Thomas', name: 'Atlantic Standard Time', city: 'Charlotte Amalie', flag: '🇻🇮', offset: '-04:00', ianaTimezone: 'America/St_Thomas' },
-    { value: 'America/St_Vincent', name: 'Atlantic Standard Time', city: 'Kingstown', flag: '🇻🇨', offset: '-04:00', ianaTimezone: 'America/St_Vincent' },
-    { value: 'America/Swift_Current', name: 'Central Standard Time', city: 'Swift Current', flag: '🇨🇦', offset: '-06:00', ianaTimezone: 'America/Swift_Current' },
-    { value: 'America/Tegucigalpa', name: 'Central Standard Time', city: 'Tegucigalpa', flag: '🇭🇳', offset: '-06:00', ianaTimezone: 'America/Tegucigalpa' },
-    { value: 'America/Thule', name: 'Atlantic Standard Time', city: 'Thule', flag: '🇬🇱', offset: '-04:00', ianaTimezone: 'America/Thule' },
-    { value: 'America/Thunder_Bay', name: 'Eastern Standard Time', city: 'Thunder Bay', flag: '🇨🇦', offset: '-05:00', ianaTimezone: 'America/Thunder_Bay' },
-    { value: 'America/Tijuana', name: 'Pacific Standard Time', city: 'Tijuana', flag: '🇲🇽', offset: '-08:00', ianaTimezone: 'America/Tijuana' },
-    { value: 'America/Toronto', name: 'Eastern Standard Time', city: 'Toronto', flag: '🇨🇦', offset: '-05:00', ianaTimezone: 'America/Toronto' },
-    { value: 'America/Tortola', name: 'Atlantic Standard Time', city: 'Road Town', flag: '🇻🇬', offset: '-04:00', ianaTimezone: 'America/Tortola' },
-    { value: 'America/Vancouver', name: 'Pacific Standard Time', city: 'Vancouver', flag: '🇨🇦', offset: '-08:00', ianaTimezone: 'America/Vancouver' },
-    { value: 'America/Whitehorse', name: 'Pacific Standard Time', city: 'Whitehorse', flag: '🇨🇦', offset: '-08:00', ianaTimezone: 'America/Whitehorse' },
-    { value: 'America/Winnipeg', name: 'Central Standard Time', city: 'Winnipeg', flag: '🇨🇦', offset: '-06:00', ianaTimezone: 'America/Winnipeg' },
-    { value: 'America/Yakutat', name: 'Alaska Standard Time', city: 'Yakutat', flag: '🇺🇸', offset: '-09:00', ianaTimezone: 'America/Yakutat' },
-    { value: 'America/Yellowknife', name: 'Mountain Standard Time', city: 'Yellowknife', flag: '🇨🇦', offset: '-07:00', ianaTimezone: 'America/Yellowknife' },
-
-    // Antarctica
-    { value: 'Antarctica/Casey', name: 'Antarctica Time', city: 'Casey Station', flag: '🇦🇶', offset: '+11:00', ianaTimezone: 'Antarctica/Casey' },
-    { value: 'Antarctica/Davis', name: 'Antarctica Time', city: 'Davis Station', flag: '🇦🇶', offset: '+07:00', ianaTimezone: 'Antarctica/Davis' },
-    { value: 'Antarctica/DumontDUrville', name: 'Antarctica Time', city: 'Dumont d\'Urville Station', flag: '🇦🇶', offset: '+10:00', ianaTimezone: 'Antarctica/DumontDUrville' },
-    { value: 'Antarctica/Macquarie', name: 'Antarctica Time', city: 'Macquarie Island', flag: '🇦🇶', offset: '+11:00', ianaTimezone: 'Antarctica/Macquarie' },
-    { value: 'Antarctica/Mawson', name: 'Antarctica Time', city: 'Mawson Station', flag: '🇦🇶', offset: '+05:00', ianaTimezone: 'Antarctica/Mawson' },
-    { value: 'Antarctica/McMurdo', name: 'Antarctica Time', city: 'McMurdo Station', flag: '🇦🇶', offset: '+12:00', ianaTimezone: 'Antarctica/McMurdo' },
-    { value: 'Antarctica/Palmer', name: 'Antarctica Time', city: 'Palmer Station', flag: '🇦🇶', offset: '-03:00', ianaTimezone: 'Antarctica/Palmer' },
-    { value: 'Antarctica/Rothera', name: 'Antarctica Time', city: 'Rothera Station', flag: '🇦🇶', offset: '-03:00', ianaTimezone: 'Antarctica/Rothera' },
-    { value: 'Antarctica/Syowa', name: 'Antarctica Time', city: 'Syowa Station', flag: '🇦🇶', offset: '+03:00', ianaTimezone: 'Antarctica/Syowa' },
-    { value: 'Antarctica/Troll', name: 'Antarctica Time', city: 'Troll Station', flag: '🇦🇶', offset: '+00:00', ianaTimezone: 'Antarctica/Troll' },
-    { value: 'Antarctica/Vostok', name: 'Antarctica Time', city: 'Vostok Station', flag: '🇦🇶', offset: '+06:00', ianaTimezone: 'Antarctica/Vostok' },
-
-    // Arctic
-    { value: 'Arctic/Longyearbyen', name: 'Central European Time', city: 'Longyearbyen', flag: '🇸🇯', offset: '+01:00', ianaTimezone: 'Arctic/Longyearbyen' },
-
-    // Asia
-    { value: 'Asia/Aden', name: 'Arabia Standard Time', city: 'Aden', flag: '🇾🇪', offset: '+03:00', ianaTimezone: 'Asia/Aden' },
-    { value: 'Asia/Almaty', name: 'Almaty Time', city: 'Almaty', flag: '🇰🇿', offset: '+06:00', ianaTimezone: 'Asia/Almaty' },
-    { value: 'Asia/Amman', name: 'Eastern European Time', city: 'Amman', flag: '🇯🇴', offset: '+02:00', ianaTimezone: 'Asia/Amman' },
-    { value: 'Asia/Anadyr', name: 'Anadyr Time', city: 'Anadyr', flag: '🇷🇺', offset: '+12:00', ianaTimezone: 'Asia/Anadyr' },
-    { value: 'Asia/Aqtau', name: 'Aqtau Time', city: 'Aqtau', flag: '🇰🇿', offset: '+05:00', ianaTimezone: 'Asia/Aqtau' },
-    { value: 'Asia/Aqtobe', name: 'Aqtobe Time', city: 'Aqtobe', flag: '🇰🇿', offset: '+05:00', ianaTimezone: 'Asia/Aqtobe' },
-    { value: 'Asia/Ashgabat', name: 'Turkmenistan Time', city: 'Ashgabat', flag: '🇹🇲', offset: '+05:00', ianaTimezone: 'Asia/Ashgabat' },
-    { value: 'Asia/Atyrau', name: 'West Kazakhstan Time', city: 'Atyrau', flag: '🇰🇿', offset: '+05:00', ianaTimezone: 'Asia/Atyrau' },
-    { value: 'Asia/Baghdad', name: 'Arabia Standard Time', city: 'Baghdad', flag: '🇮🇶', offset: '+03:00', ianaTimezone: 'Asia/Baghdad' },
-    { value: 'Asia/Bahrain', name: 'Arabia Standard Time', city: 'Manama', flag: '🇧🇭', offset: '+03:00', ianaTimezone: 'Asia/Bahrain' },
-    { value: 'Asia/Baku', name: 'Azerbaijan Time', city: 'Baku', flag: '🇦🇿', offset: '+04:00', ianaTimezone: 'Asia/Baku' },
-    { value: 'Asia/Bangkok', name: 'Indochina Time', city: 'Bangkok', flag: '🇹🇭', offset: '+07:00', ianaTimezone: 'Asia/Bangkok' },
-    { value: 'Asia/Barnaul', name: 'Barnaul Time', city: 'Barnaul', flag: '🇷🇺', offset: '+07:00', ianaTimezone: 'Asia/Barnaul' },
-    { value: 'Asia/Beirut', name: 'Eastern European Time', city: 'Beirut', flag: '🇱🇧', offset: '+02:00', ianaTimezone: 'Asia/Beirut' },
-    { value: 'Asia/Bishkek', name: 'Kyrgyzstan Time', city: 'Bishkek', flag: '🇰🇬', offset: '+06:00', ianaTimezone: 'Asia/Bishkek' },
-    { value: 'Asia/Brunei', name: 'Brunei Darussalam Time', city: 'Bandar Seri Begawan', flag: '🇧🇳', offset: '+08:00', ianaTimezone: 'Asia/Brunei' },
-    { value: 'Asia/Chita', name: 'Yakutsk Time', city: 'Chita', flag: '🇷🇺', offset: '+09:00', ianaTimezone: 'Asia/Chita' },
-    { value: 'Asia/Choibalsan', name: 'Choibalsan Standard Time', city: 'Choibalsan', flag: '🇲🇳', offset: '+08:00', ianaTimezone: 'Asia/Choibalsan' },
-    { value: 'Asia/Colombo', name: 'India Standard Time', city: 'Colombo', flag: '🇱🇰', offset: '+05:30', ianaTimezone: 'Asia/Colombo' },
-    { value: 'Asia/Damascus', name: 'Eastern European Time', city: 'Damascus', flag: '🇸🇾', offset: '+02:00', ianaTimezone: 'Asia/Damascus' },
-    { value: 'Asia/Dhaka', name: 'Bangladesh Standard Time', city: 'Dhaka', flag: '🇧🇩', offset: '+06:00', ianaTimezone: 'Asia/Dhaka' },
-    { value: 'Asia/Dili', name: 'Timor-Leste Time', city: 'Dili', flag: '🇹🇱', offset: '+09:00', ianaTimezone: 'Asia/Dili' },
-    { value: 'Asia/Dubai', name: 'Gulf Standard Time', city: 'Dubai', flag: '🇦🇪', offset: '+04:00', ianaTimezone: 'Asia/Dubai' },
-    { value: 'Asia/Dushanbe', name: 'Tajikistan Time', city: 'Dushanbe', flag: '🇹🇯', offset: '+05:00', ianaTimezone: 'Asia/Dushanbe' },
-    { value: 'Asia/Famagusta', name: 'Eastern European Time', city: 'Famagusta', flag: '🇨🇾', offset: '+02:00', ianaTimezone: 'Asia/Famagusta' },
-    { value: 'Asia/Gaza', name: 'Eastern European Time', city: 'Gaza', flag: '🇵🇸', offset: '+02:00', ianaTimezone: 'Asia/Gaza' },
-    { value: 'Asia/Hebron', name: 'Eastern European Time', city: 'Hebron', flag: '🇵🇸', offset: '+02:00', ianaTimezone: 'Asia/Hebron' },
-    { value: 'Asia/Ho_Chi_Minh', name: 'Indochina Time', city: 'Ho Chi Minh City', flag: '🇻🇳', offset: '+07:00', ianaTimezone: 'Asia/Ho_Chi_Minh' },
-    { value: 'Asia/Hong_Kong', name: 'Hong Kong Time', city: 'Hong Kong', flag: '🇭🇰', offset: '+08:00', ianaTimezone: 'Asia/Hong_Kong' },
-    { value: 'Asia/Hovd', name: 'Hovd Standard Time', city: 'Hovd', flag: '🇲🇳', offset: '+07:00', ianaTimezone: 'Asia/Hovd' },
-    { value: 'Asia/Irkutsk', name: 'Irkutsk Time', city: 'Irkutsk', flag: '🇷🇺', offset: '+08:00', ianaTimezone: 'Asia/Irkutsk' },
-    { value: 'Asia/Istanbul', name: 'Turkey Time', city: 'Istanbul', flag: '🇹🇷', offset: '+03:00', ianaTimezone: 'Asia/Istanbul' },
-    { value: 'Asia/Jakarta', name: 'Western Indonesian Time', city: 'Jakarta', flag: '🇮🇩', offset: '+07:00', ianaTimezone: 'Asia/Jakarta' },
-    { value: 'Asia/Jayapura', name: 'Eastern Indonesian Time', city: 'Jayapura', flag: '🇮🇩', offset: '+09:00', ianaTimezone: 'Asia/Jayapura' },
-    { value: 'Asia/Jerusalem', name: 'Israel Standard Time', city: 'Jerusalem', flag: '🇮🇱', offset: '+02:00', ianaTimezone: 'Asia/Jerusalem' },
-    { value: 'Asia/Kabul', name: 'Afghanistan Time', city: 'Kabul', flag: '🇦🇫', offset: '+04:30', ianaTimezone: 'Asia/Kabul' },
-    { value: 'Asia/Kamchatka', name: 'Kamchatka Time', city: 'Petropavlovsk-Kamchatsky', flag: '🇷🇺', offset: '+12:00', ianaTimezone: 'Asia/Kamchatka' },
-    { value: 'Asia/Karachi', name: 'Pakistan Standard Time', city: 'Karachi', flag: '🇵🇰', offset: '+05:00', ianaTimezone: 'Asia/Karachi' },
-    { value: 'Asia/Kathmandu', name: 'Nepal Time', city: 'Kathmandu', flag: '🇳🇵', offset: '+05:45', ianaTimezone: 'Asia/Kathmandu' },
-    { value: 'Asia/Khandyga', name: 'Yakutsk Time', city: 'Khandyga', flag: '🇷🇺', offset: '+09:00', ianaTimezone: 'Asia/Khandyga' },
-    { value: 'Asia/Kolkata', name: 'India Standard Time', city: 'Kolkata', flag: '🇮🇳', offset: '+05:30', ianaTimezone: 'Asia/Kolkata' },
-    { value: 'Asia/Krasnoyarsk', name: 'Krasnoyarsk Time', city: 'Krasnoyarsk', flag: '🇷🇺', offset: '+07:00', ianaTimezone: 'Asia/Krasnoyarsk' },
-    { value: 'Asia/Kuala_Lumpur', name: 'Malaysia Time', city: 'Kuala Lumpur', flag: '🇲🇾', offset: '+08:00', ianaTimezone: 'Asia/Kuala_Lumpur' },
-    { value: 'Asia/Kuching', name: 'Malaysia Time', city: 'Kuching', flag: '🇲🇾', offset: '+08:00', ianaTimezone: 'Asia/Kuching' },
-    { value: 'Asia/Kuwait', name: 'Arabia Standard Time', city: 'Kuwait City', flag: '🇰🇼', offset: '+03:00', ianaTimezone: 'Asia/Kuwait' },
-    { value: 'Asia/Macau', name: 'China Standard Time', city: 'Macau', flag: '🇲🇴', offset: '+08:00', ianaTimezone: 'Asia/Macau' },
-    { value: 'Asia/Magadan', name: 'Magadan Time', city: 'Magadan', flag: '🇷🇺', offset: '+11:00', ianaTimezone: 'Asia/Magadan' },
-    { value: 'Asia/Makassar', name: 'Central Indonesian Time', city: 'Makassar', flag: '🇮🇩', offset: '+08:00', ianaTimezone: 'Asia/Makassar' },
-    { value: 'Asia/Manila', name: 'Philippine Standard Time', city: 'Manila', flag: '🇵🇭', offset: '+08:00', ianaTimezone: 'Asia/Manila' },
-    { value: 'Asia/Muscat', name: 'Gulf Standard Time', city: 'Muscat', flag: '🇴🇲', offset: '+04:00', ianaTimezone: 'Asia/Muscat' },
-    { value: 'Asia/Nicosia', name: 'Eastern European Time', city: 'Nicosia', flag: '🇨🇾', offset: '+02:00', ianaTimezone: 'Asia/Nicosia' },
-    { value: 'Asia/Novokuznetsk', name: 'Krasnoyarsk Time', city: 'Novokuznetsk', flag: '🇷🇺', offset: '+07:00', ianaTimezone: 'Asia/Novokuznetsk' },
-    { value: 'Asia/Novosibirsk', name: 'Novosibirsk Time', city: 'Novosibirsk', flag: '🇷🇺', offset: '+07:00', ianaTimezone: 'Asia/Novosibirsk' },
-    { value: 'Asia/Omsk', name: 'Omsk Time', city: 'Omsk', flag: '🇷🇺', offset: '+06:00', ianaTimezone: 'Asia/Omsk' },
-    { value: 'Asia/Oral', name: 'West Kazakhstan Time', city: 'Oral', flag: '🇰🇿', offset: '+05:00', ianaTimezone: 'Asia/Oral' },
-    { value: 'Asia/Phnom_Penh', name: 'Indochina Time', city: 'Phnom Penh', flag: '🇰🇭', offset: '+07:00', ianaTimezone: 'Asia/Phnom_Penh' },
-    { value: 'Asia/Pontianak', name: 'Western Indonesian Time', city: 'Pontianak', flag: '🇮🇩', offset: '+07:00', ianaTimezone: 'Asia/Pontianak' },
-    { value: 'Asia/Pyongyang', name: 'Pyongyang Time', city: 'Pyongyang', flag: '🇰🇵', offset: '+09:00', ianaTimezone: 'Asia/Pyongyang' },
-    { value: 'Asia/Qatar', name: 'Arabia Standard Time', city: 'Doha', flag: '🇶🇦', offset: '+03:00', ianaTimezone: 'Asia/Qatar' },
-    { value: 'Asia/Qostanay', name: 'East Kazakhstan Time', city: 'Qostanay', flag: '🇰🇿', offset: '+06:00', ianaTimezone: 'Asia/Qostanay' },
-    { value: 'Asia/Qyzylorda', name: 'East Kazakhstan Time', city: 'Qyzylorda', flag: '🇰🇿', offset: '+05:00', ianaTimezone: 'Asia/Qyzylorda' },
-    { value: 'Asia/Riyadh', name: 'Arabia Standard Time', city: 'Riyadh', flag: '🇸🇦', offset: '+03:00', ianaTimezone: 'Asia/Riyadh' },
-    { value: 'Asia/Sakhalin', name: 'Sakhalin Time', city: 'Yuzhno-Sakhalinsk', flag: '🇷🇺', offset: '+11:00', ianaTimezone: 'Asia/Sakhalin' },
-    { value: 'Asia/Samarkand', name: 'Uzbekistan Time', city: 'Samarkand', flag: '🇺🇿', offset: '+05:00', ianaTimezone: 'Asia/Samarkand' },
-    { value: 'Asia/Seoul', name: 'Korea Standard Time', city: 'Seoul', flag: '🇰🇷', offset: '+09:00', ianaTimezone: 'Asia/Seoul' },
-    { value: 'Asia/Shanghai', name: 'China Standard Time', city: 'Shanghai', flag: '🇨🇳', offset: '+08:00', ianaTimezone: 'Asia/Shanghai' },
-    { value: 'Asia/Singapore', name: 'Singapore Standard Time', city: 'Singapore', flag: '🇸🇬', offset: '+08:00', ianaTimezone: 'Asia/Singapore' },
-    { value: 'Asia/Srednekolymsk', name: 'Srednekolymsk Time', city: 'Srednekolymsk', flag: '🇷🇺', offset: '+11:00', ianaTimezone: 'Asia/Srednekolymsk' },
-    { value: 'Asia/Taipei', name: 'China Standard Time', city: 'Taipei', flag: '🇹🇼', offset: '+08:00', ianaTimezone: 'Asia/Taipei' },
-    { value: 'Asia/Tashkent', name: 'Uzbekistan Time', city: 'Tashkent', flag: '🇺🇿', offset: '+05:00', ianaTimezone: 'Asia/Tashkent' },
-    { value: 'Asia/Tbilisi', name: 'Georgia Standard Time', city: 'Tbilisi', flag: '🇬🇪', offset: '+04:00', ianaTimezone: 'Asia/Tbilisi' },
-    { value: 'Asia/Tehran', name: 'Iran Standard Time', city: 'Tehran', flag: '🇮🇷', offset: '+03:30', ianaTimezone: 'Asia/Tehran' },
-    { value: 'Asia/Thimphu', name: 'Bhutan Time', city: 'Thimphu', flag: '🇧🇹', offset: '+06:00', ianaTimezone: 'Asia/Thimphu' },
-    { value: 'Asia/Tokyo', name: 'Japan Standard Time', city: 'Tokyo', flag: '🇯🇵', offset: '+09:00', ianaTimezone: 'Asia/Tokyo' },
-    { value: 'Asia/Tomsk', name: 'Tomsk Time', city: 'Tomsk', flag: '🇷🇺', offset: '+07:00', ianaTimezone: 'Asia/Tomsk' },
-    { value: 'Asia/Ulaanbaatar', name: 'Ulaanbaatar Standard Time', city: 'Ulaanbaatar', flag: '🇲🇳', offset: '+08:00', ianaTimezone: 'Asia/Ulaanbaatar' },
-    { value: 'Asia/Urumqi', name: 'China Standard Time', city: 'Ürümqi', flag: '🇨🇳', offset: '+06:00', ianaTimezone: 'Asia/Urumqi' },
-    { value: 'Asia/Ust-Nera', name: 'Vladivostok Time', city: 'Ust-Nera', flag: '🇷🇺', offset: '+10:00', ianaTimezone: 'Asia/Ust-Nera' },
-    { value: 'Asia/Vientiane', name: 'Indochina Time', city: 'Vientiane', flag: '🇱🇦', offset: '+07:00', ianaTimezone: 'Asia/Vientiane' },
-    { value: 'Asia/Vladivostok', name: 'Vladivostok Time', city: 'Vladivostok', flag: '🇷🇺', offset: '+10:00', ianaTimezone: 'Asia/Vladivostok' },
-    { value: 'Asia/Yakutsk', name: 'Yakutsk Time', city: 'Yakutsk', flag: '🇷🇺', offset: '+09:00', ianaTimezone: 'Asia/Yakutsk' },
-    { value: 'Asia/Yangon', name: 'Myanmar Time', city: 'Yangon', flag: '🇲🇲', offset: '+06:30', ianaTimezone: 'Asia/Yangon' },
-    { value: 'Asia/Yekaterinburg', name: 'Yekaterinburg Time', city: 'Yekaterinburg', flag: '🇷🇺', offset: '+05:00', ianaTimezone: 'Asia/Yekaterinburg' },
-    { value: 'Asia/Yerevan', name: 'Armenia Time', city: 'Yerevan', flag: '🇦🇲', offset: '+04:00', ianaTimezone: 'Asia/Yerevan' },
-
-    // Atlantic
-    { value: 'Atlantic/Azores', name: 'Azores Standard Time', city: 'Ponta Delgada', flag: '🇵🇹', offset: '-01:00', ianaTimezone: 'Atlantic/Azores' },
-    { value: 'Atlantic/Bermuda', name: 'Atlantic Standard Time', city: 'Hamilton', flag: '🇧🇲', offset: '-04:00', ianaTimezone: 'Atlantic/Bermuda' },
-    { value: 'Atlantic/Canary', name: 'Western European Time', city: 'Las Palmas', flag: '🇪🇸', offset: '+00:00', ianaTimezone: 'Atlantic/Canary' },
-    { value: 'Atlantic/Cape_Verde', name: 'Cape Verde Time', city: 'Praia', flag: '🇨🇻', offset: '-01:00', ianaTimezone: 'Atlantic/Cape_Verde' },
-    { value: 'Atlantic/Faroe', name: 'Western European Time', city: 'Tórshavn', flag: '🇫🇴', offset: '+00:00', ianaTimezone: 'Atlantic/Faroe' },
-    { value: 'Atlantic/Madeira', name: 'Western European Time', city: 'Funchal', flag: '🇵🇹', offset: '+00:00', ianaTimezone: 'Atlantic/Madeira' },
-    { value: 'Atlantic/Reykjavik', name: 'Greenwich Mean Time', city: 'Reykjavík', flag: '🇮🇸', offset: '+00:00', ianaTimezone: 'Atlantic/Reykjavik' },
-    { value: 'Atlantic/South_Georgia', name: 'South Georgia Time', city: 'King Edward Point', flag: '🇬🇸', offset: '-02:00', ianaTimezone: 'Atlantic/South_Georgia' },
-    { value: 'Atlantic/St_Helena', name: 'Greenwich Mean Time', city: 'Jamestown', flag: '🇸🇭', offset: '+00:00', ianaTimezone: 'Atlantic/St_Helena' },
-    { value: 'Atlantic/Stanley', name: 'Falkland Islands Time', city: 'Stanley', flag: '🇫🇰', offset: '-03:00', ianaTimezone: 'Atlantic/Stanley' },
-
-    // Australia
-    { value: 'Australia/Adelaide', name: 'Australian Central Standard Time', city: 'Adelaide', flag: '🇦🇺', offset: '+09:30', ianaTimezone: 'Australia/Adelaide' },
-    { value: 'Australia/Brisbane', name: 'Australian Eastern Standard Time', city: 'Brisbane', flag: '🇦🇺', offset: '+10:00', ianaTimezone: 'Australia/Brisbane' },
-    { value: 'Australia/Broken_Hill', name: 'Australian Central Standard Time', city: 'Broken Hill', flag: '🇦🇺', offset: '+09:30', ianaTimezone: 'Australia/Broken_Hill' },
-    { value: 'Australia/Darwin', name: 'Australian Central Standard Time', city: 'Darwin', flag: '🇦🇺', offset: '+09:30', ianaTimezone: 'Australia/Darwin' },
-    { value: 'Australia/Eucla', name: 'Australian Central Western Standard Time', city: 'Eucla', flag: '🇦🇺', offset: '+08:45', ianaTimezone: 'Australia/Eucla' },
-    { value: 'Australia/Hobart', name: 'Australian Eastern Standard Time', city: 'Hobart', flag: '🇦🇺', offset: '+10:00', ianaTimezone: 'Australia/Hobart' },
-    { value: 'Australia/Lindeman', name: 'Australian Eastern Standard Time', city: 'Lindeman Island', flag: '🇦🇺', offset: '+10:00', ianaTimezone: 'Australia/Lindeman' },
-    { value: 'Australia/Lord_Howe', name: 'Lord Howe Standard Time', city: 'Lord Howe Island', flag: '🇦🇺', offset: '+10:30', ianaTimezone: 'Australia/Lord_Howe' },
-    { value: 'Australia/Melbourne', name: 'Australian Eastern Standard Time', city: 'Melbourne', flag: '🇦🇺', offset: '+10:00', ianaTimezone: 'Australia/Melbourne' },
-    { value: 'Australia/Perth', name: 'Australian Western Standard Time', city: 'Perth', flag: '🇦🇺', offset: '+08:00', ianaTimezone: 'Australia/Perth' },
-    { value: 'Australia/Sydney', name: 'Australian Eastern Standard Time', city: 'Sydney', flag: '🇦🇺', offset: '+10:00', ianaTimezone: 'Australia/Sydney' },
-
-    // Europe
-    { value: 'Europe/Amsterdam', name: 'Central European Time', city: 'Amsterdam', flag: '🇳🇱', offset: '+01:00', ianaTimezone: 'Europe/Amsterdam' },
-    { value: 'Europe/Andorra', name: 'Central European Time', city: 'Andorra la Vella', flag: '🇦🇩', offset: '+01:00', ianaTimezone: 'Europe/Andorra' },
-    { value: 'Europe/Astrakhan', name: 'Astrakhan Time', city: 'Astrakhan', flag: '🇷🇺', offset: '+04:00', ianaTimezone: 'Europe/Astrakhan' },
-    { value: 'Europe/Athens', name: 'Eastern European Time', city: 'Athens', flag: '🇬🇷', offset: '+02:00', ianaTimezone: 'Europe/Athens' },
-    { value: 'Europe/Belgrade', name: 'Central European Time', city: 'Belgrade', flag: '🇷🇸', offset: '+01:00', ianaTimezone: 'Europe/Belgrade' },
-    { value: 'Europe/Berlin', name: 'Central European Time', city: 'Berlin', flag: '🇩🇪', offset: '+01:00', ianaTimezone: 'Europe/Berlin' },
-    { value: 'Europe/Bratislava', name: 'Central European Time', city: 'Bratislava', flag: '🇸🇰', offset: '+01:00', ianaTimezone: 'Europe/Bratislava' },
-    { value: 'Europe/Brussels', name: 'Central European Time', city: 'Brussels', flag: '🇧🇪', offset: '+01:00', ianaTimezone: 'Europe/Brussels' },
-    { value: 'Europe/Bucharest', name: 'Eastern European Time', city: 'Bucharest', flag: '🇷🇴', offset: '+02:00', ianaTimezone: 'Europe/Bucharest' },
-    { value: 'Europe/Budapest', name: 'Central European Time', city: 'Budapest', flag: '🇭🇺', offset: '+01:00', ianaTimezone: 'Europe/Budapest' },
-    { value: 'Europe/Busingen', name: 'Central European Time', city: 'Büsingen am Hochrhein', flag: '🇩🇪', offset: '+01:00', ianaTimezone: 'Europe/Busingen' },
-    { value: 'Europe/Chisinau', name: 'Eastern European Time', city: 'Chișinău', flag: '🇲🇩', offset: '+02:00', ianaTimezone: 'Europe/Chisinau' },
-    { value: 'Europe/Copenhagen', name: 'Central European Time', city: 'Copenhagen', flag: '🇩🇰', offset: '+01:00', ianaTimezone: 'Europe/Copenhagen' },
-    { value: 'Europe/Dublin', name: 'Greenwich Mean Time', city: 'Dublin', flag: '🇮🇪', offset: '+00:00', ianaTimezone: 'Europe/Dublin' },
-    { value: 'Europe/Gibraltar', name: 'Central European Time', city: 'Gibraltar', flag: '🇬🇮', offset: '+01:00', ianaTimezone: 'Europe/Gibraltar' },
-    { value: 'Europe/Guernsey', name: 'Greenwich Mean Time', city: 'St. Peter Port', flag: '🇬🇬', offset: '+00:00', ianaTimezone: 'Europe/Guernsey' },
-    { value: 'Europe/Helsinki', name: 'Eastern European Time', city: 'Helsinki', flag: '🇫🇮', offset: '+02:00', ianaTimezone: 'Europe/Helsinki' },
-    { value: 'Europe/Isle_of_Man', name: 'Greenwich Mean Time', city: 'Douglas', flag: '🇮🇲', offset: '+00:00', ianaTimezone: 'Europe/Isle_of_Man' },
-    { value: 'Europe/Istanbul', name: 'Turkey Time', city: 'Istanbul', flag: '🇹🇷', offset: '+03:00', ianaTimezone: 'Europe/Istanbul' },
-    { value: 'Europe/Jersey', name: 'Greenwich Mean Time', city: 'Saint Helier', flag: '🇯🇪', offset: '+00:00', ianaTimezone: 'Europe/Jersey' },
-    { value: 'Europe/Kaliningrad', name: 'Eastern European Time', city: 'Kaliningrad', flag: '🇷🇺', offset: '+02:00', ianaTimezone: 'Europe/Kaliningrad' },
-    { value: 'Europe/Kiev', name: 'Eastern European Time', city: 'Kiev', flag: '🇺🇦', offset: '+02:00', ianaTimezone: 'Europe/Kiev' },
-    { value: 'Europe/Kirov', name: 'Moscow Time', city: 'Kirov', flag: '🇷🇺', offset: '+03:00', ianaTimezone: 'Europe/Kirov' },
-    { value: 'Europe/Lisbon', name: 'Western European Time', city: 'Lisbon', flag: '🇵🇹', offset: '+00:00', ianaTimezone: 'Europe/Lisbon' },
-    { value: 'Europe/Ljubljana', name: 'Central European Time', city: 'Ljubljana', flag: '🇸🇮', offset: '+01:00', ianaTimezone: 'Europe/Ljubljana' },
-    { value: 'Europe/London', name: 'Greenwich Mean Time', city: 'London', flag: '🇬🇧', offset: '+00:00', ianaTimezone: 'Europe/London' },
-    { value: 'Europe/Luxembourg', name: 'Central European Time', city: 'Luxembourg', flag: '🇱🇺', offset: '+01:00', ianaTimezone: 'Europe/Luxembourg' },
-    { value: 'Europe/Madrid', name: 'Central European Time', city: 'Madrid', flag: '🇪🇸', offset: '+01:00', ianaTimezone: 'Europe/Madrid' },
-    { value: 'Europe/Malta', name: 'Central European Time', city: 'Valletta', flag: '🇲🇹', offset: '+01:00', ianaTimezone: 'Europe/Malta' },
-    { value: 'Europe/Mariehamn', name: 'Eastern European Time', city: 'Mariehamn', flag: '🇦🇽', offset: '+02:00', ianaTimezone: 'Europe/Mariehamn' },
-    { value: 'Europe/Minsk', name: 'Moscow Time', city: 'Minsk', flag: '🇧🇾', offset: '+03:00', ianaTimezone: 'Europe/Minsk' },
-    { value: 'Europe/Monaco', name: 'Central European Time', city: 'Monaco', flag: '🇲🇨', offset: '+01:00', ianaTimezone: 'Europe/Monaco' },
-    { value: 'Europe/Moscow', name: 'Moscow Time', city: 'Moscow', flag: '🇷🇺', offset: '+03:00', ianaTimezone: 'Europe/Moscow' },
-    { value: 'Europe/Oslo', name: 'Central European Time', city: 'Oslo', flag: '🇳🇴', offset: '+01:00', ianaTimezone: 'Europe/Oslo' },
-    { value: 'Europe/Paris', name: 'Central European Time', city: 'Paris', flag: '🇫🇷', offset: '+01:00', ianaTimezone: 'Europe/Paris' },
-    { value: 'Europe/Podgorica', name: 'Central European Time', city: 'Podgorica', flag: '🇲🇪', offset: '+01:00', ianaTimezone: 'Europe/Podgorica' },
-    { value: 'Europe/Prague', name: 'Central European Time', city: 'Prague', flag: '🇨🇿', offset: '+01:00', ianaTimezone: 'Europe/Prague' },
-    { value: 'Europe/Riga', name: 'Eastern European Time', city: 'Riga', flag: '🇱🇻', offset: '+02:00', ianaTimezone: 'Europe/Riga' },
-    { value: 'Europe/Rome', name: 'Central European Time', city: 'Rome', flag: '🇮🇹', offset: '+01:00', ianaTimezone: 'Europe/Rome' },
-    { value: 'Europe/Samara', name: 'Samara Time', city: 'Samara', flag: '🇷🇺', offset: '+04:00', ianaTimezone: 'Europe/Samara' },
-    { value: 'Europe/San_Marino', name: 'Central European Time', city: 'San Marino', flag: '🇸🇲', offset: '+01:00', ianaTimezone: 'Europe/San_Marino' },
-    { value: 'Europe/Sarajevo', name: 'Central European Time', city: 'Sarajevo', flag: '🇧🇦', offset: '+01:00', ianaTimezone: 'Europe/Sarajevo' },
-    { value: 'Europe/Saratov', name: 'Saratov Time', city: 'Saratov', flag: '🇷🇺', offset: '+04:00', ianaTimezone: 'Europe/Saratov' },
-    { value: 'Europe/Simferopol', name: 'Moscow Time', city: 'Simferopol', flag: '🇺🇦', offset: '+03:00', ianaTimezone: 'Europe/Simferopol' },
-    { value: 'Europe/Skopje', name: 'Central European Time', city: 'Skopje', flag: '🇲🇰', offset: '+01:00', ianaTimezone: 'Europe/Skopje' },
-    { value: 'Europe/Sofia', name: 'Eastern European Time', city: 'Sofia', flag: '🇧🇬', offset: '+02:00', ianaTimezone: 'Europe/Sofia' },
-    { value: 'Europe/Stockholm', name: 'Central European Time', city: 'Stockholm', flag: '🇸🇪', offset: '+01:00', ianaTimezone: 'Europe/Stockholm' },
-    { value: 'Europe/Tallinn', name: 'Eastern European Time', city: 'Tallinn', flag: '🇪🇪', offset: '+02:00', ianaTimezone: 'Europe/Tallinn' },
-    { value: 'Europe/Tirane', name: 'Central European Time', city: 'Tirana', flag: '🇦🇱', offset: '+01:00', ianaTimezone: 'Europe/Tirane' },
-    { value: 'Europe/Ulyanovsk', name: 'Ulyanovsk Time', city: 'Ulyanovsk', flag: '🇷🇺', offset: '+04:00', ianaTimezone: 'Europe/Ulyanovsk' },
-    { value: 'Europe/Uzhgorod', name: 'Eastern European Time', city: 'Uzhhorod', flag: '🇺🇦', offset: '+02:00', ianaTimezone: 'Europe/Uzhgorod' },
-    { value: 'Europe/Vaduz', name: 'Central European Time', city: 'Vaduz', flag: '🇱🇮', offset: '+01:00', ianaTimezone: 'Europe/Vaduz' },
-    { value: 'Europe/Vatican', name: 'Central European Time', city: 'Vatican City', flag: '🇻🇦', offset: '+01:00', ianaTimezone: 'Europe/Vatican' },
-    { value: 'Europe/Vienna', name: 'Central European Time', city: 'Vienna', flag: '🇦🇹', offset: '+01:00', ianaTimezone: 'Europe/Vienna' },
-    { value: 'Europe/Vilnius', name: 'Eastern European Time', city: 'Vilnius', flag: '🇱🇹', offset: '+02:00', ianaTimezone: 'Europe/Vilnius' },
-    { value: 'Europe/Volgograd', name: 'Volgograd Time', city: 'Volgograd', flag: '🇷🇺', offset: '+04:00', ianaTimezone: 'Europe/Volgograd' },
-    { value: 'Europe/Warsaw', name: 'Central European Time', city: 'Warsaw', flag: '🇵🇱', offset: '+01:00', ianaTimezone: 'Europe/Warsaw' },
-    { value: 'Europe/Zagreb', name: 'Central European Time', city: 'Zagreb', flag: '🇭🇷', offset: '+01:00', ianaTimezone: 'Europe/Zagreb' },
-    { value: 'Europe/Zaporozhye', name: 'Eastern European Time', city: 'Zaporizhzhia', flag: '🇺🇦', offset: '+02:00', ianaTimezone: 'Europe/Zaporozhye' },
-    { value: 'Europe/Zurich', name: 'Central European Time', city: 'Zurich', flag: '🇨🇭', offset: '+01:00', ianaTimezone: 'Europe/Zurich' },
-
-    // Indian Ocean
-    { value: 'Indian/Antananarivo', name: 'East Africa Time', city: 'Antananarivo', flag: '🇲🇬', offset: '+03:00', ianaTimezone: 'Indian/Antananarivo' },
-    { value: 'Indian/Chagos', name: 'Indian Ocean Time', city: 'Diego Garcia', flag: '🇮🇴', offset: '+06:00', ianaTimezone: 'Indian/Chagos' },
-    { value: 'Indian/Christmas', name: 'Christmas Island Time', city: 'Flying Fish Cove', flag: '🇨🇽', offset: '+07:00', ianaTimezone: 'Indian/Christmas' },
-    { value: 'Indian/Cocos', name: 'Cocos Islands Time', city: 'West Island', flag: '🇨🇨', offset: '+06:30', ianaTimezone: 'Indian/Cocos' },
-    { value: 'Indian/Comoro', name: 'East Africa Time', city: 'Moroni', flag: '🇰🇲', offset: '+03:00', ianaTimezone: 'Indian/Comoro' },
-    { value: 'Indian/Kerguelen', name: 'French Southern & Antarctic Time', city: 'Port-aux-Français', flag: '🇹🇫', offset: '+05:00', ianaTimezone: 'Indian/Kerguelen' },
-    { value: 'Indian/Mahe', name: 'Seychelles Time', city: 'Victoria', flag: '🇸🇨', offset: '+04:00', ianaTimezone: 'Indian/Mahe' },
-    { value: 'Indian/Maldives', name: 'Maldives Time', city: 'Malé', flag: '🇲🇻', offset: '+05:00', ianaTimezone: 'Indian/Maldives' },
-    { value: 'Indian/Mauritius', name: 'Mauritius Time', city: 'Port Louis', flag: '🇲🇺', offset: '+04:00', ianaTimezone: 'Indian/Mauritius' },
-    { value: 'Indian/Mayotte', name: 'East Africa Time', city: 'Mamoudzou', flag: '🇾🇹', offset: '+03:00', ianaTimezone: 'Indian/Mayotte' },
-    { value: 'Indian/Reunion', name: 'Réunion Time', city: 'Saint-Denis', flag: '🇷🇪', offset: '+04:00', ianaTimezone: 'Indian/Reunion' },
-
-    // Pacific
-    { value: 'Pacific/Apia', name: 'Samoa Standard Time', city: 'Apia', flag: '🇼🇸', offset: '+13:00', ianaTimezone: 'Pacific/Apia' },
-    { value: 'Pacific/Auckland', name: 'New Zealand Standard Time', city: 'Auckland', flag: '🇳🇿', offset: '+12:00', ianaTimezone: 'Pacific/Auckland' },
-    { value: 'Pacific/Bougainville', name: 'Bougainville Standard Time', city: 'Buka', flag: '🇵🇬', offset: '+11:00', ianaTimezone: 'Pacific/Bougainville' },
-    { value: 'Pacific/Chatham', name: 'Chatham Standard Time', city: 'Waitangi', flag: '🇳🇿', offset: '+12:45', ianaTimezone: 'Pacific/Chatham' },
-    { value: 'Pacific/Chuuk', name: 'Chuuk Time', city: 'Weno', flag: '🇫🇲', offset: '+10:00', ianaTimezone: 'Pacific/Chuuk' },
-    { value: 'Pacific/Easter', name: 'Easter Island Standard Time', city: 'Hanga Roa', flag: '🇨🇱', offset: '-06:00', ianaTimezone: 'Pacific/Easter' },
-    { value: 'Pacific/Efate', name: 'Vanuatu Time', city: 'Port Vila', flag: '🇻🇺', offset: '+11:00', ianaTimezone: 'Pacific/Efate' },
-    { value: 'Pacific/Fakaofo', name: 'Tokelau Time', city: 'Fakaofo', flag: '🇹🇰', offset: '+13:00', ianaTimezone: 'Pacific/Fakaofo' },
-    { value: 'Pacific/Fiji', name: 'Fiji Time', city: 'Suva', flag: '🇫🇯', offset: '+12:00', ianaTimezone: 'Pacific/Fiji' },
-    { value: 'Pacific/Funafuti', name: 'Tuvalu Time', city: 'Funafuti', flag: '🇹🇻', offset: '+12:00', ianaTimezone: 'Pacific/Funafuti' },
-    { value: 'Pacific/Galapagos', name: 'Galápagos Time', city: 'Puerto Baquerizo Moreno', flag: '🇪🇨', offset: '-06:00', ianaTimezone: 'Pacific/Galapagos' },
-    { value: 'Pacific/Gambier', name: 'Gambier Time', city: 'Rikitea', flag: '🇵🇫', offset: '-09:00', ianaTimezone: 'Pacific/Gambier' },
-    { value: 'Pacific/Guadalcanal', name: 'Solomon Islands Time', city: 'Honiara', flag: '🇸🇧', offset: '+11:00', ianaTimezone: 'Pacific/Guadalcanal' },
-    { value: 'Pacific/Guam', name: 'Chamorro Standard Time', city: 'Hagåtña', flag: '🇬🇺', offset: '+10:00', ianaTimezone: 'Pacific/Guam' },
-    { value: 'Pacific/Honolulu', name: 'Hawaii-Aleutian Standard Time', city: 'Honolulu', flag: '🇺🇸', offset: '-10:00', ianaTimezone: 'Pacific/Honolulu' },
-    { value: 'Pacific/Kanton', name: 'Phoenix Islands Time', city: 'Kanton', flag: '🇰🇮', offset: '+13:00', ianaTimezone: 'Pacific/Kanton' },
-    { value: 'Pacific/Kiritimati', name: 'Line Islands Time', city: 'Kiritimati', flag: '🇰🇮', offset: '+14:00', ianaTimezone: 'Pacific/Kiritimati' },
-    { value: 'Pacific/Kosrae', name: 'Kosrae Time', city: 'Tofol', flag: '🇫🇲', offset: '+11:00', ianaTimezone: 'Pacific/Kosrae' },
-    { value: 'Pacific/Kwajalein', name: 'Marshall Islands Time', city: 'Kwajalein', flag: '🇲🇭', offset: '+12:00', ianaTimezone: 'Pacific/Kwajalein' },
-    { value: 'Pacific/Majuro', name: 'Marshall Islands Time', city: 'Majuro', flag: '🇲🇭', offset: '+12:00', ianaTimezone: 'Pacific/Majuro' },
-    { value: 'Pacific/Marquesas', name: 'Marquesas Time', city: 'Taiohae', flag: '🇵🇫', offset: '-09:30', ianaTimezone: 'Pacific/Marquesas' },
-    { value: 'Pacific/Midway', name: 'Samoa Standard Time', city: 'Midway Atoll', flag: '🇺🇲', offset: '-11:00', ianaTimezone: 'Pacific/Midway' },
-    { value: 'Pacific/Nauru', name: 'Nauru Time', city: 'Yaren', flag: '🇳🇷', offset: '+12:00', ianaTimezone: 'Pacific/Nauru' },
-    { value: 'Pacific/Niue', name: 'Niue Time', city: 'Alofi', flag: '🇳🇺', offset: '-11:00', ianaTimezone: 'Pacific/Niue' },
-    { value: 'Pacific/Norfolk', name: 'Norfolk Island Time', city: 'Kingston', flag: '🇳🇫', offset: '+11:00', ianaTimezone: 'Pacific/Norfolk' },
-    { value: 'Pacific/Noumea', name: 'New Caledonia Time', city: 'Nouméa', flag: '🇳🇨', offset: '+11:00', ianaTimezone: 'Pacific/Noumea' },
-    { value: 'Pacific/Pago_Pago', name: 'Samoa Standard Time', city: 'Pago Pago', flag: '🇦🇸', offset: '-11:00', ianaTimezone: 'Pacific/Pago_Pago' },
-    { value: 'Pacific/Palau', name: 'Palau Time', city: 'Ngerulmud', flag: '🇵🇼', offset: '+09:00', ianaTimezone: 'Pacific/Palau' },
-    { value: 'Pacific/Pitcairn', name: 'Pitcairn Standard Time', city: 'Adamstown', flag: '🇵🇳', offset: '-08:00', ianaTimezone: 'Pacific/Pitcairn' },
-    { value: 'Pacific/Pohnpei', name: 'Pohnpei Standard Time', city: 'Palikir', flag: '🇫🇲', offset: '+11:00', ianaTimezone: 'Pacific/Pohnpei' },
-    { value: 'Pacific/Port_Moresby', name: 'Papua New Guinea Time', city: 'Port Moresby', flag: '🇵🇬', offset: '+10:00', ianaTimezone: 'Pacific/Port_Moresby' },
-    { value: 'Pacific/Rarotonga', name: 'Cook Islands Time', city: 'Avarua', flag: '🇨🇰', offset: '-10:00', ianaTimezone: 'Pacific/Rarotonga' },
-    { value: 'Pacific/Saipan', name: 'Chamorro Standard Time', city: 'Saipan', flag: '🇲🇵', offset: '+10:00', ianaTimezone: 'Pacific/Saipan' },
-    { value: 'Pacific/Tahiti', name: 'Tahiti Time', city: 'Papeete', flag: '🇵🇫', offset: '-10:00', ianaTimezone: 'Pacific/Tahiti' },
-    { value: 'Pacific/Tarawa', name: 'Gilbert Islands Time', city: 'South Tarawa', flag: '🇰🇮', offset: '+12:00', ianaTimezone: 'Pacific/Tarawa' },
-    { value: 'Pacific/Tongatapu', name: 'Tonga Time', city: 'Nuku\'alofa', flag: '🇹🇴', offset: '+13:00', ianaTimezone: 'Pacific/Tongatapu' },
-    { value: 'Pacific/Wake', name: 'Wake Island Time', city: 'Wake Island', flag: '🇺🇲', offset: '+12:00', ianaTimezone: 'Pacific/Wake' },
-    { value: 'Pacific/Wallis', name: 'Wallis & Futuna Time', city: 'Mata-Utu', flag: '🇼🇫', offset: '+12:00', ianaTimezone: 'Pacific/Wallis' }
+    {
+      'value': 'Pacific/Midway',
+      'name': 'Samoa Standard Time',
+      'city': 'Midway',
+      'flag': '🇺🇲',
+      'offset': '-11:00',
+      'ianaTimezone': 'Pacific/Midway',
+      'abbreviation': 'GMT-11'
+    },
+    {
+      'value': 'Pacific/Niue',
+      'name': 'Niue Time',
+      'city': 'Niue',
+      'flag': '🇳🇺',
+      'offset': '-11:00',
+      'ianaTimezone': 'Pacific/Niue',
+      'abbreviation': 'GMT-11'
+    },
+    {
+      'value': 'Pacific/Pago_Pago',
+      'name': 'Samoa Standard Time',
+      'city': 'Pago Pago',
+      'flag': '🇦🇸',
+      'offset': '-11:00',
+      'ianaTimezone': 'Pacific/Pago_Pago',
+      'abbreviation': 'GMT-11'
+    },
+    {
+      'value': 'Pacific/Honolulu',
+      'name': 'Hawaii-Aleutian Standard Time',
+      'city': 'Honolulu',
+      'flag': '🇺🇸',
+      'offset': '-10:00',
+      'ianaTimezone': 'Pacific/Honolulu',
+      'abbreviation': 'HST'
+    },
+    {
+      'value': 'Pacific/Rarotonga',
+      'name': 'Cook Islands Standard Time',
+      'city': 'Rarotonga',
+      'flag': '🇨🇰',
+      'offset': '-10:00',
+      'ianaTimezone': 'Pacific/Rarotonga',
+      'abbreviation': 'GMT-10'
+    },
+    {
+      'value': 'Pacific/Tahiti',
+      'name': 'Tahiti Time',
+      'city': 'Tahiti',
+      'flag': '🇵🇫',
+      'offset': '-10:00',
+      'ianaTimezone': 'Pacific/Tahiti',
+      'abbreviation': 'GMT-10'
+    },
+    {
+      'value': 'Pacific/Marquesas',
+      'name': 'Marquesas Time',
+      'city': 'Marquesas',
+      'flag': '🇵🇫',
+      'offset': '-09:30',
+      'ianaTimezone': 'Pacific/Marquesas',
+      'abbreviation': 'GMT-9:30'
+    },
+    {
+      'value': 'America/Adak',
+      'name': 'Hawaii-Aleutian Daylight Time',
+      'city': 'Adak',
+      'flag': '🇺🇸',
+      'offset': '-09:00',
+      'ianaTimezone': 'America/Adak',
+      'abbreviation': 'HADT'
+    },
+    {
+      'value': 'Pacific/Gambier',
+      'name': 'Gambier Time',
+      'city': 'Gambier',
+      'flag': '🇵🇫',
+      'offset': '-09:00',
+      'ianaTimezone': 'Pacific/Gambier',
+      'abbreviation': 'GMT-9'
+    },
+    {
+      'value': 'America/Anchorage',
+      'name': 'Alaska Daylight Time',
+      'city': 'Anchorage',
+      'flag': '🇺🇸',
+      'offset': '-08:00',
+      'ianaTimezone': 'America/Anchorage',
+      'abbreviation': 'AKDT'
+    },
+    {
+      'value': 'America/Juneau',
+      'name': 'Alaska Daylight Time',
+      'city': 'Juneau',
+      'flag': '🇺🇸',
+      'offset': '-08:00',
+      'ianaTimezone': 'America/Juneau',
+      'abbreviation': 'AKDT'
+    },
+    {
+      'value': 'America/Metlakatla',
+      'name': 'Alaska Daylight Time',
+      'city': 'Metlakatla',
+      'flag': '🇺🇸',
+      'offset': '-08:00',
+      'ianaTimezone': 'America/Metlakatla',
+      'abbreviation': 'AKDT'
+    },
+    {
+      'value': 'America/Nome',
+      'name': 'Alaska Daylight Time',
+      'city': 'Nome',
+      'flag': '🇺🇸',
+      'offset': '-08:00',
+      'ianaTimezone': 'America/Nome',
+      'abbreviation': 'AKDT'
+    },
+    {
+      'value': 'America/Sitka',
+      'name': 'Alaska Daylight Time',
+      'city': 'Sitka',
+      'flag': '🇺🇸',
+      'offset': '-08:00',
+      'ianaTimezone': 'America/Sitka',
+      'abbreviation': 'AKDT'
+    },
+    {
+      'value': 'America/Yakutat',
+      'name': 'Alaska Daylight Time',
+      'city': 'Yakutat',
+      'flag': '🇺🇸',
+      'offset': '-08:00',
+      'ianaTimezone': 'America/Yakutat',
+      'abbreviation': 'AKDT'
+    },
+    {
+      'value': 'Pacific/Pitcairn',
+      'name': 'Pitcairn Time',
+      'city': 'Pitcairn',
+      'flag': '🇵🇳',
+      'offset': '-08:00',
+      'ianaTimezone': 'Pacific/Pitcairn',
+      'abbreviation': 'GMT-8'
+    },
+    {
+      'value': 'America/Creston',
+      'name': 'Mountain Standard Time',
+      'city': 'Creston',
+      'flag': '🇨🇦',
+      'offset': '-07:00',
+      'ianaTimezone': 'America/Creston',
+      'abbreviation': 'MST'
+    },
+    {
+      'value': 'America/Dawson',
+      'name': 'Yukon Time',
+      'city': 'Dawson',
+      'flag': '🇨🇦',
+      'offset': '-07:00',
+      'ianaTimezone': 'America/Dawson',
+      'abbreviation': 'GMT-7'
+    },
+    {
+      'value': 'America/Dawson_Creek',
+      'name': 'Mountain Standard Time',
+      'city': 'Dawson Creek',
+      'flag': '🇨🇦',
+      'offset': '-07:00',
+      'ianaTimezone': 'America/Dawson_Creek',
+      'abbreviation': 'MST'
+    },
+    {
+      'value': 'America/Fort_Nelson',
+      'name': 'Mountain Standard Time',
+      'city': 'Fort Nelson',
+      'flag': '🇨🇦',
+      'offset': '-07:00',
+      'ianaTimezone': 'America/Fort_Nelson',
+      'abbreviation': 'MST'
+    },
+    {
+      'value': 'America/Hermosillo',
+      'name': 'Mexican Pacific Standard Time',
+      'city': 'Hermosillo',
+      'flag': '🇲🇽',
+      'offset': '-07:00',
+      'ianaTimezone': 'America/Hermosillo',
+      'abbreviation': 'GMT-7'
+    },
+    {
+      'value': 'America/Los_Angeles',
+      'name': 'Pacific Daylight Time',
+      'city': 'Los Angeles',
+      'flag': '🇺🇸',
+      'offset': '-07:00',
+      'ianaTimezone': 'America/Los_Angeles',
+      'abbreviation': 'PDT'
+    },
+    {
+      'value': 'America/Mazatlan',
+      'name': 'Mexican Pacific Standard Time',
+      'city': 'Mazatlan',
+      'flag': '🇲🇽',
+      'offset': '-07:00',
+      'ianaTimezone': 'America/Mazatlan',
+      'abbreviation': 'GMT-7'
+    },
+    {
+      'value': 'America/Phoenix',
+      'name': 'Mountain Standard Time',
+      'city': 'Phoenix',
+      'flag': '🇺🇸',
+      'offset': '-07:00',
+      'ianaTimezone': 'America/Phoenix',
+      'abbreviation': 'MST'
+    },
+    {
+      'value': 'America/Tijuana',
+      'name': 'Pacific Daylight Time',
+      'city': 'Tijuana',
+      'flag': '🇲🇽',
+      'offset': '-07:00',
+      'ianaTimezone': 'America/Tijuana',
+      'abbreviation': 'PDT'
+    },
+    {
+      'value': 'America/Vancouver',
+      'name': 'Pacific Daylight Time',
+      'city': 'Vancouver',
+      'flag': '🇨🇦',
+      'offset': '-07:00',
+      'ianaTimezone': 'America/Vancouver',
+      'abbreviation': 'PDT'
+    },
+    {
+      'value': 'America/Whitehorse',
+      'name': 'Yukon Time',
+      'city': 'Whitehorse',
+      'flag': '🇨🇦',
+      'offset': '-07:00',
+      'ianaTimezone': 'America/Whitehorse',
+      'abbreviation': 'GMT-7'
+    },
+    {
+      'value': 'America/Bahia_Banderas',
+      'name': 'Central Standard Time',
+      'city': 'Bahia Banderas',
+      'flag': '🇲🇽',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Bahia_Banderas',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'America/Belize',
+      'name': 'Central Standard Time',
+      'city': 'Belize',
+      'flag': '🇧🇿',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Belize',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'America/Boise',
+      'name': 'Mountain Daylight Time',
+      'city': 'Boise',
+      'flag': '🇺🇸',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Boise',
+      'abbreviation': 'MDT'
+    },
+    {
+      'value': 'America/Cambridge_Bay',
+      'name': 'Mountain Daylight Time',
+      'city': 'Cambridge Bay',
+      'flag': '🇨🇦',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Cambridge_Bay',
+      'abbreviation': 'MDT'
+    },
+    {
+      'value': 'America/Chihuahua',
+      'name': 'Central Standard Time',
+      'city': 'Chihuahua',
+      'flag': '🇲🇽',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Chihuahua',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'America/Ciudad_Juarez',
+      'name': 'Mountain Daylight Time',
+      'city': 'Ciudad Juarez',
+      'flag': '🇲🇽',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Ciudad_Juarez',
+      'abbreviation': 'MDT'
+    },
+    {
+      'value': 'America/Costa_Rica',
+      'name': 'Central Standard Time',
+      'city': 'Costa Rica',
+      'flag': '🇨🇷',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Costa_Rica',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'America/Denver',
+      'name': 'Mountain Daylight Time',
+      'city': 'Denver',
+      'flag': '🇺🇸',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Denver',
+      'abbreviation': 'MDT'
+    },
+    {
+      'value': 'America/Edmonton',
+      'name': 'Mountain Daylight Time',
+      'city': 'Edmonton',
+      'flag': '🇨🇦',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Edmonton',
+      'abbreviation': 'MDT'
+    },
+    {
+      'value': 'America/El_Salvador',
+      'name': 'Central Standard Time',
+      'city': 'El Salvador',
+      'flag': '🇸🇻',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/El_Salvador',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'America/Guatemala',
+      'name': 'Central Standard Time',
+      'city': 'Guatemala',
+      'flag': '🇬🇹',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Guatemala',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'America/Inuvik',
+      'name': 'Mountain Daylight Time',
+      'city': 'Inuvik',
+      'flag': '🇨🇦',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Inuvik',
+      'abbreviation': 'MDT'
+    },
+    {
+      'value': 'America/Managua',
+      'name': 'Central Standard Time',
+      'city': 'Managua',
+      'flag': '🇳🇮',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Managua',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'America/Merida',
+      'name': 'Central Standard Time',
+      'city': 'Merida',
+      'flag': '🇲🇽',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Merida',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'America/Mexico_City',
+      'name': 'Central Standard Time',
+      'city': 'Mexico City',
+      'flag': '🇲🇽',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Mexico_City',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'America/Monterrey',
+      'name': 'Central Standard Time',
+      'city': 'Monterrey',
+      'flag': '🇲🇽',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Monterrey',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'America/Regina',
+      'name': 'Central Standard Time',
+      'city': 'Regina',
+      'flag': '🇨🇦',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Regina',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'America/Swift_Current',
+      'name': 'Central Standard Time',
+      'city': 'Swift Current',
+      'flag': '🇨🇦',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Swift_Current',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'America/Tegucigalpa',
+      'name': 'Central Standard Time',
+      'city': 'Tegucigalpa',
+      'flag': '🇭🇳',
+      'offset': '-06:00',
+      'ianaTimezone': 'America/Tegucigalpa',
+      'abbreviation': 'CST'
+    },
+    {
+      'value': 'Pacific/Easter',
+      'name': 'Easter Island Standard Time',
+      'city': 'Easter',
+      'flag': '🇨🇱',
+      'offset': '-06:00',
+      'ianaTimezone': 'Pacific/Easter',
+      'abbreviation': 'GMT-6'
+    },
+    {
+      'value': 'Pacific/Galapagos',
+      'name': 'Galapagos Time',
+      'city': 'Galapagos',
+      'flag': '🇪🇨',
+      'offset': '-06:00',
+      'ianaTimezone': 'Pacific/Galapagos',
+      'abbreviation': 'GMT-6'
+    },
+    {
+      'value': 'America/Bogota',
+      'name': 'Colombia Standard Time',
+      'city': 'Bogota',
+      'flag': '🇨🇴',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Bogota',
+      'abbreviation': 'GMT-5'
+    },
+    {
+      'value': 'America/Cancun',
+      'name': 'Eastern Standard Time',
+      'city': 'Cancun',
+      'flag': '🇲🇽',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Cancun',
+      'abbreviation': 'EST'
+    },
+    {
+      'value': 'America/Cayman',
+      'name': 'Eastern Standard Time',
+      'city': 'Cayman',
+      'flag': '🇰🇾',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Cayman',
+      'abbreviation': 'EST'
+    },
+    {
+      'value': 'America/Chicago',
+      'name': 'Central Daylight Time',
+      'city': 'Chicago',
+      'flag': '🇺🇸',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Chicago',
+      'abbreviation': 'CDT'
+    },
+    {
+      'value': 'America/Coral_Harbour',
+      'name': 'Eastern Standard Time',
+      'city': 'Coral Harbour',
+      'flag': '🇨🇦',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Coral_Harbour',
+      'abbreviation': 'EST'
+    },
+    {
+      'value': 'America/Eirunepe',
+      'name': 'Acre Standard Time',
+      'city': 'Eirunepe',
+      'flag': '🇧🇷',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Eirunepe',
+      'abbreviation': 'GMT-5'
+    },
+    {
+      'value': 'America/Guayaquil',
+      'name': 'Ecuador Time',
+      'city': 'Guayaquil',
+      'flag': '🇪🇨',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Guayaquil',
+      'abbreviation': 'GMT-5'
+    },
+    {
+      'value': 'America/Indiana/Knox',
+      'name': 'Central Daylight Time',
+      'city': 'Knox',
+      'flag': '🇺🇸',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Indiana/Knox',
+      'abbreviation': 'CDT'
+    },
+    {
+      'value': 'America/Indiana/Tell_City',
+      'name': 'Central Daylight Time',
+      'city': 'Tell City',
+      'flag': '🇺🇸',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Indiana/Tell_City',
+      'abbreviation': 'CDT'
+    },
+    {
+      'value': 'America/Jamaica',
+      'name': 'Eastern Standard Time',
+      'city': 'Jamaica',
+      'flag': '🇯🇲',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Jamaica',
+      'abbreviation': 'EST'
+    },
+    {
+      'value': 'America/Lima',
+      'name': 'Peru Standard Time',
+      'city': 'Lima',
+      'flag': '🇵🇪',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Lima',
+      'abbreviation': 'GMT-5'
+    },
+    {
+      'value': 'America/Matamoros',
+      'name': 'Central Daylight Time',
+      'city': 'Matamoros',
+      'flag': '🇲🇽',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Matamoros',
+      'abbreviation': 'CDT'
+    },
+    {
+      'value': 'America/Menominee',
+      'name': 'Central Daylight Time',
+      'city': 'Menominee',
+      'flag': '🇺🇸',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Menominee',
+      'abbreviation': 'CDT'
+    },
+    {
+      'value': 'America/North_Dakota/Beulah',
+      'name': 'Central Daylight Time',
+      'city': 'Beulah',
+      'flag': '🇺🇸',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/North_Dakota/Beulah',
+      'abbreviation': 'CDT'
+    },
+    {
+      'value': 'America/North_Dakota/Center',
+      'name': 'Central Daylight Time',
+      'city': 'Center',
+      'flag': '🇺🇸',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/North_Dakota/Center',
+      'abbreviation': 'CDT'
+    },
+    {
+      'value': 'America/North_Dakota/New_Salem',
+      'name': 'Central Daylight Time',
+      'city': 'New Salem',
+      'flag': '🇺🇸',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/North_Dakota/New_Salem',
+      'abbreviation': 'CDT'
+    },
+    {
+      'value': 'America/Ojinaga',
+      'name': 'Central Daylight Time',
+      'city': 'Ojinaga',
+      'flag': '🇲🇽',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Ojinaga',
+      'abbreviation': 'CDT'
+    },
+    {
+      'value': 'America/Panama',
+      'name': 'Eastern Standard Time',
+      'city': 'Panama',
+      'flag': '🇵🇦',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Panama',
+      'abbreviation': 'EST'
+    },
+    {
+      'value': 'America/Rankin_Inlet',
+      'name': 'Central Daylight Time',
+      'city': 'Rankin Inlet',
+      'flag': '🇨🇦',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Rankin_Inlet',
+      'abbreviation': 'CDT'
+    },
+    {
+      'value': 'America/Resolute',
+      'name': 'Central Daylight Time',
+      'city': 'Resolute',
+      'flag': '🇨🇦',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Resolute',
+      'abbreviation': 'CDT'
+    },
+    {
+      'value': 'America/Rio_Branco',
+      'name': 'Acre Standard Time',
+      'city': 'Rio Branco',
+      'flag': '🇧🇷',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Rio_Branco',
+      'abbreviation': 'GMT-5'
+    },
+    {
+      'value': 'America/Winnipeg',
+      'name': 'Central Daylight Time',
+      'city': 'Winnipeg',
+      'flag': '🇨🇦',
+      'offset': '-05:00',
+      'ianaTimezone': 'America/Winnipeg',
+      'abbreviation': 'CDT'
+    },
+    {
+      'value': 'America/Anguilla',
+      'name': 'Atlantic Standard Time',
+      'city': 'Anguilla',
+      'flag': '🇦🇮',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Anguilla',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Antigua',
+      'name': 'Atlantic Standard Time',
+      'city': 'Antigua',
+      'flag': '🇦🇬',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Antigua',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Aruba',
+      'name': 'Atlantic Standard Time',
+      'city': 'Aruba',
+      'flag': '🇦🇼',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Aruba',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Barbados',
+      'name': 'Atlantic Standard Time',
+      'city': 'Barbados',
+      'flag': '🇧🇧',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Barbados',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Blanc-Sablon',
+      'name': 'Atlantic Standard Time',
+      'city': 'Blanc-Sablon',
+      'flag': '🇨🇦',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Blanc-Sablon',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Boa_Vista',
+      'name': 'Amazon Standard Time',
+      'city': 'Boa Vista',
+      'flag': '🇧🇷',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Boa_Vista',
+      'abbreviation': 'GMT-4'
+    },
+    {
+      'value': 'America/Campo_Grande',
+      'name': 'Amazon Standard Time',
+      'city': 'Campo Grande',
+      'flag': '🇧🇷',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Campo_Grande',
+      'abbreviation': 'GMT-4'
+    },
+    {
+      'value': 'America/Caracas',
+      'name': 'Venezuela Time',
+      'city': 'Caracas',
+      'flag': '🇻🇪',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Caracas',
+      'abbreviation': 'GMT-4'
+    },
+    {
+      'value': 'America/Cuiaba',
+      'name': 'Amazon Standard Time',
+      'city': 'Cuiaba',
+      'flag': '🇧🇷',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Cuiaba',
+      'abbreviation': 'GMT-4'
+    },
+    {
+      'value': 'America/Curacao',
+      'name': 'Atlantic Standard Time',
+      'city': 'Curacao',
+      'flag': '🇨🇼',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Curacao',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Detroit',
+      'name': 'Eastern Daylight Time',
+      'city': 'Detroit',
+      'flag': '🇺🇸',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Detroit',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Dominica',
+      'name': 'Atlantic Standard Time',
+      'city': 'Dominica',
+      'flag': '🇩🇲',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Dominica',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Grand_Turk',
+      'name': 'Eastern Daylight Time',
+      'city': 'Grand Turk',
+      'flag': '🇹🇨',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Grand_Turk',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Grenada',
+      'name': 'Atlantic Standard Time',
+      'city': 'Grenada',
+      'flag': '🇬🇩',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Grenada',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Guadeloupe',
+      'name': 'Atlantic Standard Time',
+      'city': 'Guadeloupe',
+      'flag': '🇬🇵',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Guadeloupe',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Guyana',
+      'name': 'Guyana Time',
+      'city': 'Guyana',
+      'flag': '🇬🇾',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Guyana',
+      'abbreviation': 'GMT-4'
+    },
+    {
+      'value': 'America/Havana',
+      'name': 'Cuba Daylight Time',
+      'city': 'Havana',
+      'flag': '🇨🇺',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Havana',
+      'abbreviation': 'GMT-4'
+    },
+    {
+      'value': 'America/Indiana/Marengo',
+      'name': 'Eastern Daylight Time',
+      'city': 'Marengo',
+      'flag': '🇺🇸',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Indiana/Marengo',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Indiana/Petersburg',
+      'name': 'Eastern Daylight Time',
+      'city': 'Petersburg',
+      'flag': '🇺🇸',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Indiana/Petersburg',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Indiana/Vevay',
+      'name': 'Eastern Daylight Time',
+      'city': 'Vevay',
+      'flag': '🇺🇸',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Indiana/Vevay',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Indiana/Vincennes',
+      'name': 'Eastern Daylight Time',
+      'city': 'Vincennes',
+      'flag': '🇺🇸',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Indiana/Vincennes',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Indiana/Winamac',
+      'name': 'Eastern Daylight Time',
+      'city': 'Winamac',
+      'flag': '🇺🇸',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Indiana/Winamac',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Indianapolis',
+      'name': 'Eastern Daylight Time',
+      'city': 'Indianapolis',
+      'flag': '🇺🇸',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Indianapolis',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Iqaluit',
+      'name': 'Eastern Daylight Time',
+      'city': 'Iqaluit',
+      'flag': '🇨🇦',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Iqaluit',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Kentucky/Monticello',
+      'name': 'Eastern Daylight Time',
+      'city': 'Monticello',
+      'flag': '🇺🇸',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Kentucky/Monticello',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Kralendijk',
+      'name': 'Atlantic Standard Time',
+      'city': 'Kralendijk',
+      'flag': '🇧🇶',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Kralendijk',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/La_Paz',
+      'name': 'Bolivia Time',
+      'city': 'La Paz',
+      'flag': '🇧🇴',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/La_Paz',
+      'abbreviation': 'GMT-4'
+    },
+    {
+      'value': 'America/Louisville',
+      'name': 'Eastern Daylight Time',
+      'city': 'Louisville',
+      'flag': '🇺🇸',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Louisville',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Lower_Princes',
+      'name': 'Atlantic Standard Time',
+      'city': 'Lower Princes',
+      'flag': '🇸🇽',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Lower_Princes',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Manaus',
+      'name': 'Amazon Standard Time',
+      'city': 'Manaus',
+      'flag': '🇧🇷',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Manaus',
+      'abbreviation': 'GMT-4'
+    },
+    {
+      'value': 'America/Marigot',
+      'name': 'Atlantic Standard Time',
+      'city': 'Marigot',
+      'flag': '🇲🇫',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Marigot',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Martinique',
+      'name': 'Atlantic Standard Time',
+      'city': 'Martinique',
+      'flag': '🇲🇶',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Martinique',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Montserrat',
+      'name': 'Atlantic Standard Time',
+      'city': 'Montserrat',
+      'flag': '🇲🇸',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Montserrat',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Nassau',
+      'name': 'Eastern Daylight Time',
+      'city': 'Nassau',
+      'flag': '🇧🇸',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Nassau',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/New_York',
+      'name': 'Eastern Daylight Time',
+      'city': 'New York',
+      'flag': '🇺🇸',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/New_York',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Port_of_Spain',
+      'name': 'Atlantic Standard Time',
+      'city': 'Port of Spain',
+      'flag': '🇹🇹',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Port_of_Spain',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Port-au-Prince',
+      'name': 'Eastern Daylight Time',
+      'city': 'Port-au-Prince',
+      'flag': '🇭🇹',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Port-au-Prince',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Porto_Velho',
+      'name': 'Amazon Standard Time',
+      'city': 'Porto Velho',
+      'flag': '🇧🇷',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Porto_Velho',
+      'abbreviation': 'GMT-4'
+    },
+    {
+      'value': 'America/Puerto_Rico',
+      'name': 'Atlantic Standard Time',
+      'city': 'Puerto Rico',
+      'flag': '🇵🇷',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Puerto_Rico',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Santiago',
+      'name': 'Chile Standard Time',
+      'city': 'Santiago',
+      'flag': '🇨🇱',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Santiago',
+      'abbreviation': 'GMT-4'
+    },
+    {
+      'value': 'America/Santo_Domingo',
+      'name': 'Atlantic Standard Time',
+      'city': 'Santo Domingo',
+      'flag': '🇩🇴',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Santo_Domingo',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/St_Barthelemy',
+      'name': 'Atlantic Standard Time',
+      'city': 'St Barthelemy',
+      'flag': '🇧🇱',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/St_Barthelemy',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/St_Kitts',
+      'name': 'Atlantic Standard Time',
+      'city': 'St Kitts',
+      'flag': '🇰🇳',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/St_Kitts',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/St_Lucia',
+      'name': 'Atlantic Standard Time',
+      'city': 'St Lucia',
+      'flag': '🇱🇨',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/St_Lucia',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/St_Thomas',
+      'name': 'Atlantic Standard Time',
+      'city': 'St Thomas',
+      'flag': '🇻🇮',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/St_Thomas',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/St_Vincent',
+      'name': 'Atlantic Standard Time',
+      'city': 'St Vincent',
+      'flag': '🇻🇨',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/St_Vincent',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Toronto',
+      'name': 'Eastern Daylight Time',
+      'city': 'Toronto',
+      'flag': '🇨🇦',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Toronto',
+      'abbreviation': 'EDT'
+    },
+    {
+      'value': 'America/Tortola',
+      'name': 'Atlantic Standard Time',
+      'city': 'Tortola',
+      'flag': '🇻🇬',
+      'offset': '-04:00',
+      'ianaTimezone': 'America/Tortola',
+      'abbreviation': 'AST'
+    },
+    {
+      'value': 'America/Araguaina',
+      'name': 'Brasilia Standard Time',
+      'city': 'Araguaina',
+      'flag': '🇧🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Araguaina',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Argentina/La_Rioja',
+      'name': 'Argentina Standard Time',
+      'city': 'La Rioja',
+      'flag': '🇦🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Argentina/La_Rioja',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Argentina/Rio_Gallegos',
+      'name': 'Argentina Standard Time',
+      'city': 'Rio Gallegos',
+      'flag': '🇦🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Argentina/Rio_Gallegos',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Argentina/Salta',
+      'name': 'Argentina Standard Time',
+      'city': 'Salta',
+      'flag': '🇦🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Argentina/Salta',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Argentina/San_Juan',
+      'name': 'Argentina Standard Time',
+      'city': 'San Juan',
+      'flag': '🇦🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Argentina/San_Juan',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Argentina/San_Luis',
+      'name': 'Argentina Standard Time',
+      'city': 'San Luis',
+      'flag': '🇦🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Argentina/San_Luis',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Argentina/Tucuman',
+      'name': 'Argentina Standard Time',
+      'city': 'Tucuman',
+      'flag': '🇦🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Argentina/Tucuman',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Argentina/Ushuaia',
+      'name': 'Argentina Standard Time',
+      'city': 'Ushuaia',
+      'flag': '🇦🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Argentina/Ushuaia',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Asuncion',
+      'name': 'Paraguay Standard Time',
+      'city': 'Asuncion',
+      'flag': '🇵🇾',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Asuncion',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Bahia',
+      'name': 'Brasilia Standard Time',
+      'city': 'Bahia',
+      'flag': '🇧🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Bahia',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Belem',
+      'name': 'Brasilia Standard Time',
+      'city': 'Belem',
+      'flag': '🇧🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Belem',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Buenos_Aires',
+      'name': 'Argentina Standard Time',
+      'city': 'Buenos Aires',
+      'flag': '🇦🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Buenos_Aires',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Catamarca',
+      'name': 'Argentina Standard Time',
+      'city': 'Catamarca',
+      'flag': '🇦🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Catamarca',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Cayenne',
+      'name': 'French Guiana Time',
+      'city': 'Cayenne',
+      'flag': '🇬🇫',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Cayenne',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Cordoba',
+      'name': 'Argentina Standard Time',
+      'city': 'Cordoba',
+      'flag': '🇦🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Cordoba',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Coyhaique',
+      'name': 'GMT-03:00',
+      'city': 'Coyhaique',
+      'flag': '🌎',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Coyhaique',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Fortaleza',
+      'name': 'Brasilia Standard Time',
+      'city': 'Fortaleza',
+      'flag': '🇧🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Fortaleza',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Glace_Bay',
+      'name': 'Atlantic Daylight Time',
+      'city': 'Glace Bay',
+      'flag': '🇨🇦',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Glace_Bay',
+      'abbreviation': 'ADT'
+    },
+    {
+      'value': 'America/Goose_Bay',
+      'name': 'Atlantic Daylight Time',
+      'city': 'Goose Bay',
+      'flag': '🇨🇦',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Goose_Bay',
+      'abbreviation': 'ADT'
+    },
+    {
+      'value': 'America/Halifax',
+      'name': 'Atlantic Daylight Time',
+      'city': 'Halifax',
+      'flag': '🇨🇦',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Halifax',
+      'abbreviation': 'ADT'
+    },
+    {
+      'value': 'America/Jujuy',
+      'name': 'Argentina Standard Time',
+      'city': 'Jujuy',
+      'flag': '🇦🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Jujuy',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Maceio',
+      'name': 'Brasilia Standard Time',
+      'city': 'Maceio',
+      'flag': '🇧🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Maceio',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Mendoza',
+      'name': 'Argentina Standard Time',
+      'city': 'Mendoza',
+      'flag': '🇦🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Mendoza',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Moncton',
+      'name': 'Atlantic Daylight Time',
+      'city': 'Moncton',
+      'flag': '🇨🇦',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Moncton',
+      'abbreviation': 'ADT'
+    },
+    {
+      'value': 'America/Montevideo',
+      'name': 'Uruguay Standard Time',
+      'city': 'Montevideo',
+      'flag': '🇺🇾',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Montevideo',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Paramaribo',
+      'name': 'Suriname Time',
+      'city': 'Paramaribo',
+      'flag': '🇸🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Paramaribo',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Punta_Arenas',
+      'name': 'GMT-03:00',
+      'city': 'Punta Arenas',
+      'flag': '🇨🇱',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Punta_Arenas',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Recife',
+      'name': 'Brasilia Standard Time',
+      'city': 'Recife',
+      'flag': '🇧🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Recife',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Santarem',
+      'name': 'Brasilia Standard Time',
+      'city': 'Santarem',
+      'flag': '🇧🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Santarem',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Sao_Paulo',
+      'name': 'Brasilia Standard Time',
+      'city': 'Sao Paulo',
+      'flag': '🇧🇷',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Sao_Paulo',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/Thule',
+      'name': 'Atlantic Daylight Time',
+      'city': 'Thule',
+      'flag': '🇬🇱',
+      'offset': '-03:00',
+      'ianaTimezone': 'America/Thule',
+      'abbreviation': 'ADT'
+    },
+    {
+      'value': 'Antarctica/Palmer',
+      'name': 'GMT-03:00',
+      'city': 'Palmer',
+      'flag': '🇦🇶',
+      'offset': '-03:00',
+      'ianaTimezone': 'Antarctica/Palmer',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'Antarctica/Rothera',
+      'name': 'Rothera Time',
+      'city': 'Rothera',
+      'flag': '🇦🇶',
+      'offset': '-03:00',
+      'ianaTimezone': 'Antarctica/Rothera',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'Atlantic/Bermuda',
+      'name': 'Atlantic Daylight Time',
+      'city': 'Bermuda',
+      'flag': '🇧🇲',
+      'offset': '-03:00',
+      'ianaTimezone': 'Atlantic/Bermuda',
+      'abbreviation': 'ADT'
+    },
+    {
+      'value': 'Atlantic/Stanley',
+      'name': 'Falkland Islands Standard Time',
+      'city': 'Stanley',
+      'flag': '🇫🇰',
+      'offset': '-03:00',
+      'ianaTimezone': 'Atlantic/Stanley',
+      'abbreviation': 'GMT-3'
+    },
+    {
+      'value': 'America/St_Johns',
+      'name': 'Newfoundland Daylight Time',
+      'city': 'St Johns',
+      'flag': '🇨🇦',
+      'offset': '-02:30',
+      'ianaTimezone': 'America/St_Johns',
+      'abbreviation': 'GMT-2:30'
+    },
+    {
+      'value': 'America/Miquelon',
+      'name': 'St. Pierre & Miquelon Daylight Time',
+      'city': 'Miquelon',
+      'flag': '🇵🇲',
+      'offset': '-02:00',
+      'ianaTimezone': 'America/Miquelon',
+      'abbreviation': 'GMT-2'
+    },
+    {
+      'value': 'America/Noronha',
+      'name': 'Fernando de Noronha Standard Time',
+      'city': 'Noronha',
+      'flag': '🇧🇷',
+      'offset': '-02:00',
+      'ianaTimezone': 'America/Noronha',
+      'abbreviation': 'GMT-2'
+    },
+    {
+      'value': 'Atlantic/South_Georgia',
+      'name': 'South Georgia Time',
+      'city': 'South Georgia',
+      'flag': '🇬🇸',
+      'offset': '-02:00',
+      'ianaTimezone': 'Atlantic/South_Georgia',
+      'abbreviation': 'GMT-2'
+    },
+    {
+      'value': 'America/Godthab',
+      'name': 'GMT-01:00',
+      'city': 'Godthab',
+      'flag': '🇬🇱',
+      'offset': '-01:00',
+      'ianaTimezone': 'America/Godthab',
+      'abbreviation': 'GMT-1'
+    },
+    {
+      'value': 'America/Scoresbysund',
+      'name': 'GMT-01:00',
+      'city': 'Scoresbysund',
+      'flag': '🇬🇱',
+      'offset': '-01:00',
+      'ianaTimezone': 'America/Scoresbysund',
+      'abbreviation': 'GMT-1'
+    },
+    {
+      'value': 'Atlantic/Cape_Verde',
+      'name': 'Cape Verde Standard Time',
+      'city': 'Cape Verde',
+      'flag': '🇨🇻',
+      'offset': '-01:00',
+      'ianaTimezone': 'Atlantic/Cape_Verde',
+      'abbreviation': 'GMT-1'
+    },
+    {
+      'value': 'Africa/Abidjan',
+      'name': 'Greenwich Mean Time',
+      'city': 'Abidjan',
+      'flag': '🇨🇮',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Abidjan',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Accra',
+      'name': 'Greenwich Mean Time',
+      'city': 'Accra',
+      'flag': '🇬🇭',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Accra',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Bamako',
+      'name': 'Greenwich Mean Time',
+      'city': 'Bamako',
+      'flag': '🇲🇱',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Bamako',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Banjul',
+      'name': 'Greenwich Mean Time',
+      'city': 'Banjul',
+      'flag': '🇬🇲',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Banjul',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Bissau',
+      'name': 'Greenwich Mean Time',
+      'city': 'Bissau',
+      'flag': '🇬🇼',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Bissau',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Conakry',
+      'name': 'Greenwich Mean Time',
+      'city': 'Conakry',
+      'flag': '🇬🇳',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Conakry',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Dakar',
+      'name': 'Greenwich Mean Time',
+      'city': 'Dakar',
+      'flag': '🇸🇳',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Dakar',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Freetown',
+      'name': 'Greenwich Mean Time',
+      'city': 'Freetown',
+      'flag': '🇸🇱',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Freetown',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Lome',
+      'name': 'Greenwich Mean Time',
+      'city': 'Lome',
+      'flag': '🇹🇬',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Lome',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Monrovia',
+      'name': 'Greenwich Mean Time',
+      'city': 'Monrovia',
+      'flag': '🇱🇷',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Monrovia',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Nouakchott',
+      'name': 'Greenwich Mean Time',
+      'city': 'Nouakchott',
+      'flag': '🇲🇷',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Nouakchott',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Ouagadougou',
+      'name': 'Greenwich Mean Time',
+      'city': 'Ouagadougou',
+      'flag': '🇧🇫',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Ouagadougou',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Sao_Tome',
+      'name': 'Greenwich Mean Time',
+      'city': 'Sao Tome',
+      'flag': '🇸🇹',
+      'offset': '+00:00',
+      'ianaTimezone': 'Africa/Sao_Tome',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'America/Danmarkshavn',
+      'name': 'Greenwich Mean Time',
+      'city': 'Danmarkshavn',
+      'flag': '🇬🇱',
+      'offset': '+00:00',
+      'ianaTimezone': 'America/Danmarkshavn',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Atlantic/Azores',
+      'name': 'Azores Summer Time',
+      'city': 'Azores',
+      'flag': '🇵🇹',
+      'offset': '+00:00',
+      'ianaTimezone': 'Atlantic/Azores',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Atlantic/Reykjavik',
+      'name': 'Greenwich Mean Time',
+      'city': 'Reykjavik',
+      'flag': '🇮🇸',
+      'offset': '+00:00',
+      'ianaTimezone': 'Atlantic/Reykjavik',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Atlantic/St_Helena',
+      'name': 'Greenwich Mean Time',
+      'city': 'St Helena',
+      'flag': '🇸🇭',
+      'offset': '+00:00',
+      'ianaTimezone': 'Atlantic/St_Helena',
+      'abbreviation': 'GMT'
+    },
+    {
+      'value': 'Africa/Algiers',
+      'name': 'Central European Standard Time',
+      'city': 'Algiers',
+      'flag': '🇩🇿',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Algiers',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Bangui',
+      'name': 'West Africa Standard Time',
+      'city': 'Bangui',
+      'flag': '🇨🇫',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Bangui',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Brazzaville',
+      'name': 'West Africa Standard Time',
+      'city': 'Brazzaville',
+      'flag': '🇨🇬',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Brazzaville',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Casablanca',
+      'name': 'GMT+01:00',
+      'city': 'Casablanca',
+      'flag': '🇲🇦',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Casablanca',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Douala',
+      'name': 'West Africa Standard Time',
+      'city': 'Douala',
+      'flag': '🇨🇲',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Douala',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/El_Aaiun',
+      'name': 'GMT+01:00',
+      'city': 'El Aaiun',
+      'flag': '🇪🇭',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/El_Aaiun',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Kinshasa',
+      'name': 'West Africa Standard Time',
+      'city': 'Kinshasa',
+      'flag': '🇨🇩',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Kinshasa',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Lagos',
+      'name': 'West Africa Standard Time',
+      'city': 'Lagos',
+      'flag': '🇳🇬',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Lagos',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Libreville',
+      'name': 'West Africa Standard Time',
+      'city': 'Libreville',
+      'flag': '🇬🇦',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Libreville',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Luanda',
+      'name': 'West Africa Standard Time',
+      'city': 'Luanda',
+      'flag': '🇦🇴',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Luanda',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Malabo',
+      'name': 'West Africa Standard Time',
+      'city': 'Malabo',
+      'flag': '🇬🇶',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Malabo',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Ndjamena',
+      'name': 'West Africa Standard Time',
+      'city': 'Ndjamena',
+      'flag': '🇹🇩',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Ndjamena',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Niamey',
+      'name': 'West Africa Standard Time',
+      'city': 'Niamey',
+      'flag': '🇳🇪',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Niamey',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Porto-Novo',
+      'name': 'West Africa Standard Time',
+      'city': 'Porto-Novo',
+      'flag': '🇧🇯',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Porto-Novo',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Tunis',
+      'name': 'Central European Standard Time',
+      'city': 'Tunis',
+      'flag': '🇹🇳',
+      'offset': '+01:00',
+      'ianaTimezone': 'Africa/Tunis',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Atlantic/Canary',
+      'name': 'Western European Summer Time',
+      'city': 'Canary',
+      'flag': '🇪🇸',
+      'offset': '+01:00',
+      'ianaTimezone': 'Atlantic/Canary',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Atlantic/Faeroe',
+      'name': 'Western European Summer Time',
+      'city': 'Faeroe',
+      'flag': '🇫🇴',
+      'offset': '+01:00',
+      'ianaTimezone': 'Atlantic/Faeroe',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Atlantic/Madeira',
+      'name': 'Western European Summer Time',
+      'city': 'Madeira',
+      'flag': '🇵🇹',
+      'offset': '+01:00',
+      'ianaTimezone': 'Atlantic/Madeira',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Europe/Dublin',
+      'name': 'Irish Standard Time',
+      'city': 'Dublin',
+      'flag': '🇮🇪',
+      'offset': '+01:00',
+      'ianaTimezone': 'Europe/Dublin',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Europe/Guernsey',
+      'name': 'GMT+01:00',
+      'city': 'Guernsey',
+      'flag': '🇬🇬',
+      'offset': '+01:00',
+      'ianaTimezone': 'Europe/Guernsey',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Europe/Isle_of_Man',
+      'name': 'GMT+01:00',
+      'city': 'Isle of Man',
+      'flag': '🇮🇲',
+      'offset': '+01:00',
+      'ianaTimezone': 'Europe/Isle_of_Man',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Europe/Jersey',
+      'name': 'GMT+01:00',
+      'city': 'Jersey',
+      'flag': '🇯🇪',
+      'offset': '+01:00',
+      'ianaTimezone': 'Europe/Jersey',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Europe/Lisbon',
+      'name': 'Western European Summer Time',
+      'city': 'Lisbon',
+      'flag': '🇵🇹',
+      'offset': '+01:00',
+      'ianaTimezone': 'Europe/Lisbon',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Europe/London',
+      'name': 'British Summer Time',
+      'city': 'London',
+      'flag': '🇬🇧',
+      'offset': '+01:00',
+      'ianaTimezone': 'Europe/London',
+      'abbreviation': 'GMT+1'
+    },
+    {
+      'value': 'Africa/Blantyre',
+      'name': 'Central Africa Time',
+      'city': 'Blantyre',
+      'flag': '🇲🇼',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Blantyre',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Bujumbura',
+      'name': 'Central Africa Time',
+      'city': 'Bujumbura',
+      'flag': '🇧🇮',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Bujumbura',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Ceuta',
+      'name': 'Central European Summer Time',
+      'city': 'Ceuta',
+      'flag': '🇪🇸',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Ceuta',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Gaborone',
+      'name': 'Central Africa Time',
+      'city': 'Gaborone',
+      'flag': '🇧🇼',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Gaborone',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Harare',
+      'name': 'Central Africa Time',
+      'city': 'Harare',
+      'flag': '🇿🇼',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Harare',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Johannesburg',
+      'name': 'South Africa Standard Time',
+      'city': 'Johannesburg',
+      'flag': '🇿🇦',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Johannesburg',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Juba',
+      'name': 'Central Africa Time',
+      'city': 'Juba',
+      'flag': '🇸🇸',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Juba',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Khartoum',
+      'name': 'Central Africa Time',
+      'city': 'Khartoum',
+      'flag': '🇸🇩',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Khartoum',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Kigali',
+      'name': 'Central Africa Time',
+      'city': 'Kigali',
+      'flag': '🇷🇼',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Kigali',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Lubumbashi',
+      'name': 'Central Africa Time',
+      'city': 'Lubumbashi',
+      'flag': '🇨🇩',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Lubumbashi',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Lusaka',
+      'name': 'Central Africa Time',
+      'city': 'Lusaka',
+      'flag': '🇿🇲',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Lusaka',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Maputo',
+      'name': 'Central Africa Time',
+      'city': 'Maputo',
+      'flag': '🇲🇿',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Maputo',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Maseru',
+      'name': 'South Africa Standard Time',
+      'city': 'Maseru',
+      'flag': '🇱🇸',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Maseru',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Mbabane',
+      'name': 'South Africa Standard Time',
+      'city': 'Mbabane',
+      'flag': '🇸🇿',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Mbabane',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Tripoli',
+      'name': 'Eastern European Standard Time',
+      'city': 'Tripoli',
+      'flag': '🇱🇾',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Tripoli',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Windhoek',
+      'name': 'Central Africa Time',
+      'city': 'Windhoek',
+      'flag': '🇳🇦',
+      'offset': '+02:00',
+      'ianaTimezone': 'Africa/Windhoek',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Antarctica/Troll',
+      'name': 'GMT+02:00',
+      'city': 'Troll',
+      'flag': '🇦🇶',
+      'offset': '+02:00',
+      'ianaTimezone': 'Antarctica/Troll',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Arctic/Longyearbyen',
+      'name': 'Central European Summer Time',
+      'city': 'Longyearbyen',
+      'flag': '🇳🇴',
+      'offset': '+02:00',
+      'ianaTimezone': 'Arctic/Longyearbyen',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Amsterdam',
+      'name': 'Central European Summer Time',
+      'city': 'Amsterdam',
+      'flag': '🇳🇱',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Amsterdam',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Andorra',
+      'name': 'Central European Summer Time',
+      'city': 'Andorra',
+      'flag': '🇦🇩',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Andorra',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Belgrade',
+      'name': 'Central European Summer Time',
+      'city': 'Belgrade',
+      'flag': '🇷🇸',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Belgrade',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Berlin',
+      'name': 'Central European Summer Time',
+      'city': 'Berlin',
+      'flag': '🇩🇪',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Berlin',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Bratislava',
+      'name': 'Central European Summer Time',
+      'city': 'Bratislava',
+      'flag': '🇸🇰',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Bratislava',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Brussels',
+      'name': 'Central European Summer Time',
+      'city': 'Brussels',
+      'flag': '🇧🇪',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Brussels',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Budapest',
+      'name': 'Central European Summer Time',
+      'city': 'Budapest',
+      'flag': '🇭🇺',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Budapest',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Busingen',
+      'name': 'Central European Summer Time',
+      'city': 'Busingen',
+      'flag': '🇩🇪',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Busingen',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Copenhagen',
+      'name': 'Central European Summer Time',
+      'city': 'Copenhagen',
+      'flag': '🇩🇰',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Copenhagen',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Gibraltar',
+      'name': 'Central European Summer Time',
+      'city': 'Gibraltar',
+      'flag': '🇬🇮',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Gibraltar',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Kaliningrad',
+      'name': 'Eastern European Standard Time',
+      'city': 'Kaliningrad',
+      'flag': '🇷🇺',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Kaliningrad',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Ljubljana',
+      'name': 'Central European Summer Time',
+      'city': 'Ljubljana',
+      'flag': '🇸🇮',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Ljubljana',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Luxembourg',
+      'name': 'Central European Summer Time',
+      'city': 'Luxembourg',
+      'flag': '🇱🇺',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Luxembourg',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Madrid',
+      'name': 'Central European Summer Time',
+      'city': 'Madrid',
+      'flag': '🇪🇸',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Madrid',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Malta',
+      'name': 'Central European Summer Time',
+      'city': 'Malta',
+      'flag': '🇲🇹',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Malta',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Monaco',
+      'name': 'Central European Summer Time',
+      'city': 'Monaco',
+      'flag': '🇲🇨',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Monaco',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Oslo',
+      'name': 'Central European Summer Time',
+      'city': 'Oslo',
+      'flag': '🇳🇴',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Oslo',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Paris',
+      'name': 'Central European Summer Time',
+      'city': 'Paris',
+      'flag': '🇫🇷',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Paris',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Podgorica',
+      'name': 'Central European Summer Time',
+      'city': 'Podgorica',
+      'flag': '🇲🇪',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Podgorica',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Prague',
+      'name': 'Central European Summer Time',
+      'city': 'Prague',
+      'flag': '🇨🇿',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Prague',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Rome',
+      'name': 'Central European Summer Time',
+      'city': 'Rome',
+      'flag': '🇮🇹',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Rome',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/San_Marino',
+      'name': 'Central European Summer Time',
+      'city': 'San Marino',
+      'flag': '🇸🇲',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/San_Marino',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Sarajevo',
+      'name': 'Central European Summer Time',
+      'city': 'Sarajevo',
+      'flag': '🇧🇦',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Sarajevo',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Skopje',
+      'name': 'Central European Summer Time',
+      'city': 'Skopje',
+      'flag': '🇲🇰',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Skopje',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Stockholm',
+      'name': 'Central European Summer Time',
+      'city': 'Stockholm',
+      'flag': '🇸🇪',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Stockholm',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Tirane',
+      'name': 'Central European Summer Time',
+      'city': 'Tirane',
+      'flag': '🇦🇱',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Tirane',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Vaduz',
+      'name': 'Central European Summer Time',
+      'city': 'Vaduz',
+      'flag': '🇱🇮',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Vaduz',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Vatican',
+      'name': 'Central European Summer Time',
+      'city': 'Vatican',
+      'flag': '🇻🇦',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Vatican',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Vienna',
+      'name': 'Central European Summer Time',
+      'city': 'Vienna',
+      'flag': '🇦🇹',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Vienna',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Warsaw',
+      'name': 'Central European Summer Time',
+      'city': 'Warsaw',
+      'flag': '🇵🇱',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Warsaw',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Zagreb',
+      'name': 'Central European Summer Time',
+      'city': 'Zagreb',
+      'flag': '🇭🇷',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Zagreb',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Europe/Zurich',
+      'name': 'Central European Summer Time',
+      'city': 'Zurich',
+      'flag': '🇨🇭',
+      'offset': '+02:00',
+      'ianaTimezone': 'Europe/Zurich',
+      'abbreviation': 'GMT+2'
+    },
+    {
+      'value': 'Africa/Addis_Ababa',
+      'name': 'East Africa Time',
+      'city': 'Addis Ababa',
+      'flag': '🇪🇹',
+      'offset': '+03:00',
+      'ianaTimezone': 'Africa/Addis_Ababa',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Africa/Asmera',
+      'name': 'East Africa Time',
+      'city': 'Asmera',
+      'flag': '🇪🇷',
+      'offset': '+03:00',
+      'ianaTimezone': 'Africa/Asmera',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Africa/Cairo',
+      'name': 'Eastern European Summer Time',
+      'city': 'Cairo',
+      'flag': '🇪🇬',
+      'offset': '+03:00',
+      'ianaTimezone': 'Africa/Cairo',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Africa/Dar_es_Salaam',
+      'name': 'East Africa Time',
+      'city': 'Dar es Salaam',
+      'flag': '🇹🇿',
+      'offset': '+03:00',
+      'ianaTimezone': 'Africa/Dar_es_Salaam',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Africa/Djibouti',
+      'name': 'East Africa Time',
+      'city': 'Djibouti',
+      'flag': '🇩🇯',
+      'offset': '+03:00',
+      'ianaTimezone': 'Africa/Djibouti',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Africa/Kampala',
+      'name': 'East Africa Time',
+      'city': 'Kampala',
+      'flag': '🇺🇬',
+      'offset': '+03:00',
+      'ianaTimezone': 'Africa/Kampala',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Africa/Mogadishu',
+      'name': 'East Africa Time',
+      'city': 'Mogadishu',
+      'flag': '🇸🇴',
+      'offset': '+03:00',
+      'ianaTimezone': 'Africa/Mogadishu',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Africa/Nairobi',
+      'name': 'East Africa Time',
+      'city': 'Nairobi',
+      'flag': '🇰🇪',
+      'offset': '+03:00',
+      'ianaTimezone': 'Africa/Nairobi',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Antarctica/Syowa',
+      'name': 'Syowa Time',
+      'city': 'Syowa',
+      'flag': '🇦🇶',
+      'offset': '+03:00',
+      'ianaTimezone': 'Antarctica/Syowa',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Aden',
+      'name': 'Arabian Standard Time',
+      'city': 'Aden',
+      'flag': '🇾🇪',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Aden',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Amman',
+      'name': 'GMT+03:00',
+      'city': 'Amman',
+      'flag': '🇯🇴',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Amman',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Baghdad',
+      'name': 'Arabian Standard Time',
+      'city': 'Baghdad',
+      'flag': '🇮🇶',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Baghdad',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Bahrain',
+      'name': 'Arabian Standard Time',
+      'city': 'Bahrain',
+      'flag': '🇧🇭',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Bahrain',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Beirut',
+      'name': 'Eastern European Summer Time',
+      'city': 'Beirut',
+      'flag': '🇱🇧',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Beirut',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Damascus',
+      'name': 'GMT+03:00',
+      'city': 'Damascus',
+      'flag': '🇸🇾',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Damascus',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Famagusta',
+      'name': 'GMT+03:00',
+      'city': 'Famagusta',
+      'flag': '🇨🇾',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Famagusta',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Gaza',
+      'name': 'Eastern European Summer Time',
+      'city': 'Gaza',
+      'flag': '🇵🇸',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Gaza',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Hebron',
+      'name': 'Eastern European Summer Time',
+      'city': 'Hebron',
+      'flag': '🇵🇸',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Hebron',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Jerusalem',
+      'name': 'Israel Daylight Time',
+      'city': 'Jerusalem',
+      'flag': '🇮🇱',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Jerusalem',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Kuwait',
+      'name': 'Arabian Standard Time',
+      'city': 'Kuwait',
+      'flag': '🇰🇼',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Kuwait',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Nicosia',
+      'name': 'Eastern European Summer Time',
+      'city': 'Nicosia',
+      'flag': '🇨🇾',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Nicosia',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Qatar',
+      'name': 'Arabian Standard Time',
+      'city': 'Qatar',
+      'flag': '🇶🇦',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Qatar',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Riyadh',
+      'name': 'Arabian Standard Time',
+      'city': 'Riyadh',
+      'flag': '🇸🇦',
+      'offset': '+03:00',
+      'ianaTimezone': 'Asia/Riyadh',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Athens',
+      'name': 'Eastern European Summer Time',
+      'city': 'Athens',
+      'flag': '🇬🇷',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Athens',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Bucharest',
+      'name': 'Eastern European Summer Time',
+      'city': 'Bucharest',
+      'flag': '🇷🇴',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Bucharest',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Chisinau',
+      'name': 'Eastern European Summer Time',
+      'city': 'Chisinau',
+      'flag': '🇲🇩',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Chisinau',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Helsinki',
+      'name': 'Eastern European Summer Time',
+      'city': 'Helsinki',
+      'flag': '🇫🇮',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Helsinki',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Istanbul',
+      'name': 'GMT+03:00',
+      'city': 'Istanbul',
+      'flag': '🇹🇷',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Istanbul',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Kiev',
+      'name': 'Eastern European Summer Time',
+      'city': 'Kiev',
+      'flag': '🇺🇦',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Kiev',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Kirov',
+      'name': 'GMT+03:00',
+      'city': 'Kirov',
+      'flag': '🇷🇺',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Kirov',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Mariehamn',
+      'name': 'Eastern European Summer Time',
+      'city': 'Mariehamn',
+      'flag': '🇦🇽',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Mariehamn',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Minsk',
+      'name': 'Moscow Standard Time',
+      'city': 'Minsk',
+      'flag': '🇧🇾',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Minsk',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Moscow',
+      'name': 'Moscow Standard Time',
+      'city': 'Moscow',
+      'flag': '🇷🇺',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Moscow',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Riga',
+      'name': 'Eastern European Summer Time',
+      'city': 'Riga',
+      'flag': '🇱🇻',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Riga',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Simferopol',
+      'name': 'Moscow Standard Time',
+      'city': 'Simferopol',
+      'flag': '🇺🇦',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Simferopol',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Sofia',
+      'name': 'Eastern European Summer Time',
+      'city': 'Sofia',
+      'flag': '🇧🇬',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Sofia',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Tallinn',
+      'name': 'Eastern European Summer Time',
+      'city': 'Tallinn',
+      'flag': '🇪🇪',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Tallinn',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Vilnius',
+      'name': 'Eastern European Summer Time',
+      'city': 'Vilnius',
+      'flag': '🇱🇹',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Vilnius',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Europe/Volgograd',
+      'name': 'Volgograd Standard Time',
+      'city': 'Volgograd',
+      'flag': '🇷🇺',
+      'offset': '+03:00',
+      'ianaTimezone': 'Europe/Volgograd',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Indian/Antananarivo',
+      'name': 'East Africa Time',
+      'city': 'Antananarivo',
+      'flag': '🇲🇬',
+      'offset': '+03:00',
+      'ianaTimezone': 'Indian/Antananarivo',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Indian/Comoro',
+      'name': 'East Africa Time',
+      'city': 'Comoro',
+      'flag': '🇰🇲',
+      'offset': '+03:00',
+      'ianaTimezone': 'Indian/Comoro',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Indian/Mayotte',
+      'name': 'East Africa Time',
+      'city': 'Mayotte',
+      'flag': '🇾🇹',
+      'offset': '+03:00',
+      'ianaTimezone': 'Indian/Mayotte',
+      'abbreviation': 'GMT+3'
+    },
+    {
+      'value': 'Asia/Tehran',
+      'name': 'Iran Standard Time',
+      'city': 'Tehran',
+      'flag': '🇮🇷',
+      'offset': '+03:30',
+      'ianaTimezone': 'Asia/Tehran',
+      'abbreviation': 'GMT+3:30'
+    },
+    {
+      'value': 'Asia/Baku',
+      'name': 'Azerbaijan Standard Time',
+      'city': 'Baku',
+      'flag': '🇦🇿',
+      'offset': '+04:00',
+      'ianaTimezone': 'Asia/Baku',
+      'abbreviation': 'GMT+4'
+    },
+    {
+      'value': 'Asia/Dubai',
+      'name': 'Gulf Standard Time',
+      'city': 'Dubai',
+      'flag': '🇦🇪',
+      'offset': '+04:00',
+      'ianaTimezone': 'Asia/Dubai',
+      'abbreviation': 'GMT+4'
+    },
+    {
+      'value': 'Asia/Muscat',
+      'name': 'Gulf Standard Time',
+      'city': 'Muscat',
+      'flag': '🇴🇲',
+      'offset': '+04:00',
+      'ianaTimezone': 'Asia/Muscat',
+      'abbreviation': 'GMT+4'
+    },
+    {
+      'value': 'Asia/Tbilisi',
+      'name': 'Georgia Standard Time',
+      'city': 'Tbilisi',
+      'flag': '🇬🇪',
+      'offset': '+04:00',
+      'ianaTimezone': 'Asia/Tbilisi',
+      'abbreviation': 'GMT+4'
+    },
+    {
+      'value': 'Asia/Yerevan',
+      'name': 'Armenia Standard Time',
+      'city': 'Yerevan',
+      'flag': '🇦🇲',
+      'offset': '+04:00',
+      'ianaTimezone': 'Asia/Yerevan',
+      'abbreviation': 'GMT+4'
+    },
+    {
+      'value': 'Europe/Astrakhan',
+      'name': 'GMT+04:00',
+      'city': 'Astrakhan',
+      'flag': '🇷🇺',
+      'offset': '+04:00',
+      'ianaTimezone': 'Europe/Astrakhan',
+      'abbreviation': 'GMT+4'
+    },
+    {
+      'value': 'Europe/Samara',
+      'name': 'Samara Standard Time',
+      'city': 'Samara',
+      'flag': '🇷🇺',
+      'offset': '+04:00',
+      'ianaTimezone': 'Europe/Samara',
+      'abbreviation': 'GMT+4'
+    },
+    {
+      'value': 'Europe/Saratov',
+      'name': 'GMT+04:00',
+      'city': 'Saratov',
+      'flag': '🇷🇺',
+      'offset': '+04:00',
+      'ianaTimezone': 'Europe/Saratov',
+      'abbreviation': 'GMT+4'
+    },
+    {
+      'value': 'Europe/Ulyanovsk',
+      'name': 'GMT+04:00',
+      'city': 'Ulyanovsk',
+      'flag': '🇷🇺',
+      'offset': '+04:00',
+      'ianaTimezone': 'Europe/Ulyanovsk',
+      'abbreviation': 'GMT+4'
+    },
+    {
+      'value': 'Indian/Mahe',
+      'name': 'Seychelles Time',
+      'city': 'Mahe',
+      'flag': '🇸🇨',
+      'offset': '+04:00',
+      'ianaTimezone': 'Indian/Mahe',
+      'abbreviation': 'GMT+4'
+    },
+    {
+      'value': 'Indian/Mauritius',
+      'name': 'Mauritius Standard Time',
+      'city': 'Mauritius',
+      'flag': '🇲🇺',
+      'offset': '+04:00',
+      'ianaTimezone': 'Indian/Mauritius',
+      'abbreviation': 'GMT+4'
+    },
+    {
+      'value': 'Indian/Reunion',
+      'name': 'Réunion Time',
+      'city': 'Reunion',
+      'flag': '🇷🇪',
+      'offset': '+04:00',
+      'ianaTimezone': 'Indian/Reunion',
+      'abbreviation': 'GMT+4'
+    },
+    {
+      'value': 'Asia/Kabul',
+      'name': 'Afghanistan Time',
+      'city': 'Kabul',
+      'flag': '🇦🇫',
+      'offset': '+04:30',
+      'ianaTimezone': 'Asia/Kabul',
+      'abbreviation': 'GMT+4:30'
+    },
+    {
+      'value': 'Antarctica/Mawson',
+      'name': 'Mawson Time',
+      'city': 'Mawson',
+      'flag': '🇦🇶',
+      'offset': '+05:00',
+      'ianaTimezone': 'Antarctica/Mawson',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Antarctica/Vostok',
+      'name': 'Vostok Time',
+      'city': 'Vostok',
+      'flag': '🇦🇶',
+      'offset': '+05:00',
+      'ianaTimezone': 'Antarctica/Vostok',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Almaty',
+      'name': 'GMT+05:00',
+      'city': 'Almaty',
+      'flag': '🇰🇿',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Almaty',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Aqtau',
+      'name': 'GMT+05:00',
+      'city': 'Aqtau',
+      'flag': '🇰🇿',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Aqtau',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Aqtobe',
+      'name': 'GMT+05:00',
+      'city': 'Aqtobe',
+      'flag': '🇰🇿',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Aqtobe',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Ashgabat',
+      'name': 'Turkmenistan Standard Time',
+      'city': 'Ashgabat',
+      'flag': '🇹🇲',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Ashgabat',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Atyrau',
+      'name': 'GMT+05:00',
+      'city': 'Atyrau',
+      'flag': '🇰🇿',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Atyrau',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Dushanbe',
+      'name': 'Tajikistan Time',
+      'city': 'Dushanbe',
+      'flag': '🇹🇯',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Dushanbe',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Karachi',
+      'name': 'Pakistan Standard Time',
+      'city': 'Karachi',
+      'flag': '🇵🇰',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Karachi',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Oral',
+      'name': 'GMT+05:00',
+      'city': 'Oral',
+      'flag': '🇰🇿',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Oral',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Qostanay',
+      'name': 'GMT+05:00',
+      'city': 'Qostanay',
+      'flag': '🇰🇿',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Qostanay',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Qyzylorda',
+      'name': 'GMT+05:00',
+      'city': 'Qyzylorda',
+      'flag': '🇰🇿',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Qyzylorda',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Samarkand',
+      'name': 'Uzbekistan Standard Time',
+      'city': 'Samarkand',
+      'flag': '🇺🇿',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Samarkand',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Tashkent',
+      'name': 'Uzbekistan Standard Time',
+      'city': 'Tashkent',
+      'flag': '🇺🇿',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Tashkent',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Yekaterinburg',
+      'name': 'Yekaterinburg Standard Time',
+      'city': 'Yekaterinburg',
+      'flag': '🇷🇺',
+      'offset': '+05:00',
+      'ianaTimezone': 'Asia/Yekaterinburg',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Indian/Kerguelen',
+      'name': 'French Southern & Antarctic Time',
+      'city': 'Kerguelen',
+      'flag': '🇹🇫',
+      'offset': '+05:00',
+      'ianaTimezone': 'Indian/Kerguelen',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Indian/Maldives',
+      'name': 'Maldives Time',
+      'city': 'Maldives',
+      'flag': '🇲🇻',
+      'offset': '+05:00',
+      'ianaTimezone': 'Indian/Maldives',
+      'abbreviation': 'GMT+5'
+    },
+    {
+      'value': 'Asia/Colombo',
+      'name': 'India Standard Time',
+      'city': 'Colombo',
+      'flag': '🇱🇰',
+      'offset': '+05:30',
+      'ianaTimezone': 'Asia/Colombo',
+      'abbreviation': 'GMT+5:30'
+    },
+    {
+      'value': 'Asia/Kolkata',
+      'name': 'India Standard Time',
+      'city': 'Calcutta',
+      'flag': '🇮🇳',
+      'offset': '+05:30',
+      'ianaTimezone': 'Asia/Calcutta',
+      'abbreviation': 'GMT+5:30'
+    },
+    {
+      'value': 'Asia/Kathmandu',
+      'name': 'Nepal Time',
+      'city': 'Katmandu',
+      'flag': '🇳🇵',
+      'offset': '+05:45',
+      'ianaTimezone': 'Asia/Katmandu',
+      'abbreviation': 'GMT+5:45'
+    },
+    {
+      'value': 'Asia/Bishkek',
+      'name': 'Kyrgyzstan Time',
+      'city': 'Bishkek',
+      'flag': '🇰🇬',
+      'offset': '+06:00',
+      'ianaTimezone': 'Asia/Bishkek',
+      'abbreviation': 'GMT+6'
+    },
+    {
+      'value': 'Asia/Dhaka',
+      'name': 'Bangladesh Standard Time',
+      'city': 'Dhaka',
+      'flag': '🇧🇩',
+      'offset': '+06:00',
+      'ianaTimezone': 'Asia/Dhaka',
+      'abbreviation': 'GMT+6'
+    },
+    {
+      'value': 'Asia/Omsk',
+      'name': 'Omsk Standard Time',
+      'city': 'Omsk',
+      'flag': '🇷🇺',
+      'offset': '+06:00',
+      'ianaTimezone': 'Asia/Omsk',
+      'abbreviation': 'GMT+6'
+    },
+    {
+      'value': 'Asia/Thimphu',
+      'name': 'Bhutan Time',
+      'city': 'Thimphu',
+      'flag': '🇧🇹',
+      'offset': '+06:00',
+      'ianaTimezone': 'Asia/Thimphu',
+      'abbreviation': 'GMT+6'
+    },
+    {
+      'value': 'Asia/Urumqi',
+      'name': 'GMT+06:00',
+      'city': 'Urumqi',
+      'flag': '🇨🇳',
+      'offset': '+06:00',
+      'ianaTimezone': 'Asia/Urumqi',
+      'abbreviation': 'GMT+6'
+    },
+    {
+      'value': 'Indian/Chagos',
+      'name': 'Indian Ocean Time',
+      'city': 'Chagos',
+      'flag': '🇮🇴',
+      'offset': '+06:00',
+      'ianaTimezone': 'Indian/Chagos',
+      'abbreviation': 'GMT+6'
+    },
+    {
+      'value': 'Asia/Yangon',
+      'name': 'Myanmar Time',
+      'city': 'Rangoon',
+      'flag': '🇲🇲',
+      'offset': '+06:30',
+      'ianaTimezone': 'Asia/Rangoon',
+      'abbreviation': 'GMT+6:30'
+    },
+    {
+      'value': 'Indian/Cocos',
+      'name': 'Cocos Islands Time',
+      'city': 'Cocos',
+      'flag': '🇨🇨',
+      'offset': '+06:30',
+      'ianaTimezone': 'Indian/Cocos',
+      'abbreviation': 'GMT+6:30'
+    },
+    {
+      'value': 'Antarctica/Davis',
+      'name': 'Davis Time',
+      'city': 'Davis',
+      'flag': '🇦🇶',
+      'offset': '+07:00',
+      'ianaTimezone': 'Antarctica/Davis',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Asia/Bangkok',
+      'name': 'Indochina Time',
+      'city': 'Bangkok',
+      'flag': '🇹🇭',
+      'offset': '+07:00',
+      'ianaTimezone': 'Asia/Bangkok',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Asia/Barnaul',
+      'name': 'GMT+07:00',
+      'city': 'Barnaul',
+      'flag': '🇷🇺',
+      'offset': '+07:00',
+      'ianaTimezone': 'Asia/Barnaul',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Asia/Ho_Chi_Minh',
+      'name': 'Indochina Time',
+      'city': 'Saigon',
+      'flag': '🇻🇳',
+      'offset': '+07:00',
+      'ianaTimezone': 'Asia/Saigon',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Asia/Hovd',
+      'name': 'Hovd Standard Time',
+      'city': 'Hovd',
+      'flag': '🇲🇳',
+      'offset': '+07:00',
+      'ianaTimezone': 'Asia/Hovd',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Asia/Jakarta',
+      'name': 'Western Indonesia Time',
+      'city': 'Jakarta',
+      'flag': '🇮🇩',
+      'offset': '+07:00',
+      'ianaTimezone': 'Asia/Jakarta',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Asia/Krasnoyarsk',
+      'name': 'Krasnoyarsk Standard Time',
+      'city': 'Krasnoyarsk',
+      'flag': '🇷🇺',
+      'offset': '+07:00',
+      'ianaTimezone': 'Asia/Krasnoyarsk',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Asia/Novokuznetsk',
+      'name': 'Krasnoyarsk Standard Time',
+      'city': 'Novokuznetsk',
+      'flag': '🇷🇺',
+      'offset': '+07:00',
+      'ianaTimezone': 'Asia/Novokuznetsk',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Asia/Novosibirsk',
+      'name': 'Novosibirsk Standard Time',
+      'city': 'Novosibirsk',
+      'flag': '🇷🇺',
+      'offset': '+07:00',
+      'ianaTimezone': 'Asia/Novosibirsk',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Asia/Phnom_Penh',
+      'name': 'Indochina Time',
+      'city': 'Phnom Penh',
+      'flag': '🇰🇭',
+      'offset': '+07:00',
+      'ianaTimezone': 'Asia/Phnom_Penh',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Asia/Pontianak',
+      'name': 'Western Indonesia Time',
+      'city': 'Pontianak',
+      'flag': '🇮🇩',
+      'offset': '+07:00',
+      'ianaTimezone': 'Asia/Pontianak',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Asia/Tomsk',
+      'name': 'GMT+07:00',
+      'city': 'Tomsk',
+      'flag': '🇷🇺',
+      'offset': '+07:00',
+      'ianaTimezone': 'Asia/Tomsk',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Asia/Vientiane',
+      'name': 'Indochina Time',
+      'city': 'Vientiane',
+      'flag': '🇱🇦',
+      'offset': '+07:00',
+      'ianaTimezone': 'Asia/Vientiane',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Indian/Christmas',
+      'name': 'Christmas Island Time',
+      'city': 'Christmas',
+      'flag': '🇨🇽',
+      'offset': '+07:00',
+      'ianaTimezone': 'Indian/Christmas',
+      'abbreviation': 'GMT+7'
+    },
+    {
+      'value': 'Antarctica/Casey',
+      'name': 'Australian Western Standard Time',
+      'city': 'Casey',
+      'flag': '🇦🇶',
+      'offset': '+08:00',
+      'ianaTimezone': 'Antarctica/Casey',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Asia/Brunei',
+      'name': 'Brunei Darussalam Time',
+      'city': 'Brunei',
+      'flag': '🇧🇳',
+      'offset': '+08:00',
+      'ianaTimezone': 'Asia/Brunei',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Asia/Hong_Kong',
+      'name': 'Hong Kong Standard Time',
+      'city': 'Hong Kong',
+      'flag': '🇭🇰',
+      'offset': '+08:00',
+      'ianaTimezone': 'Asia/Hong_Kong',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Asia/Irkutsk',
+      'name': 'Irkutsk Standard Time',
+      'city': 'Irkutsk',
+      'flag': '🇷🇺',
+      'offset': '+08:00',
+      'ianaTimezone': 'Asia/Irkutsk',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Asia/Kuala_Lumpur',
+      'name': 'Malaysia Time',
+      'city': 'Kuala Lumpur',
+      'flag': '🇲🇾',
+      'offset': '+08:00',
+      'ianaTimezone': 'Asia/Kuala_Lumpur',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Asia/Kuching',
+      'name': 'Malaysia Time',
+      'city': 'Kuching',
+      'flag': '🇲🇾',
+      'offset': '+08:00',
+      'ianaTimezone': 'Asia/Kuching',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Asia/Macau',
+      'name': 'China Standard Time',
+      'city': 'Macau',
+      'flag': '🇲🇴',
+      'offset': '+08:00',
+      'ianaTimezone': 'Asia/Macau',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Asia/Makassar',
+      'name': 'Central Indonesia Time',
+      'city': 'Makassar',
+      'flag': '🇮🇩',
+      'offset': '+08:00',
+      'ianaTimezone': 'Asia/Makassar',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Asia/Manila',
+      'name': 'Philippine Standard Time',
+      'city': 'Manila',
+      'flag': '🇵🇭',
+      'offset': '+08:00',
+      'ianaTimezone': 'Asia/Manila',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Asia/Shanghai',
+      'name': 'China Standard Time',
+      'city': 'Shanghai',
+      'flag': '🇨🇳',
+      'offset': '+08:00',
+      'ianaTimezone': 'Asia/Shanghai',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Asia/Singapore',
+      'name': 'Singapore Standard Time',
+      'city': 'Singapore',
+      'flag': '🇸🇬',
+      'offset': '+08:00',
+      'ianaTimezone': 'Asia/Singapore',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Asia/Taipei',
+      'name': 'Taipei Standard Time',
+      'city': 'Taipei',
+      'flag': '🇹🇼',
+      'offset': '+08:00',
+      'ianaTimezone': 'Asia/Taipei',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Asia/Ulaanbaatar',
+      'name': 'Ulaanbaatar Standard Time',
+      'city': 'Ulaanbaatar',
+      'flag': '🇲🇳',
+      'offset': '+08:00',
+      'ianaTimezone': 'Asia/Ulaanbaatar',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Australia/Perth',
+      'name': 'Australian Western Standard Time',
+      'city': 'Perth',
+      'flag': '🇦🇺',
+      'offset': '+08:00',
+      'ianaTimezone': 'Australia/Perth',
+      'abbreviation': 'GMT+8'
+    },
+    {
+      'value': 'Australia/Eucla',
+      'name': 'Australian Central Western Standard Time',
+      'city': 'Eucla',
+      'flag': '🇦🇺',
+      'offset': '+08:45',
+      'ianaTimezone': 'Australia/Eucla',
+      'abbreviation': 'GMT+8:45'
+    },
+    {
+      'value': 'Asia/Chita',
+      'name': 'Yakutsk Standard Time',
+      'city': 'Chita',
+      'flag': '🇷🇺',
+      'offset': '+09:00',
+      'ianaTimezone': 'Asia/Chita',
+      'abbreviation': 'GMT+9'
+    },
+    {
+      'value': 'Asia/Dili',
+      'name': 'East Timor Time',
+      'city': 'Dili',
+      'flag': '🇹🇱',
+      'offset': '+09:00',
+      'ianaTimezone': 'Asia/Dili',
+      'abbreviation': 'GMT+9'
+    },
+    {
+      'value': 'Asia/Jayapura',
+      'name': 'Eastern Indonesia Time',
+      'city': 'Jayapura',
+      'flag': '🇮🇩',
+      'offset': '+09:00',
+      'ianaTimezone': 'Asia/Jayapura',
+      'abbreviation': 'GMT+9'
+    },
+    {
+      'value': 'Asia/Khandyga',
+      'name': 'Yakutsk Standard Time',
+      'city': 'Khandyga',
+      'flag': '🇷🇺',
+      'offset': '+09:00',
+      'ianaTimezone': 'Asia/Khandyga',
+      'abbreviation': 'GMT+9'
+    },
+    {
+      'value': 'Asia/Pyongyang',
+      'name': 'Korean Standard Time',
+      'city': 'Pyongyang',
+      'flag': '🇰🇵',
+      'offset': '+09:00',
+      'ianaTimezone': 'Asia/Pyongyang',
+      'abbreviation': 'GMT+9'
+    },
+    {
+      'value': 'Asia/Seoul',
+      'name': 'Korean Standard Time',
+      'city': 'Seoul',
+      'flag': '🇰🇷',
+      'offset': '+09:00',
+      'ianaTimezone': 'Asia/Seoul',
+      'abbreviation': 'GMT+9'
+    },
+    {
+      'value': 'Asia/Tokyo',
+      'name': 'Japan Standard Time',
+      'city': 'Tokyo',
+      'flag': '🇯🇵',
+      'offset': '+09:00',
+      'ianaTimezone': 'Asia/Tokyo',
+      'abbreviation': 'GMT+9'
+    },
+    {
+      'value': 'Asia/Yakutsk',
+      'name': 'Yakutsk Standard Time',
+      'city': 'Yakutsk',
+      'flag': '🇷🇺',
+      'offset': '+09:00',
+      'ianaTimezone': 'Asia/Yakutsk',
+      'abbreviation': 'GMT+9'
+    },
+    {
+      'value': 'Pacific/Palau',
+      'name': 'Palau Time',
+      'city': 'Palau',
+      'flag': '🇵🇼',
+      'offset': '+09:00',
+      'ianaTimezone': 'Pacific/Palau',
+      'abbreviation': 'GMT+9'
+    },
+    {
+      'value': 'Australia/Adelaide',
+      'name': 'Australian Central Standard Time',
+      'city': 'Adelaide',
+      'flag': '🇦🇺',
+      'offset': '+09:30',
+      'ianaTimezone': 'Australia/Adelaide',
+      'abbreviation': 'GMT+9:30'
+    },
+    {
+      'value': 'Australia/Broken_Hill',
+      'name': 'Australian Central Standard Time',
+      'city': 'Broken Hill',
+      'flag': '🇦🇺',
+      'offset': '+09:30',
+      'ianaTimezone': 'Australia/Broken_Hill',
+      'abbreviation': 'GMT+9:30'
+    },
+    {
+      'value': 'Australia/Darwin',
+      'name': 'Australian Central Standard Time',
+      'city': 'Darwin',
+      'flag': '🇦🇺',
+      'offset': '+09:30',
+      'ianaTimezone': 'Australia/Darwin',
+      'abbreviation': 'GMT+9:30'
+    },
+    {
+      'value': 'Antarctica/DumontDUrville',
+      'name': 'Dumont-d’Urville Time',
+      'city': 'DumontDUrville',
+      'flag': '🇦🇶',
+      'offset': '+10:00',
+      'ianaTimezone': 'Antarctica/DumontDUrville',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Antarctica/Macquarie',
+      'name': 'Australian Eastern Standard Time',
+      'city': 'Macquarie',
+      'flag': '🇦🇶',
+      'offset': '+10:00',
+      'ianaTimezone': 'Antarctica/Macquarie',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Asia/Ust-Nera',
+      'name': 'Vladivostok Standard Time',
+      'city': 'Ust-Nera',
+      'flag': '🇷🇺',
+      'offset': '+10:00',
+      'ianaTimezone': 'Asia/Ust-Nera',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Asia/Vladivostok',
+      'name': 'Vladivostok Standard Time',
+      'city': 'Vladivostok',
+      'flag': '🇷🇺',
+      'offset': '+10:00',
+      'ianaTimezone': 'Asia/Vladivostok',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Australia/Brisbane',
+      'name': 'Australian Eastern Standard Time',
+      'city': 'Brisbane',
+      'flag': '🇦🇺',
+      'offset': '+10:00',
+      'ianaTimezone': 'Australia/Brisbane',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Australia/Hobart',
+      'name': 'Australian Eastern Standard Time',
+      'city': 'Hobart',
+      'flag': '🇦🇺',
+      'offset': '+10:00',
+      'ianaTimezone': 'Australia/Hobart',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Australia/Lindeman',
+      'name': 'Australian Eastern Standard Time',
+      'city': 'Lindeman',
+      'flag': '🇦🇺',
+      'offset': '+10:00',
+      'ianaTimezone': 'Australia/Lindeman',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Australia/Melbourne',
+      'name': 'Australian Eastern Standard Time',
+      'city': 'Melbourne',
+      'flag': '🇦🇺',
+      'offset': '+10:00',
+      'ianaTimezone': 'Australia/Melbourne',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Australia/Sydney',
+      'name': 'Australian Eastern Standard Time',
+      'city': 'Sydney',
+      'flag': '🇦🇺',
+      'offset': '+10:00',
+      'ianaTimezone': 'Australia/Sydney',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Pacific/Guam',
+      'name': 'Chamorro Standard Time',
+      'city': 'Guam',
+      'flag': '🇬🇺',
+      'offset': '+10:00',
+      'ianaTimezone': 'Pacific/Guam',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Pacific/Port_Moresby',
+      'name': 'Papua New Guinea Time',
+      'city': 'Port Moresby',
+      'flag': '🇵🇬',
+      'offset': '+10:00',
+      'ianaTimezone': 'Pacific/Port_Moresby',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Pacific/Saipan',
+      'name': 'Chamorro Standard Time',
+      'city': 'Saipan',
+      'flag': '🇲🇵',
+      'offset': '+10:00',
+      'ianaTimezone': 'Pacific/Saipan',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Pacific/Truk',
+      'name': 'Chuuk Time',
+      'city': 'Truk',
+      'flag': '🇫🇲',
+      'offset': '+10:00',
+      'ianaTimezone': 'Pacific/Truk',
+      'abbreviation': 'GMT+10'
+    },
+    {
+      'value': 'Australia/Lord_Howe',
+      'name': 'Lord Howe Standard Time',
+      'city': 'Lord Howe',
+      'flag': '🇦🇺',
+      'offset': '+10:30',
+      'ianaTimezone': 'Australia/Lord_Howe',
+      'abbreviation': 'GMT+10:30'
+    },
+    {
+      'value': 'Asia/Magadan',
+      'name': 'Magadan Standard Time',
+      'city': 'Magadan',
+      'flag': '🇷🇺',
+      'offset': '+11:00',
+      'ianaTimezone': 'Asia/Magadan',
+      'abbreviation': 'GMT+11'
+    },
+    {
+      'value': 'Asia/Sakhalin',
+      'name': 'Sakhalin Standard Time',
+      'city': 'Sakhalin',
+      'flag': '🇷🇺',
+      'offset': '+11:00',
+      'ianaTimezone': 'Asia/Sakhalin',
+      'abbreviation': 'GMT+11'
+    },
+    {
+      'value': 'Asia/Srednekolymsk',
+      'name': 'GMT+11:00',
+      'city': 'Srednekolymsk',
+      'flag': '🇷🇺',
+      'offset': '+11:00',
+      'ianaTimezone': 'Asia/Srednekolymsk',
+      'abbreviation': 'GMT+11'
+    },
+    {
+      'value': 'Pacific/Bougainville',
+      'name': 'GMT+11:00',
+      'city': 'Bougainville',
+      'flag': '🇵🇬',
+      'offset': '+11:00',
+      'ianaTimezone': 'Pacific/Bougainville',
+      'abbreviation': 'GMT+11'
+    },
+    {
+      'value': 'Pacific/Efate',
+      'name': 'Vanuatu Standard Time',
+      'city': 'Efate',
+      'flag': '🇻🇺',
+      'offset': '+11:00',
+      'ianaTimezone': 'Pacific/Efate',
+      'abbreviation': 'GMT+11'
+    },
+    {
+      'value': 'Pacific/Guadalcanal',
+      'name': 'Solomon Islands Time',
+      'city': 'Guadalcanal',
+      'flag': '🇸🇧',
+      'offset': '+11:00',
+      'ianaTimezone': 'Pacific/Guadalcanal',
+      'abbreviation': 'GMT+11'
+    },
+    {
+      'value': 'Pacific/Kosrae',
+      'name': 'Kosrae Time',
+      'city': 'Kosrae',
+      'flag': '🇫🇲',
+      'offset': '+11:00',
+      'ianaTimezone': 'Pacific/Kosrae',
+      'abbreviation': 'GMT+11'
+    },
+    {
+      'value': 'Pacific/Norfolk',
+      'name': 'Norfolk Island Standard Time',
+      'city': 'Norfolk',
+      'flag': '🇳🇫',
+      'offset': '+11:00',
+      'ianaTimezone': 'Pacific/Norfolk',
+      'abbreviation': 'GMT+11'
+    },
+    {
+      'value': 'Pacific/Noumea',
+      'name': 'New Caledonia Standard Time',
+      'city': 'Noumea',
+      'flag': '🇳🇨',
+      'offset': '+11:00',
+      'ianaTimezone': 'Pacific/Noumea',
+      'abbreviation': 'GMT+11'
+    },
+    {
+      'value': 'Pacific/Ponape',
+      'name': 'Ponape Time',
+      'city': 'Ponape',
+      'flag': '🇫🇲',
+      'offset': '+11:00',
+      'ianaTimezone': 'Pacific/Ponape',
+      'abbreviation': 'GMT+11'
+    },
+    {
+      'value': 'Antarctica/McMurdo',
+      'name': 'New Zealand Standard Time',
+      'city': 'McMurdo',
+      'flag': '🇦🇶',
+      'offset': '+12:00',
+      'ianaTimezone': 'Antarctica/McMurdo',
+      'abbreviation': 'GMT+12'
+    },
+    {
+      'value': 'Asia/Anadyr',
+      'name': 'Anadyr Standard Time',
+      'city': 'Anadyr',
+      'flag': '🇷🇺',
+      'offset': '+12:00',
+      'ianaTimezone': 'Asia/Anadyr',
+      'abbreviation': 'GMT+12'
+    },
+    {
+      'value': 'Asia/Kamchatka',
+      'name': 'Petropavlovsk-Kamchatski Standard Time',
+      'city': 'Kamchatka',
+      'flag': '🇷🇺',
+      'offset': '+12:00',
+      'ianaTimezone': 'Asia/Kamchatka',
+      'abbreviation': 'GMT+12'
+    },
+    {
+      'value': 'Pacific/Auckland',
+      'name': 'New Zealand Standard Time',
+      'city': 'Auckland',
+      'flag': '🇳🇿',
+      'offset': '+12:00',
+      'ianaTimezone': 'Pacific/Auckland',
+      'abbreviation': 'GMT+12'
+    },
+    {
+      'value': 'Pacific/Fiji',
+      'name': 'Fiji Standard Time',
+      'city': 'Fiji',
+      'flag': '🇫🇯',
+      'offset': '+12:00',
+      'ianaTimezone': 'Pacific/Fiji',
+      'abbreviation': 'GMT+12'
+    },
+    {
+      'value': 'Pacific/Funafuti',
+      'name': 'Tuvalu Time',
+      'city': 'Funafuti',
+      'flag': '🇹🇻',
+      'offset': '+12:00',
+      'ianaTimezone': 'Pacific/Funafuti',
+      'abbreviation': 'GMT+12'
+    },
+    {
+      'value': 'Pacific/Kwajalein',
+      'name': 'Marshall Islands Time',
+      'city': 'Kwajalein',
+      'flag': '🇲🇭',
+      'offset': '+12:00',
+      'ianaTimezone': 'Pacific/Kwajalein',
+      'abbreviation': 'GMT+12'
+    },
+    {
+      'value': 'Pacific/Majuro',
+      'name': 'Marshall Islands Time',
+      'city': 'Majuro',
+      'flag': '🇲🇭',
+      'offset': '+12:00',
+      'ianaTimezone': 'Pacific/Majuro',
+      'abbreviation': 'GMT+12'
+    },
+    {
+      'value': 'Pacific/Nauru',
+      'name': 'Nauru Time',
+      'city': 'Nauru',
+      'flag': '🇳🇷',
+      'offset': '+12:00',
+      'ianaTimezone': 'Pacific/Nauru',
+      'abbreviation': 'GMT+12'
+    },
+    {
+      'value': 'Pacific/Tarawa',
+      'name': 'Gilbert Islands Time',
+      'city': 'Tarawa',
+      'flag': '🇰🇮',
+      'offset': '+12:00',
+      'ianaTimezone': 'Pacific/Tarawa',
+      'abbreviation': 'GMT+12'
+    },
+    {
+      'value': 'Pacific/Wake',
+      'name': 'Wake Island Time',
+      'city': 'Wake',
+      'flag': '🇺🇲',
+      'offset': '+12:00',
+      'ianaTimezone': 'Pacific/Wake',
+      'abbreviation': 'GMT+12'
+    },
+    {
+      'value': 'Pacific/Wallis',
+      'name': 'Wallis & Futuna Time',
+      'city': 'Wallis',
+      'flag': '🇼🇫',
+      'offset': '+12:00',
+      'ianaTimezone': 'Pacific/Wallis',
+      'abbreviation': 'GMT+12'
+    },
+    {
+      'value': 'Pacific/Chatham',
+      'name': 'Chatham Standard Time',
+      'city': 'Chatham',
+      'flag': '🇳🇿',
+      'offset': '+12:45',
+      'ianaTimezone': 'Pacific/Chatham',
+      'abbreviation': 'GMT+12:45'
+    },
+    {
+      'value': 'Pacific/Apia',
+      'name': 'Apia Standard Time',
+      'city': 'Apia',
+      'flag': '🇼🇸',
+      'offset': '+13:00',
+      'ianaTimezone': 'Pacific/Apia',
+      'abbreviation': 'GMT+13'
+    },
+    {
+      'value': 'Pacific/Enderbury',
+      'name': 'Phoenix Islands Time',
+      'city': 'Enderbury',
+      'flag': '🇰🇮',
+      'offset': '+13:00',
+      'ianaTimezone': 'Pacific/Enderbury',
+      'abbreviation': 'GMT+13'
+    },
+    {
+      'value': 'Pacific/Fakaofo',
+      'name': 'Tokelau Time',
+      'city': 'Fakaofo',
+      'flag': '🇹🇰',
+      'offset': '+13:00',
+      'ianaTimezone': 'Pacific/Fakaofo',
+      'abbreviation': 'GMT+13'
+    },
+    {
+      'value': 'Pacific/Tongatapu',
+      'name': 'Tonga Standard Time',
+      'city': 'Tongatapu',
+      'flag': '🇹🇴',
+      'offset': '+13:00',
+      'ianaTimezone': 'Pacific/Tongatapu',
+      'abbreviation': 'GMT+13'
+    },
+    {
+      'value': 'Pacific/Kiritimati',
+      'name': 'Line Islands Time',
+      'city': 'Kiritimati',
+      'flag': '🇰🇮',
+      'offset': '+14:00',
+      'ianaTimezone': 'Pacific/Kiritimati',
+      'abbreviation': 'GMT+14'
+    }
   ];
 
-  // Add label property for backward compatibility
-  return timezones.map(tz => ({
-    ...tz,
-    label: `${tz.name} (${tz.offset})`
-  }));
+  return timezones;
 }
 
-// Export for use in other files
-if (typeof window !== 'undefined') {
-  window.getAllTimezones = getAllTimezones;
-}
-
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-  module.exports = { getAllTimezones };
+// Export for different environments
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = getAllTimezones;
 }

@@ -125,11 +125,11 @@ const DATE_PARSING_PATTERNS = [
       let hour24 = parseInt(hour);
       if (ampm && ampm.toLowerCase() === 'pm' && hour24 !== 12) hour24 += 12;
       if (ampm && ampm.toLowerCase() === 'am' && hour24 === 12) hour24 = 0;
-      return { 
-        year: parseInt(year), 
-        month: month, 
-        day: parseInt(day), 
-        hour: hour24, 
+      return {
+        year: parseInt(year),
+        month: month,
+        day: parseInt(day),
+        hour: hour24,
         minute: parseInt(minute),
         second: second ? parseInt(second) : 0
       };
@@ -212,8 +212,6 @@ function isValidDateText(dateText) {
 
 // Helper function to identify the date format pattern
 function identifyDateFormat(dateString) {
-  console.log('Identifying format for:', dateString);
-
   const patterns = [
     { regex: /(\d{4}\/\d{1,2}\/\d{1,2}(?:\s+\d{1,2}:\d{2}(?::\d{2})?(?:\s?(?:AM|PM|am|pm))?)?)/, name: 'YYYY/MM/DD' },
     { regex: /(\d{1,2}\/\d{1,2}\/\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?(?:\s?(?:AM|PM|am|pm))?)?)/, name: 'MM/DD/YYYY' },
@@ -222,19 +220,17 @@ function identifyDateFormat(dateString) {
     { regex: /(\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2})?(?:\s?(?:AM|PM|am|pm))?)/, name: 'YYYY-MM-DD' },
     { regex: /(\b\d{1,2}\.\d{1,2}\.\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?(?:\s?(?:AM|PM|am|pm))?)?\b)/, name: 'DD.MM.YYYY' },
     { regex: /(\d{1,2}-\d{1,2}-\d{2,4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?(?:\s?(?:AM|PM|am|pm))?)?)/, name: 'DD-MM-YYYY' },
-    { regex: /(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*,\s+\d{4}\s+\d{1,2}:\d{2}(?::\d{2})?\s?(?:AM|PM|am|pm))/, name: 'DD MMM, YYYY HH:MM AM/PM' },
+    { regex: /(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4}\s+\d{1,2}:\d{2}(?::\d{2})?\s?(?:AM|PM|am|pm))/, name: 'DD MMM, YYYY HH:MM AM/PM' },
     { regex: /(\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2},?\s+\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?(?:\s?(?:AM|PM|am|pm))?)?)/, name: 'Month DD, YYYY' },
     { regex: /(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?(?:\s?(?:AM|PM|am|pm))?)?)/, name: 'DD Month YYYY' }
   ];
 
   for (const { regex, name } of patterns) {
     if (regex.test(dateString)) {
-      console.log('Matched pattern:', name, 'Regex:', regex);
       return regex;
     }
   }
 
-  console.log('No matching pattern found for:', dateString);
   return null;
 }
 

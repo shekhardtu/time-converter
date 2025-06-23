@@ -16,5 +16,3 @@ manifest.version = version;
 
 // Write updated manifest
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
-
-console.log(`✅ Updated manifest.json version to ${version}`);

@@ -68,6 +68,3 @@ ${existingChangelog}`;
 
 // Write updated changelog
 fs.writeFileSync(changelogPath, fullChangelog);
-
-console.log(`✅ Generated changelog for version ${version}`);
-console.log(`📄 View changes: CHANGELOG.md`);

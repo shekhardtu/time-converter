@@ -26,7 +26,18 @@
       "Bash(mv:*)",
       "Bash(ls:*)",
       "Bash(true)",
-      "Bash(rg:*)"
+      "Bash(rg:*)",
+      "Bash(yarn lint)",
+      "Bash(yarn lint:*)",
+      "Bash(yarn test)",
+      "Bash(yarn test:*)",
+      "Bash(yarn build)",
+      "Bash(yarn validate)",
+      "Bash(yarn package:*)",
+      "Bash(unzip:*)",
+      "Bash(yarn deploy)",
+      "WebFetch(domain:developer.chrome.com)",
+      "Bash(open:*)"
     ],
     "deny": []
   }

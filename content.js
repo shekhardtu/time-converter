@@ -1,7 +1,3 @@
-// Global variable to track the currently right-clicked element - use window to ensure accessibility
-if (typeof window.lastRightClickedElement === 'undefined') {
-  window.lastRightClickedElement = null;
-}
 
 // Utility function to check if extension context is valid
 function isExtensionContextValid() {
@@ -32,7 +28,6 @@ function initAutoConversion() {
         const isSiteDisabled = await checkSiteDisabled();
         const isPageDisabled = await checkPageDisabled();
         if (isSiteDisabled || isPageDisabled) {
-          console.log('Auto-conversion disabled for this site or page');
           return;
         }
 
@@ -48,14 +43,12 @@ function initAutoConversion() {
             toTimezone: data.toTimezone,
             conversionTimestamp: null
           };
-          console.log('Auto-converting dates on page load...');
           await executeConversion({ from: data.fromTimezone, to: data.toTimezone });
 
           // For SPAs, retry conversion after delays to catch dynamically loaded content
           setTimeout(async () => {
             const newHighlights = document.querySelectorAll('.time-converter-replaced');
             if (newHighlights.length === 0) {
-              console.log('Retrying auto-conversion for SPA content...');
               await executeConversion({ from: data.fromTimezone, to: data.toTimezone });
             }
           }, 2000);
@@ -63,7 +56,6 @@ function initAutoConversion() {
           setTimeout(async () => {
             const newHighlights = document.querySelectorAll('.time-converter-replaced');
             if (newHighlights.length === 0) {
-              console.log('Final retry for deeply dynamic SPA content...');
               await executeConversion({ from: data.fromTimezone, to: data.toTimezone });
             }
           }, 5000);
@@ -75,7 +67,6 @@ function initAutoConversion() {
             toTimezone: data.toTimezone,
             conversionTimestamp: Date.now()
           };
-          console.log('Page already has converted dates, skipping auto-conversion');
         }
       }
     });
@@ -111,14 +102,6 @@ if (typeof window.timeConverterInjected === 'undefined') {
     conversionTimestamp: null
   };
 
-  // Add right-click listener to track clicked elements
-  document.addEventListener('contextmenu', (event) => {
-    window.lastRightClickedElement = event.target;
-
-    // Check if the clicked element is a highlighted date
-    const isHighlighted = event.target.classList.contains('time-converter-replaced');
-    console.log('Right-clicked element:', event.target, 'Is highlighted:', isHighlighted);
-  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAutoConversion);
@@ -130,94 +113,49 @@ if (typeof window.timeConverterInjected === 'undefined') {
     // Check if extension context is still valid
     if (!isExtensionContextValid()) {
       console.warn('Extension context invalidated, ignoring message');
+      sendResponse({ status: 'Extension context invalidated' });
       return false;
     }
 
-    console.log('Content script received message:', request.action);
-
     if (request.action === 'convertTime') {
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', async () => {
-          try {
-            await executeConversion(request, sendResponse);
-          } catch (error) {
-            console.error('Error in executeConversion:', error);
-            if (sendResponse) sendResponse({ status: `Error: ${error.message}` });
+      console.log('Content script received convertTime:', request.from, '->', request.to);
+
+      // Always handle conversion asynchronously
+      (async () => {
+        try {
+          if (document.readyState === 'loading') {
+            // Wait for DOM to be ready
+            await new Promise(resolve => {
+              document.addEventListener('DOMContentLoaded', resolve, { once: true });
+            });
           }
-        });
-      } else {
-        // Handle async executeConversion properly
-        executeConversion(request, sendResponse).catch(error => {
+
+          await executeConversion(request, sendResponse);
+        } catch (error) {
           console.error('Error in executeConversion:', error);
-          if (sendResponse) sendResponse({ status: `Error: ${error.message}` });
-        });
-      }
+          sendResponse({ status: `Error: ${error.message}` });
+        }
+      })();
+
       return true; // Keep channel open for async response
     } else if (request.action === 'revertDates') {
-      revertAllDates();
-      if (sendResponse) sendResponse({ status: 'Dates reverted to original' });
-    } else if (request.action === 'addCustomFormat') {
-      // Handle async operation properly
-      (async () => {
-        try {
-          const success = await saveCustomFormatForPage(request.pattern, request.description);
-          if (sendResponse) sendResponse({ status: success ? 'Custom format saved' : 'Format already exists' });
-        } catch (error) {
-          console.error('Error saving custom format:', error);
-          if (sendResponse) sendResponse({ status: `Error: ${error.message}` });
-        }
-      })();
-      return true; // Keep channel open for async response
-    } else if (request.action === 'removeThisHighlight') {
-      console.log('Handling removeThisHighlight');
-      if (!window.lastRightClickedElement || !window.lastRightClickedElement.classList.contains('time-converter-replaced')) {
-        if (sendResponse) sendResponse({ status: 'Please right-click on a highlighted date first' });
-      } else {
-        const result = removeSpecificHighlight();
-        if (sendResponse) sendResponse({ status: result ? 'Highlight removed' : 'Failed to remove highlight' });
+      try {
+        revertAllDates();
+        sendResponse({ status: 'Dates reverted to original' });
+      } catch (error) {
+        console.error('Error reverting dates:', error);
+        sendResponse({ status: 'Error reverting dates' });
       }
-    } else if (request.action === 'removeAllHighlightsOfFormat') {
-      console.log('Handling removeAllHighlightsOfFormat');
-      if (!window.lastRightClickedElement || !window.lastRightClickedElement.classList.contains('time-converter-replaced')) {
-        if (sendResponse) sendResponse({ status: 'Please right-click on a highlighted date first' });
-      } else {
-        // Handle async operation properly
-        (async () => {
-          try {
-            const count = await removeAllHighlightsOfFormat();
-            if (sendResponse) sendResponse({ status: count > 0 ? `Removed ${count} highlights and added format to stoplist` : 'No matching highlights found' });
-          } catch (error) {
-            console.error('Error removing highlights:', error);
-            if (sendResponse) sendResponse({ status: `Error: ${error.message}` });
-          }
-        })();
-        return true; // Keep channel open for async response
-      }
-    } else if (request.action === 'clearStoplist') {
-      console.log('Handling clearStoplist');
-      // Handle async operation properly
-      (async () => {
-        try {
-          await clearStoplist();
-          if (sendResponse) sendResponse({ status: 'Stoplist cleared - all formats re-enabled' });
-        } catch (error) {
-          console.error('Error clearing stoplist:', error);
-          if (sendResponse) sendResponse({ status: `Error: ${error.message}` });
-        }
-      })();
-      return true; // Keep channel open for async response
     } else if (request.action === 'checkExistingHighlights') {
       const highlights = document.querySelectorAll('.time-converter-replaced');
       const hasHighlights = highlights.length > 0;
-      console.log('Checking existing highlights:', hasHighlights, 'Count:', highlights.length);
-      if (sendResponse) sendResponse({ hasHighlights: hasHighlights, count: highlights.length });
+      sendResponse({ hasHighlights: hasHighlights, count: highlights.length });
     }
 
     return false; // Don't keep channel open for sync responses
   });
 }
 
-/* global module */
 // Move all functions outside the injection check so they're always available
 
 async function executeConversion(request, sendResponse) {
@@ -227,6 +165,7 @@ async function executeConversion(request, sendResponse) {
     // Check if date-fns-tz is available
     if (typeof dateFnsTz === 'undefined') {
       console.warn('date-fns-tz not loaded, timezone conversion will not work');
+      if (sendResponse) sendResponse({ status: 'Error: Date library not loaded' });
       return;
     }
 
@@ -235,25 +174,23 @@ async function executeConversion(request, sendResponse) {
     const isPageDisabled = await checkPageDisabled();
     if (isSiteDisabled || isPageDisabled) {
       const disabledType = isSiteDisabled ? 'site' : 'page';
-      console.log(`Conversion disabled for this ${disabledType}`);
       if (sendResponse) sendResponse({ status: `Conversion disabled for this ${disabledType}` });
       return;
     }
 
     const { from, to } = request;
-    console.log(`Starting conversion from ${from} to ${to}`);
+    console.log('Converting from', from, 'to', to);
 
     // First, check if there are existing conversions and revert them
     const existingHighlights = document.querySelectorAll('.time-converter-replaced');
+    console.log('Found', existingHighlights.length, 'existing highlights');
     if (existingHighlights.length > 0) {
-      console.log('Found existing conversions, reverting first...');
       await revertAllDatesPromise();
-      console.log('Previous conversions reverted successfully');
     }
 
     // Now proceed with new conversion
     const count = await findAndConvertTimestamps(document.body, from, to);
-    console.log(`Conversion completed. Count: ${count}`);
+    console.log('Converted', count, 'timestamps');
 
     let statusMessage;
     if (count === -1) {
@@ -267,11 +204,13 @@ async function executeConversion(request, sendResponse) {
         toTimezone: to,
         conversionTimestamp: Date.now()
       };
+
+      // Reinitialize MutationObserver with new timezone values
+      initMutationObserver(from, to);
     } else {
       statusMessage = 'No dates found to convert';
     }
 
-    console.log('Sending response:', statusMessage);
     if (sendResponse) {
       sendResponse({ status: statusMessage });
     }
@@ -283,7 +222,6 @@ async function executeConversion(request, sendResponse) {
   } catch (error) {
     console.error('Error during conversion:', error);
     const errorMsg = `Error during conversion: ${error.message}. Please try again.`;
-    console.log('Sending error response:', errorMsg);
     if (sendResponse) {
       sendResponse({ status: errorMsg });
     }
@@ -293,7 +231,6 @@ async function executeConversion(request, sendResponse) {
 async function findAndConvertTimestamps(element, fromTimezoneShort, toTimezoneShort) {
   // Since we now clean up existing conversions before calling this function,
   // we don't need to check for existing conversions here anymore
-  console.log(`Starting conversion from ${fromTimezoneShort} to ${toTimezoneShort}`);
 
   const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
   const nodesToProcess = [];
@@ -307,10 +244,6 @@ async function findAndConvertTimestamps(element, fromTimezoneShort, toTimezoneSh
 
   let count = 0;
 
-  // Get custom formats for this page and stoplist
-  const customFormats = await getCustomFormatsForPage();
-  const stoplist = await getStoplistForPage();
-
   // Generate regex patterns from single source of truth with global flag
   const defaultRegexPatterns = window.TimeConverter.dateTimeParser.DATE_PARSING_PATTERNS.map(pattern => {
     const source = pattern.regex.source;
@@ -318,28 +251,9 @@ async function findAndConvertTimestamps(element, fromTimezoneShort, toTimezoneSh
     return new RegExp(`(${source})`, 'g');
   });
 
-  // Filter out stoplisted patterns
-  const filteredDefaultPatterns = defaultRegexPatterns.filter(pattern => {
-    return !stoplist.some(stoppedPattern => pattern.source === stoppedPattern);
-  });
+  const dateRegex = new RegExp(defaultRegexPatterns.map(p => p.source).join('|'), 'gi');
 
-  // Combine filtered default patterns with custom patterns
-  const allPatterns = [...filteredDefaultPatterns];
-  if (customFormats.length > 0) {
-    const filteredCustomFormats = customFormats.filter(f => {
-      return !stoplist.includes(f.pattern);
-    });
-    allPatterns.push(...filteredCustomFormats.map(f => new RegExp(f.pattern, 'gi')));
-  }
-
-  // Skip if no patterns left after filtering
-  if (allPatterns.length === 0) {
-    return 0;
-  }
-
-  const dateRegex = new RegExp(allPatterns.map(p => p.source).join('|'), 'gi');
-  console.log('Generated dateRegex pattern count:', allPatterns.length);
-
+  // The values passed should already be IANA timezones from the dropdown
   const fromTz = window.TimeConverter.timezoneConverter.getIANATimezone(fromTimezoneShort);
   const toTz = window.TimeConverter.timezoneConverter.getIANATimezone(toTimezoneShort);
 
@@ -390,13 +304,66 @@ async function findAndConvertTimestamps(element, fromTimezoneShort, toTimezoneSh
           if (convertedDate !== matchText) {
             const timeSpan = document.createElement('span');
             timeSpan.className = 'time-converter-replaced';
-            timeSpan.textContent = convertedDate;
-            timeSpan.title = `Original: ${matchText} (${fromTimezoneShort})`;
+            timeSpan.style.position = 'relative';
+            timeSpan.style.paddingRight = '20px';
+
+            // Create the date text span
+            const dateText = document.createElement('span');
+            dateText.textContent = convertedDate;
+            dateText.title = `Original: ${matchText} (${fromTimezoneShort})`;
+
+            // Create close button
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '×';
+            closeBtn.className = 'time-converter-close-btn';
+            closeBtn.style.cssText = `
+              position: absolute;
+              right: 2px;
+              top: 50%;
+              transform: translateY(-50%);
+              width: 16px;
+              height: 16px;
+              border: none;
+              background: rgba(255, 255, 255, 0.7);
+              color: #666;
+              border-radius: 50%;
+              font-size: 12px;
+              line-height: 1;
+              cursor: pointer;
+              padding: 0;
+              margin: 0;
+              display: none;
+              transition: all 0.2s ease;
+            `;
+
+            // Add hover effect to show close button
+            timeSpan.addEventListener('mouseenter', () => {
+              closeBtn.style.display = 'flex';
+              closeBtn.style.alignItems = 'center';
+              closeBtn.style.justifyContent = 'center';
+            });
+
+            timeSpan.addEventListener('mouseleave', () => {
+              closeBtn.style.display = 'none';
+            });
+
+            // Add click handler to close button
+            closeBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              // Replace with original text
+              const textNode = document.createTextNode(matchText);
+              timeSpan.parentNode.replaceChild(textNode, timeSpan);
+            });
+
+            // Store data attributes
             timeSpan.setAttribute('data-original', matchText);
             timeSpan.setAttribute('data-converted', convertedDate);
             timeSpan.setAttribute('data-from-tz', fromTimezoneShort);
             timeSpan.setAttribute('data-to-tz', toTimezoneShort);
 
+            timeSpan.appendChild(dateText);
+            timeSpan.appendChild(closeBtn);
             newFragment.appendChild(timeSpan);
             count++;
           } else {
@@ -418,8 +385,6 @@ async function findAndConvertTimestamps(element, fromTimezoneShort, toTimezoneSh
   });
   return count;
 }
-
-
 
 function shouldSkipConversion(text, element) {
   // Skip if inside code-like elements
@@ -451,85 +416,9 @@ function shouldSkipConversion(text, element) {
 }
 
 
-
-
-
-
-
-
-
-// Custom format management functions
-async function getCustomFormatsForPage() {
-  return new Promise((resolve) => {
-    // Check if extension context is still valid
-    if (!isExtensionContextValid()) {
-      console.warn('Extension context invalidated, returning empty formats');
-      resolve([]);
-      return;
-    }
-
-    const currentUrl = window.location.hostname;
-    try {
-      chrome.storage.sync.get(['customFormats'], (data) => {
-        if (chrome.runtime.lastError) {
-          console.warn(`Context invalidated: ${chrome.runtime.lastError.message}`);
-          resolve([]); // Resolve with empty array on error
-          return;
-        }
-        const customFormats = data.customFormats || {};
-        const pageFormats = customFormats[currentUrl] || [];
-        resolve(pageFormats);
-      });
-    } catch (error) {
-      console.warn('Extension context invalidated during storage access:', error.message);
-      resolve([]);
-    }
-  });
-}
-
-async function saveCustomFormatForPage(formatPattern, description) {
-  return new Promise((resolve) => {
-    const currentUrl = window.location.hostname;
-    chrome.storage.sync.get(['customFormats'], (data) => {
-      if (chrome.runtime.lastError) {
-        console.warn(`Context invalidated: ${chrome.runtime.lastError.message}`);
-        resolve(false);
-        return;
-      }
-      const customFormats = data.customFormats || {};
-      if (!customFormats[currentUrl]) {
-        customFormats[currentUrl] = [];
-      }
-
-      // Check if format already exists
-      const exists = customFormats[currentUrl].find(f => f.pattern === formatPattern);
-      if (!exists) {
-        customFormats[currentUrl].push({
-          pattern: formatPattern,
-          description: description,
-          dateAdded: new Date().toISOString()
-        });
-
-        chrome.storage.sync.set({ customFormats }, () => {
-          if (chrome.runtime.lastError) {
-            console.warn(`Context invalidated during set: ${chrome.runtime.lastError.message}`);
-            resolve(false);
-            return;
-          }
-          resolve(true);
-        });
-      } else {
-        resolve(false);
-      }
-    });
-  });
-}
-
 // Function to revert all converted dates back to original
 function revertAllDates() {
-  console.log('Reverting all dates to original');
   const convertedElements = document.querySelectorAll('.time-converter-replaced');
-  console.log('Found', convertedElements.length, 'converted elements to revert');
 
   convertedElements.forEach(element => {
     const originalDate = element.getAttribute('data-original');
@@ -560,7 +449,6 @@ function revertAllDatesPromise() {
   return new Promise((resolve) => {
     try {
       const convertedElements = document.querySelectorAll('.time-converter-replaced');
-      console.log('Found', convertedElements.length, 'converted elements to revert');
 
       convertedElements.forEach(element => {
         const originalDate = element.getAttribute('data-original');
@@ -585,7 +473,6 @@ function revertAllDatesPromise() {
       // Stop monitoring for new dates when user explicitly reverts
       stopDateMonitoring();
 
-      console.log('Revert completed successfully');
       resolve();
     } catch (error) {
       console.error('Error during revert:', error);
@@ -594,206 +481,6 @@ function revertAllDatesPromise() {
   });
 }
 
-// Function to remove a specific highlight using the right-clicked element
-function removeSpecificHighlight() {
-  console.log('Removing specific highlight');
-  if (!window.lastRightClickedElement) {
-    console.log('No element was right-clicked');
-    return false;
-  }
-
-  const element = window.lastRightClickedElement;
-  console.log('Right-clicked element:', element);
-
-  // Check if the element itself is a highlight
-  if (element.classList && element.classList.contains('time-converter-replaced')) {
-    const originalDate = element.getAttribute('data-original');
-    if (originalDate) {
-      console.log('Found original date:', originalDate);
-      // Replace the element with the original text
-      const originalTextNode = document.createTextNode(originalDate);
-      element.parentNode.replaceChild(originalTextNode, element);
-      console.log('Highlight removed successfully');
-
-      // Create a stoplist entry for this specific pattern if possible
-      const dateText = element.getAttribute('data-original');
-      if (dateText) {
-        // Try to get the pattern based on the text
-        const format = identifyDateFormat(dateText);
-        if (format) {
-          console.log(`Adding pattern to stoplist: ${format.source}`);
-          addToStoplist(format.source);
-        }
-      }
-
-      return true;
-    }
-  }
-
-  // Check if any parent is a highlight (for clicking on child elements)
-  let parent = element.parentElement;
-  while (parent) {
-    if (parent.classList && parent.classList.contains('time-converter-replaced')) {
-      const originalDate = parent.getAttribute('data-original');
-      if (originalDate) {
-        console.log('Found original date in parent:', originalDate);
-        // Replace the parent with the original text
-        const originalTextNode = document.createTextNode(originalDate);
-        parent.parentNode.replaceChild(originalTextNode, parent);
-        console.log('Highlight removed successfully');
-
-        // Create a stoplist entry for this specific pattern if possible
-        const format = window.TimeConverter.dateTimeParser.identifyDateFormat(originalDate);
-        if (format) {
-          console.log(`Adding pattern to stoplist: ${format.source}`);
-          addToStoplist(format.source);
-        }
-
-        return true;
-      }
-    }
-    parent = parent.parentElement;
-  }
-
-  console.log('No highlight found to remove');
-  return false;
-}
-
-// Function to remove all highlights of the same format and add to stoplist
-async function removeAllHighlightsOfFormat() {
-  console.log('removeAllHighlightsOfFormat called with element:', window.lastRightClickedElement);
-
-  if (!window.lastRightClickedElement || !window.lastRightClickedElement.classList.contains('time-converter-replaced')) {
-    console.log('No valid right-clicked element');
-    return 0;
-  }
-
-  let count = 0;
-  const targetSpan = window.lastRightClickedElement;
-
-  // Get the original text to identify the format (fallback to current text if no data-original)
-  const targetOriginal = targetSpan.getAttribute('data-original') || targetSpan.textContent;
-  console.log('Target text for pattern matching:', targetOriginal);
-
-  if (!targetOriginal) {
-    console.log('No text found for pattern matching');
-    return 0;
-  }
-
-  // Find the format pattern by checking which regex matches
-  const formatPattern = identifyDateFormat(targetOriginal);
-  console.log('Identified format pattern:', formatPattern);
-
-  if (formatPattern) {
-    // Add pattern to stoplist
-    await addToStoplist(formatPattern.source);
-    console.log('Added to stoplist:', formatPattern.source);
-
-    // Remove all highlights with this format
-    const convertedSpans = document.querySelectorAll('.time-converter-replaced');
-    console.log('Found', convertedSpans.length, 'highlighted spans to check');
-
-    convertedSpans.forEach(span => {
-      const originalText = span.getAttribute('data-original') || span.textContent;
-      if (originalText && formatPattern.test(originalText)) {
-        console.log('Removing span with text:', originalText);
-        const textToRestore = span.getAttribute('data-original') || span.textContent;
-        const textNode = document.createTextNode(textToRestore);
-        if (span.parentNode) {
-          span.parentNode.replaceChild(textNode, span);
-          count++;
-        }
-      }
-    });
-
-    console.log('Removed', count, 'highlights');
-  } else {
-    console.log('No matching format pattern found for:', targetOriginal);
-  }
-
-  return count;
-}
-
-
-
-// Stoplist management functions
-async function getStoplistForPage() {
-  return new Promise((resolve) => {
-    const currentUrl = window.location.hostname;
-    chrome.storage.sync.get(['stoplist'], (data) => {
-      if (chrome.runtime.lastError) {
-        console.warn(`Context invalidated: ${chrome.runtime.lastError.message}`);
-        resolve([]); // Resolve with empty array on error
-        return;
-      }
-      const stoplist = data.stoplist || {};
-      const pageStoplist = stoplist[currentUrl] || [];
-      resolve(pageStoplist);
-    });
-  });
-}
-
-async function addToStoplist(patternSource) {
-  return new Promise((resolve) => {
-    const currentUrl = window.location.hostname;
-    console.log('Adding to stoplist for', currentUrl, 'pattern:', patternSource);
-
-    chrome.storage.sync.get(['stoplist'], (data) => {
-      if (chrome.runtime.lastError) {
-        console.warn(`Context invalidated: ${chrome.runtime.lastError.message}`);
-        resolve(false);
-        return;
-      }
-      const stoplist = data.stoplist || {};
-      if (!stoplist[currentUrl]) {
-        stoplist[currentUrl] = [];
-      }
-
-      // Add pattern if not already in stoplist
-      if (!stoplist[currentUrl].includes(patternSource)) {
-        stoplist[currentUrl].push(patternSource);
-        chrome.storage.sync.set({ stoplist }, () => {
-          if (chrome.runtime.lastError) {
-            console.warn(`Context invalidated during set: ${chrome.runtime.lastError.message}`);
-            resolve(false);
-            return;
-          }
-          console.log('Successfully added to stoplist. Current stoplist:', stoplist);
-          resolve(true);
-        });
-      } else {
-        console.log('Pattern already in stoplist');
-        resolve(false);
-      }
-    });
-  });
-}
-
-async function clearStoplist() {
-  return new Promise((resolve) => {
-    const currentUrl = window.location.hostname;
-    console.log('Clearing stoplist for', currentUrl);
-
-    chrome.storage.sync.get(['stoplist'], (data) => {
-      if (chrome.runtime.lastError) {
-        console.warn(`Context invalidated: ${chrome.runtime.lastError.message}`);
-        resolve(false);
-        return;
-      }
-      const stoplist = data.stoplist || {};
-      delete stoplist[currentUrl];
-      chrome.storage.sync.set({ stoplist }, () => {
-        if (chrome.runtime.lastError) {
-          console.warn(`Context invalidated during set: ${chrome.runtime.lastError.message}`);
-          resolve(false);
-          return;
-        }
-        console.log('Stoplist cleared. New stoplist:', stoplist);
-        resolve(true);
-      });
-    });
-  });
-}
 
 // Function to show conversion status label
 function showConversionStatusLabel(fromTz, toTz, count) {
@@ -874,7 +561,6 @@ async function checkPageDisabled() {
 
 // Initialize MutationObserver to detect and convert dates in dynamically loaded content
 function initMutationObserver(fromTimezone, toTimezone) {
-  console.log('Initializing MutationObserver (no polling)');
 
   // Stop any existing monitoring first
   stopDateMonitoring();
@@ -884,7 +570,6 @@ function initMutationObserver(fromTimezone, toTimezone) {
   const processMutations = async (mutations) => {
     // If conversion is disabled (e.g., by revert button), do nothing.
     if (!window.timeConverterPageState?.converted) {
-      console.log('Conversion disabled, ignoring mutations.');
       stopDateMonitoring(); // Also stop listening if disabled
       return;
     }
@@ -963,7 +648,6 @@ function initMutationObserver(fromTimezone, toTimezone) {
     const isSiteDisabled = await checkSiteDisabled();
     const isPageDisabled = await checkPageDisabled();
     if (isSiteDisabled || isPageDisabled) {
-      console.log('Conversion disabled for this site/page, stopping dynamic content processing.');
       stopDateMonitoring();
       return;
     }
@@ -977,9 +661,12 @@ function initMutationObserver(fromTimezone, toTimezone) {
     // Process each unique node that has changed
     for (const node of nodesToScan) {
       if (node.isConnected) { // Ensure node is still in the DOM
-        const count = await findAndConvertTimestamps(node, fromTimezone, toTimezone);
+        // Use current timezone values from page state
+        const currentFrom = window.timeConverterPageState?.fromTimezone || fromTimezone;
+        const currentTo = window.timeConverterPageState?.toTimezone || toTimezone;
+        const count = await findAndConvertTimestamps(node, currentFrom, currentTo);
         if (count > 0) {
-          console.log(`Converted ${count} dates in dynamically loaded content`, node);
+          // You can optionally add a log here for debugging, but it will be noisy
         }
       }
     }
@@ -1015,7 +702,6 @@ function initMutationObserver(fromTimezone, toTimezone) {
 
   // Store for later access so we can disconnect it
   window.timeConverterMutationObserver = observer;
-  console.log('MutationObserver is now active.');
 
   // Fallback periodic check for stubborn SPAs (every 10 seconds, max 6 times = 1 minute)
   let fallbackAttempts = 0;
@@ -1027,7 +713,6 @@ function initMutationObserver(fromTimezone, toTimezone) {
     }
 
     fallbackAttempts++;
-    console.log(`Fallback SPA check ${fallbackAttempts}/${maxFallbackAttempts}`);
 
     // Temporarily disconnect observer during fallback conversion
     const observer = window.timeConverterMutationObserver;
@@ -1035,9 +720,12 @@ function initMutationObserver(fromTimezone, toTimezone) {
       observer.disconnect();
     }
 
-    const count = await findAndConvertTimestamps(document.body, fromTimezone, toTimezone);
+    // Use current timezone values from page state
+    const currentFrom = window.timeConverterPageState?.fromTimezone || fromTimezone;
+    const currentTo = window.timeConverterPageState?.toTimezone || toTimezone;
+    const count = await findAndConvertTimestamps(document.body, currentFrom, currentTo);
     if (count > 0) {
-      console.log(`Fallback check found and converted ${count} dates`);
+      // Optional: log fallback conversions if needed for debugging
     }
 
     // Reconnect observer after fallback conversion
@@ -1063,7 +751,6 @@ function initMutationObserver(fromTimezone, toTimezone) {
 // Helper function to stop all date monitoring activities
 function stopDateMonitoring() {
   if (window.timeConverterMutationObserver) {
-    console.log('Disconnecting MutationObserver.');
     window.timeConverterMutationObserver.disconnect();
     window.timeConverterMutationObserver = null;
   }

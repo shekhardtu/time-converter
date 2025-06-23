@@ -4,7 +4,7 @@ class CustomDropdown {
   constructor(containerId, targetSelectId, timezones) {
     this.container = document.getElementById(containerId);
     this.targetSelect = document.getElementById(targetSelectId);
-    this.timezones = timezones || this.getDefaultTimezones();
+    this.timezones = timezones;
     this.filteredTimezones = [...this.timezones];
     this.isOpen = false;
     this.selectedIndex = -1;
@@ -34,6 +34,11 @@ class CustomDropdown {
       popupContainer.appendChild(this.dropdown);
       // Mark it as moved for positioning calculations
       this.dropdown.setAttribute('data-moved', 'true');
+
+      // Re-query the options container from the moved dropdown
+      this.optionsContainer = this.dropdown.querySelector('.dropdown-options');
+      this.searchInput = this.dropdown.querySelector('.search-input');
+      this.resultsCount = this.dropdown.querySelector('.search-results-count');
     }
   }
 
@@ -49,7 +54,6 @@ class CustomDropdown {
     try {
       // Check if extension context is still valid
       if (!chrome.runtime?.id) {
-        console.warn('Extension context invalidated, using default selection');
         await this.setDefaultSelection();
         return;
       }
@@ -58,14 +62,12 @@ class CustomDropdown {
       const savedValue = result[this.storageKey];
 
       if (savedValue) {
-        console.log(`Loading saved value for ${this.storageKey}:`, savedValue);
         await this.setValue(savedValue, false); // Don't save when loading
       } else {
         // Set default values if nothing is saved
         await this.setDefaultSelection();
       }
     } catch (error) {
-      console.warn('Failed to load from storage:', error);
       await this.setDefaultSelection();
     }
   }
@@ -75,69 +77,53 @@ class CustomDropdown {
     try {
       // Check if extension context is still valid
       if (!chrome.runtime?.id) {
-        console.warn('Extension context invalidated, unable to save to storage');
         return;
       }
 
       await chrome.storage.sync.set({ [this.storageKey]: value });
-      console.log(`Saved ${this.storageKey}:`, value);
     } catch (error) {
-      console.warn('Failed to save to storage:', error);
+      // Handle error silently in production
     }
   }
 
   // Set default selection based on dropdown type
   async setDefaultSelection() {
     if (this.storageKey === 'from-timezone') {
+
+      // Default to UTC for "from" timezone
+      await this.setValue('UTC', true); // Save default selection
+    } else if (this.storageKey === 'to-timezone') {
       // Try to detect user's timezone or use UTC as default
       const userTimezone = this.getSystemTimezone();
       await this.setValue(userTimezone, true); // Save default selection
-    } else if (this.storageKey === 'to-timezone') {
-      // Default to UTC for "to" timezone
-      await this.setValue('UTC', true); // Save default selection
     }
-  }
-
-  // Get default timezone data as fallback
-  getDefaultTimezones() {
-    return [
-      { value: 'UTC', name: 'UTC - Coordinated Universal Time', city: 'Global', flag: '🌐', offset: '+00:00', ianaTimezone: 'UTC' },
-      { value: 'GMT', name: 'GMT - Greenwich Mean Time', city: 'London', flag: '🇬🇧', offset: '+00:00', ianaTimezone: 'GMT' },
-      { value: 'EST', name: 'EST - Eastern Standard Time', city: 'New York', flag: '🇺🇸', offset: '-05:00', ianaTimezone: 'America/New_York' },
-      { value: 'PST', name: 'PST - Pacific Standard Time', city: 'Los Angeles', flag: '🇺🇸', offset: '-08:00', ianaTimezone: 'America/Los_Angeles' },
-      { value: 'IST', name: 'IST - Indian Standard Time', city: 'Mumbai', flag: '🇮🇳', offset: '+05:30', ianaTimezone: 'Asia/Kolkata' },
-      { value: 'JST', name: 'JST - Japan Standard Time', city: 'Tokyo', flag: '🇯🇵', offset: '+09:00', ianaTimezone: 'Asia/Tokyo' }
-    ];
   }
 
   // Detect user's timezone based on browser
   getSystemTimezone() {
     try {
+      // Get Chrome's resolved timezone for the user's system
       const systemTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      console.log('Chrome reports system timezone as:', systemTz);
 
       // Use comprehensive timezone data if available
       if (typeof getAllTimezones === 'function') {
         const allTz = getAllTimezones();
+
+        // Find timezone by Chrome's resolved name (ianaTimezone field)
         const matchingTz = allTz.find(tz => tz.ianaTimezone === systemTz);
+
         if (matchingTz) {
+          console.log('Found matching timezone:', matchingTz.value);
           return matchingTz.value;
+        } else {
+          console.warn('No matching timezone found for:', systemTz);
         }
       }
 
-      // Fallback to basic mapping for common cases
-      const basicMap = {
-        'America/New_York': 'EST',
-        'America/Chicago': 'CST',
-        'America/Denver': 'MST',
-        'America/Los_Angeles': 'PST',
-        'GMT': 'GMT',
-        'Asia/Kolkata': 'IST',
-        'Asia/Tokyo': 'JST'
-      };
-
-      return basicMap[systemTz] || 'UTC';
+      return 'UTC';
     } catch (error) {
-      console.warn('Failed to detect timezone:', error);
+      console.error('Error detecting system timezone:', error);
       return 'UTC';
     }
   }
@@ -157,13 +143,13 @@ class CustomDropdown {
         <span class="option-flag">${timezone.flag}</span>
         <div class="option-content">
           <div class="option-header">
-            <div class="option-name">${timezone.name}</div>
+            <div class="option-name">${timezone.abbreviation || ''} - ${timezone.name || ''}</div>
             <div class="option-time-center">
               <div class="option-time" data-timezone="${timezone.ianaTimezone || timezone.value}">${currentTime}</div>
             </div>
           </div>
           <div class="option-details">
-            <span class="option-city">${timezone.city} <span class="option-offset">${timezone.offset}</span></span>
+            <span class="option-city">${timezone.value || timezone.ianaTimezone} <span class="option-offset">(${timezone.offset})</span></span>
           </div>
         </div>
       `;
@@ -327,6 +313,7 @@ class CustomDropdown {
       timezone.name.toLowerCase().includes(lowerQuery) ||
       timezone.city.toLowerCase().includes(lowerQuery) ||
       timezone.value.toLowerCase().includes(lowerQuery) ||
+      (timezone.abbreviation || '').toLowerCase().includes(lowerQuery) ||
       timezone.offset.includes(lowerQuery)
     );
     this.populateOptions();
@@ -352,16 +339,17 @@ class CustomDropdown {
     this.selectFlag.textContent = timezone.flag;
     this.selectText.innerHTML = `
       <div class="select-main">
-        <div class="select-name">${timezone.name}</div>
+        <div class="select-name">${timezone.abbreviation || ''} - ${timezone.name || ''}</div>
         <div class="select-time-center">
           <div class="select-time">${currentTime}</div>
         </div>
       </div>
-      <div class="select-city">${timezone.city} <span class="select-offset">${timezone.offset}</span></div>
+      <div class="select-city">${timezone.value || timezone.ianaTimezone} <span class="select-offset">(${timezone.offset})</span></div>
     `;
 
     // Update hidden select
     this.targetSelect.value = timezone.value;
+    this.targetSelect.setAttribute('value', timezone.value);
 
     // Mark as selected
     this.optionsContainer.querySelectorAll('.dropdown-option').forEach(opt => {
@@ -459,6 +447,7 @@ class CustomDropdown {
 
       // Update hidden select
       this.targetSelect.value = timezone.value;
+      this.targetSelect.setAttribute('value', timezone.value);
 
       // Mark as selected in options
       this.optionsContainer.querySelectorAll('.dropdown-option').forEach(opt => {
@@ -476,8 +465,11 @@ class CustomDropdown {
       // Start live time updates for selected timezone
       this.startSelectedTimeUpdates();
 
-      // Trigger change event
-      this.targetSelect.dispatchEvent(new Event('change'));
+      // Trigger change event only if we're saving (user interaction)
+      // Don't trigger on initial load to avoid premature conversions
+      if (saveToStorage) {
+        this.targetSelect.dispatchEvent(new Event('change'));
+      }
     }
   }
 
@@ -518,7 +510,6 @@ function initializeTimezones() {
     enhancedTimezones = getAllTimezones();
     // Make it globally accessible
     window.enhancedTimezones = enhancedTimezones;
-    console.log(`Loaded ${enhancedTimezones.length} comprehensive timezones`);
   } else {
     // Fallback to basic timezones if all-timezones.js is not loaded
     enhancedTimezones = [
@@ -542,7 +533,6 @@ function initializeTimezones() {
     ];
     // Also make fallback globally accessible
     window.enhancedTimezones = enhancedTimezones;
-    console.warn('Fallback: Loaded basic timezone set');
   }
 }
 
@@ -566,7 +556,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     `;
     document.head.appendChild(style);
 
-    console.log('Custom dropdowns initialized with Chrome storage persistence');
   } catch (error) {
     console.error('Failed to initialize custom dropdowns:', error);
 
@@ -580,26 +569,20 @@ document.addEventListener('DOMContentLoaded', async function() {
   }
 });
 
-// Debug function to check storage
-window.debugStorage = async function() {
-  try {
-    const result = await chrome.storage.sync.get(['from-timezone', 'to-timezone']);
-    console.log('Current storage values:', result);
-  } catch (error) {
-    console.error('Storage debug failed:', error);
-  }
-};
+
 
 // Function to clear storage (for testing)
-window.clearTimezoneStorage = async function() {
+window.clearTimezoneStorage = async () => {
   try {
     await chrome.storage.sync.remove(['from-timezone', 'to-timezone']);
-    console.log('Timezone storage cleared');
     window.location.reload();
   } catch (error) {
     console.error('Failed to clear storage:', error);
   }
 };
+
+// Make CustomDropdown globally available
+window.CustomDropdown = CustomDropdown;
 
 // Cleanup when page unloads
 window.addEventListener('beforeunload', function() {

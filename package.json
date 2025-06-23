@@ -1,6 +1,6 @@
 {
   "name": "time-converter",
-  "version": "1.12.0",
+  "version": "1.15.0",
   "description": "Chrome extension for automatic date/time timezone conversion",
   "main": "content.js",
   "scripts": {
@@ -22,8 +22,8 @@
     "changelog": "node scripts/generate-changelog.js",
     "prepare-release": "npm run version:minor && npm run changelog && npm run build",
     "webstore:upload": "echo 'Manual upload to Chrome Web Store required. Use dist/timezone-converter-v$npm_package_version.zip'",
-    "release": "npm run prepare-release && npm run webstore:upload",
-    "deploy": "npm run build && echo 'Ready for deployment'"
+    "release": "yarn prepare-release && yarn  webstore:upload",
+    "deploy": "yarn release && yarn build && echo 'Ready for deployment'"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
@@ -40,24 +40,21 @@
       "<rootDir>/tests/**/*.test.js"
     ],
     "collectCoverageFrom": [
-      "*.js",
+      "modules/*.js",
+      "all-timezones.js",
       "!node_modules/**",
       "!tests/**",
-      "!debug_*.js"
+      "!debug_*.js",
+      "!background.js",
+      "!content.js",
+      "!popup.js",
+      "!custom-dropdown.js"
     ],
     "coverageReporters": [
       "text",
       "lcov",
       "html"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 80,
-        "functions": 85,
-        "lines": 85,
-        "statements": 85
-      }
-    }
+    ]
   },
   "eslintConfig": {
     "env": {

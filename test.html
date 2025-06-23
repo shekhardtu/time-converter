@@ -224,6 +224,96 @@
             <p><strong>Test:</strong> Try disabling/enabling the extension on different websites.</p>
         </div>
 
+        <h3>🖱️ Text Selection Feature:</h3>
+        <div style="background: #e6f3ff; padding: 15px; border-left: 4px solid #0066cc; margin: 10px 0;">
+            <p><strong>New Feature:</strong> Select any text to detect and convert dates/times automatically!</p>
+            <ul>
+                <li>🎯 <strong>Smart detection:</strong> Recognizes dates/times in selected text</li>
+                <li>🔄 <strong>Instant conversion:</strong> Shows converted time in tooltip (like Google Dictionary)</li>
+                <li>⏰ <strong>Timezone aware:</strong> Uses your configured timezone settings (e.g., UTC → IST)</li>
+                <li>📝 <strong>Context sensitive:</strong> Shows appropriate info based on input type</li>
+            </ul>
+            
+            <h4>Selection Test Cases - Try selecting these:</h4>
+            
+            <p><strong>✅ Standard Date/Time Formats:</strong></p>
+            <ul>
+                <li>2024-12-25T10:30:00Z (ISO 8601 with timezone)</li>
+                <li>December 25, 2024 10:30 AM (Month name format)</li>
+                <li>12/25/2024 10:30 PM (US format)</li>
+                <li>25.12.2024 22:30 (European format)</li>
+            </ul>
+            
+            <p><strong>✅ Time-Only Formats (assumes today's date):</strong></p>
+            <ul>
+                <li>10:30 AM</li>
+                <li>22:30</li>
+                <li>10.30 PM</li>
+                <li>3:45:30 PM</li>
+                <li>15.45</li>
+            </ul>
+            
+            <p><strong>✅ Unix Timestamps:</strong></p>
+            <ul>
+                <li>1735128600 (10-digit seconds - Dec 25, 2024)</li>
+                <li>1735128600000 (13-digit milliseconds)</li>
+                <li>1703520000 (Another valid timestamp)</li>
+            </ul>
+            
+            <p><strong>✅ Relative Times:</strong></p>
+            <ul>
+                <li>5 minutes ago</li>
+                <li>2 hours ago</li>
+                <li>3 days ago</li>
+                <li>1 week ago</li>
+                <li>2 months ago</li>
+            </ul>
+            
+            <p><strong>✅ Special Keywords:</strong></p>
+            <ul>
+                <li>now</li>
+                <li>today</li>
+                <li>yesterday</li>
+                <li>tomorrow</li>
+            </ul>
+            
+            <p><strong>✅ Times with Timezone Info:</strong></p>
+            <ul>
+                <li>10:30 AM EST</li>
+                <li>22:30 UTC</li>
+                <li>3:45 PM PST</li>
+                <li>15:30 GMT+5:30</li>
+                <li>2024-12-25 10:30 AM (UTC)</li>
+            </ul>
+            
+            <p><strong>❌ Invalid/Non-convertible (should not show tooltip):</strong></p>
+            <ul>
+                <li>25:99 (invalid time)</li>
+                <li>99/99/9999 (invalid date)</li>
+                <li>random text with no dates</li>
+                <li>12345 (too short for Unix timestamp)</li>
+                <li>9999999999999 (Unix timestamp out of range)</li>
+            </ul>
+            
+            <h4>Testing Instructions:</h4>
+            <ol>
+                <li><strong>Set timezone preferences</strong> in the popup (e.g., From: UTC, To: IST)</li>
+                <li><strong>Select any text</strong> from the test cases above</li>
+                <li><strong>See the tooltip</strong> appear above the selection with converted time</li>
+                <li><strong>Note special indicators:</strong>
+                    <ul>
+                        <li>"Today's date assumed" for time-only selections</li>
+                        <li>"Unix: [timestamp]" for Unix timestamp conversions</li>
+                        <li>Timezone conversion path (e.g., "UTC → IST")</li>
+                    </ul>
+                </li>
+                <li><strong>Tooltip disappears</strong> after 5 seconds or when making a new selection</li>
+            </ol>
+            
+            <p><strong>Pro tip:</strong> Try selecting text with mixed content - the feature will extract and convert the date/time portion!</p>
+            <p>Example: Select this entire sentence: "The meeting is scheduled for 3:30 PM tomorrow." - it will detect and convert "3:30 PM"!</p>
+        </div>
+
         <p>Fixed Issues:</p>
         <ul>
             <li>✅ Button icons now render correctly with proper spacing</li>

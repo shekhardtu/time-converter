@@ -594,8 +594,19 @@ button:disabled {
 
 .function-buttons {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-lg);
+  border-top: 1px solid var(--color-surface);
+  padding: var(--spacing-xl);
+  background: linear-gradient(135deg, #1a202c 0%, var(--color-surface) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 0;
+}
+
+.function-buttons-single {
+  display: flex;
+  justify-content: center;
   border-top: 1px solid var(--color-surface);
   padding: var(--spacing-xl);
   background: linear-gradient(135deg, #1a202c 0%, var(--color-surface) 100%);
@@ -689,6 +700,54 @@ button:disabled {
   width: 16px;
   height: 16px;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Site toggle button */
+.site-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-border) 100%);
+  color: #e2e8f0;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 200px;
+  min-height: 44px;
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.site-toggle-btn:hover {
+  background: linear-gradient(135deg, var(--color-border) 0%, var(--color-surface-light) 100%);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(56, 189, 248, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.site-toggle-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.site-toggle-btn.enabled {
+  background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.site-toggle-btn.enabled:hover {
+  background: linear-gradient(135deg, #166534 0%, #15803d 100%);
+  border-color: #22c55e;
+}
+
+.site-toggle-btn .icon {
+  width: 18px;
+  height: 18px;
 }
 
 /* =============================================================================

@@ -60,6 +60,16 @@ function convertDateWithLibrary(dateString, fromIANATz, toIANATz) {
 }
 
 function getIANATimezone(tz) {
+  // First check if it's already a valid IANA timezone (like from dropdown)
+  if (tz && tz.includes('/')) {
+    try {
+      new Intl.DateTimeFormat('en', { timeZone: tz });
+      return tz; // It's already a valid IANA timezone
+    } catch (e) {
+      // Not valid, continue to mapping
+    }
+  }
+
   const tzMap = {
     'PST': 'America/Los_Angeles', 'PDT': 'America/Los_Angeles',
     'MST': 'America/Denver',      'MDT': 'America/Denver',
@@ -70,7 +80,13 @@ function getIANATimezone(tz) {
     'JST': 'Asia/Tokyo',
     'CET': 'Europe/Paris',        'CEST': 'Europe/Paris',
     'UTC': 'UTC',
-    'GMT': 'Etc/GMT' // GMT is often equivalent to UTC, Etc/GMT is a specific IANA name.
+    'GMT': 'Etc/GMT',
+    'ART': 'America/Argentina/Buenos_Aires', // Argentina Time
+    'BRT': 'America/Sao_Paulo', // Brazil Time
+    'CLT': 'America/Santiago', // Chile Time
+    'COT': 'America/Bogota', // Colombia Time
+    'PET': 'America/Lima', // Peru Time
+    'VET': 'America/Caracas' // Venezuela Time
   };
   const iana = tzMap[tz.toUpperCase()];
   if (!iana) {
@@ -96,8 +112,31 @@ function getShortTimezoneName(ianaTimezone) {
     'Asia/Tokyo': 'JST',
     'Europe/Paris': 'CET',
     'UTC': 'UTC',
-    'Etc/GMT': 'GMT'
+    'Etc/GMT': 'GMT',
+    'America/Argentina/Buenos_Aires': 'ART',
+    'America/Argentina/Catamarca': 'ART',
+    'America/Argentina/Cordoba': 'ART',
+    'America/Argentina/Jujuy': 'ART',
+    'America/Argentina/La_Rioja': 'ART',
+    'America/Argentina/Mendoza': 'ART',
+    'America/Argentina/Rio_Gallegos': 'ART',
+    'America/Argentina/Salta': 'ART',
+    'America/Argentina/San_Juan': 'ART',
+    'America/Argentina/San_Luis': 'ART',
+    'America/Argentina/Tucuman': 'ART',
+    'America/Argentina/Ushuaia': 'ART',
+    'America/Sao_Paulo': 'BRT',
+    'America/Santiago': 'CLT',
+    'America/Bogota': 'COT',
+    'America/Lima': 'PET',
+    'America/Caracas': 'VET'
   };
+
+  // For any Argentina timezone, return ART
+  if (ianaTimezone && ianaTimezone.includes('America/Argentina/')) {
+    return 'ART';
+  }
+
   return shortNameMap[ianaTimezone] || ianaTimezone;
 }
 
