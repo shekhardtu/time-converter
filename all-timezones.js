@@ -433,6 +433,6 @@ if (typeof window !== 'undefined') {
   window.getAllTimezones = getAllTimezones;
 }
 
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   module.exports = { getAllTimezones };
 }

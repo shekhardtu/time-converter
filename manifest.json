@@ -7,7 +7,6 @@
     "activeTab",
     "scripting",
     "storage",
-    "tabs",
     "contextMenus"
   ],
   "commands": {
@@ -26,9 +25,6 @@
       "description": "Revert converted timestamps"
     }
   },
-  "host_permissions": [
-    "<all_urls>"
-  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

@@ -108,9 +108,13 @@ function showStatus(message, type = 'info', duration = 3000, clickHandler = null
     elements.footerDiv.style.cursor = 'default';
   }
 
-  // Show status message with proper structure
+  // Show status message with proper structure (XSS-safe)
   elements.footerDiv.classList.add('showing-status');
-  elements.footerDiv.innerHTML = `<div class="status-message">${message}</div>`;
+  const statusDiv = document.createElement('div');
+  statusDiv.className = 'status-message';
+  statusDiv.textContent = message; // Use textContent to prevent XSS
+  elements.footerDiv.innerHTML = '';
+  elements.footerDiv.appendChild(statusDiv);
   isShowingStatus = true;
 
   // Auto-revert to time display
@@ -900,6 +904,26 @@ function cleanupTimezoneWidgets() {
 window.addEventListener('beforeunload', () => {
   cleanupTimezoneWidgets();
   closeAllTimezoneDropdowns();
+});
+
+/**
+ * Enhanced cleanup on extension context invalidation
+ */
+window.addEventListener('unload', () => {
+  cleanupTimezoneWidgets();
+  closeAllTimezoneDropdowns();
+});
+
+/**
+ * Cleanup when popup loses focus (Chrome-specific)
+ */
+window.addEventListener('blur', () => {
+  // Only cleanup intervals if popup is closing
+  setTimeout(() => {
+    if (document.visibilityState === 'hidden') {
+      cleanupTimezoneWidgets();
+    }
+  }, 100);
 });
 
 /**
